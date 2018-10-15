@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ELIKAD_Verwaltungsclient.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace ELIKAD_Verwaltungsclient
     public partial class MainWindow : Window
     {
         private bool menuStatus = false;
+        public string currentView = "membersd";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -46,6 +49,18 @@ namespace ELIKAD_Verwaltungsclient
                 sb.Begin(pnlLeftMenu);
                 menuStatus = true;
             }
+        }
+
+        private void btnMembers_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentView != "members")
+            {
+                Members ac = new Members(this);
+                gridUserControl.Children.Clear();
+                gridUserControl.Children.Add(ac);
+                currentView = "addCourse";
+            }
+            ShowHideMenu();
         }
     }
 }
