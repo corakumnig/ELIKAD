@@ -36,10 +36,24 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Background="Azure">
-        <ListBox x:Name="listMembers" HorizontalAlignment="Stretch" Height="auto" Width="auto" Margin="10,10,400,10"/>
-        <ComboBox  Margin="688,10,0,0" Width="92" Height="36"/>
-        <TextBox  Height="25" Margin="420,10,0,0" TextWrapping="Wrap" Text="TextBox" Width="212"/>
-
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="1000" Width="auto"></ColumnDefinition>
+            <ColumnDefinition MinWidth="200" Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="dgMenbers" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" Grid.Column="0"  MinHeight="100" MinWidth="100" Height="auto" Width="auto" Margin="15,10,20,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn MinWidth="30" Header="ID" Binding="{Binding ID}" />
+                <DataGridTextColumn MinWidth="150" Header="Firstname" Binding="{Binding Firstname}"/>
+                <DataGridTextColumn MinWidth="150" Header="Lastname" Binding="{Binding Lastname}"/>
+                <DataGridTextColumn MinWidth="150" Header="Date of birth" Binding="{Binding DateOfBirth}"/>
+                <DataGridTextColumn MinWidth="100" Header="Date of entry" Binding="{Binding DateOfEntry}"/>
+                <DataGridTextColumn MinWidth="150" Header="Phonenumber" Binding="{Binding Phonenumber}"/>
+                <DataGridTextColumn MinWidth="150" Header="Email" Binding="{Binding Email}"/>
+                <DataGridTextColumn MinWidth="100" Header="SVRNr" Binding="{Binding SVNr}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox x:Name="txtSearch" Margin="0,10,500,0" TextWrapping="Wrap" Text="" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="27" Width="205" TextChanged="txtSearch_TextChanged"/>
+        <ComboBox x:Name="cmbFilter" Margin="0,10,400,0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="27" Width="100"/>
     </Grid>
 </UserControl>

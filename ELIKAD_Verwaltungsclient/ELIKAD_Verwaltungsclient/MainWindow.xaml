@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ELIKAD_Verwaltungsclient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="auto" Width="auto">
+        Title="MainWindow" Height="auto" Width="auto"
+        WindowState="Maximized" ResizeMode="NoResize">
     <Window.Resources>
 
         <Storyboard x:Key="sbShowLeftMenu" >

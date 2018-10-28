@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\Member.cs" />
     <Compile Include="UserControls\Members.xaml.cs">
       <DependentUpon>Members.xaml</DependentUpon>
     </Compile>
