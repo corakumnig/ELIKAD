@@ -15,3 +15,5 @@ C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwa
 C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\UserControls\Members.g.cs
 C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\UserControls\Members.baml
 C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\ELIKAD_Verwaltungsclient.csprojAssemblyReference.cache
+C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\Windows\AddMember.g.cs
+C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\Windows\AddMember.baml

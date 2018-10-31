@@ -1,4 +1,5 @@
 ﻿using ELIKAD_Verwaltungsclient.Data;
+using ELIKAD_Verwaltungsclient.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,12 @@ namespace ELIKAD_Verwaltungsclient.UserControls
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             
+        }
+
+        private void btnAddNewMember_Click(object sender, RoutedEventArgs e)
+        {
+            AddMember addMemberWindow = new AddMember();
+            addMemberWindow.Show();
         }
     }
 }
