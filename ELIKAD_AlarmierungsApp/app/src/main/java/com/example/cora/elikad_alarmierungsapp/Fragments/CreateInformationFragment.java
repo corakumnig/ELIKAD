@@ -11,18 +11,18 @@ import android.view.ViewGroup;
 import com.example.cora.elikad_alarmierungsapp.R;
 
 
-public class AllAlarmsFragment extends Fragment {
+public class CreateInformationFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("All Alarms");
+        getActivity().setTitle("Create new Information");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_alarms, container, false);
+        return inflater.inflate(R.layout.fragment_create_information, container, false);
     }
 }
