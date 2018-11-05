@@ -10,5 +10,7 @@
     <ListView
         android:id="@+id/lv_allAlarms"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:divider="@color/colorPrimary"
+        android:listSelector="@color/colorAccent"/>
 </FrameLayout>
