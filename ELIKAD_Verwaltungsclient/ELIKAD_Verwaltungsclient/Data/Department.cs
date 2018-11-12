@@ -8,6 +8,9 @@ namespace ELIKAD_Verwaltungsclient.Data
 {
     static class Department
     {
-        public int MyProperty { get; set; }
+        public static int Id { get; set; }
+        public static string name { get; set; }
+        public static string Organization { get; set; }
+        public static Location location { get; set; }
     }
 }

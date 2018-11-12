@@ -69,7 +69,14 @@
                 <RowDefinition Height="65"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Name="gridUserControl" Grid.Row="1" Margin="10,0,10,10" Background="AliceBlue" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Grid Name="gridUserControl" Grid.Row="1" Background="AliceBlue" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Label FontSize="28" Content="Einsätze:" HorizontalAlignment="Left" Margin="39,98,0,0" VerticalAlignment="Top" Height="48" Width="127"/>
+                <Label FontSize="28" Content="Mitglieder:" HorizontalAlignment="Left" Margin="39,171,0,0" VerticalAlignment="Top"/>
+                <Label FontSize="28" Content="Einsatzstärke:" HorizontalAlignment="Left" Margin="39,240,0,0" VerticalAlignment="Top"/>
+                <Label FontSize="40" FontWeight="DemiBold" Content="FF Test" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="64" Width="565"/>
+                <Image HorizontalAlignment="Left" Height="139" Margin="150,292,0,0" VerticalAlignment="Top" Width="352"/>
+
+            </Grid>
         </Grid>
         <StackPanel Panel.ZIndex="2" Name="pnlLeftMenu" Orientation="Horizontal" VerticalAlignment="Top" Height="1080" HorizontalAlignment="Left" Margin="-150,0,0,0">
             <Border BorderThickness="0,0,0,0" Width="150" Background="LightGray" >
@@ -85,8 +92,8 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <Button Name="btnMembers" Style="{StaticResource MyButtonStyle}" Content="Members" Margin="4,2,4,0" Grid.Row="1" Height="49" VerticalAlignment="Top" Click="btnMembers_Click"/>
-                    <Button Name="btnDepartment" Style="{StaticResource MyButtonStyle}" Content="Department" Margin="4,2,4,2" Grid.Row="2" Click="btnDepartment_Click"/>
+                    <Button Name="btnMembers" Style="{StaticResource MyButtonStyle}" Content="Mitglieder" Margin="4,2,4,0" Grid.Row="1" Height="49" VerticalAlignment="Top" Click="btnMembers_Click"/>
+                    <Button Name="btnDepartment" Style="{StaticResource MyButtonStyle}" Content="Stützpunkt" Margin="4,2,4,2" Grid.Row="2" Click="btnDepartment_Click"/>
                 </Grid>
             </Border>
             <Grid>

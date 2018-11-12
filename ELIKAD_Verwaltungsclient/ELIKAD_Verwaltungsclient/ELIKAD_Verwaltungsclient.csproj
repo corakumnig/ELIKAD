@@ -67,6 +67,7 @@
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\Department.cs" />
     <Compile Include="Data\HTTPClient.cs" />
+    <Compile Include="Data\Location.cs" />
     <Compile Include="Data\Member.cs" />
     <Compile Include="UserControls\DepartmentPage.xaml.cs">
       <DependentUpon>DepartmentPage.xaml</DependentUpon>

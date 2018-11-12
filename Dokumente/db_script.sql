@@ -72,6 +72,7 @@ create table eli_department(
   id integer,
   name varchar2(50),
   password varchar(100),
+  image blob,
   id_organization integer,
   id_location integer,
   
@@ -224,10 +225,10 @@ insert into eli_location values(eli_seq_location.nextval, null, 'St. Stefan', 95
 insert into eli_location values(eli_seq_location.nextval, '34b', 'Kirchgasse', 9560, 'Feldkichen in Kärnten', 8);
 
 
-insert into eli_department values(eli_seq_department.nextval, 'FF Himmelberg', 'TestHimmelber', 1, 1);
-insert into eli_department values(eli_seq_department.nextval, 'FF Gnesau', 'TestGnesau',1, 2);
-insert into eli_department values(eli_seq_department.nextval, 'FF Lieserhofen', 'TestLieserhofen', 1, 3);
-insert into eli_department values(eli_seq_department.nextval, 'ÖWR Millstatt', 'TestMillstatt', 2, 4);
+insert into eli_department values(eli_seq_department.nextval, 'FF Himmelberg', 'TestHimmelber', null, 1, 1);
+insert into eli_department values(eli_seq_department.nextval, 'FF Gnesau', 'TestGnesau', null, 1, 2);
+insert into eli_department values(eli_seq_department.nextval, 'FF Lieserhofen', 'TestLieserhofen', null, 1, 3);
+insert into eli_department values(eli_seq_department.nextval, 'ÖWR Millstatt', 'TestMillstatt', null, 2, 4);
 
 insert into eli_controlcenter values(eli_seq_controlcenter.nextval, 'LAWZ Klagenfurt', 5);
 insert into eli_controlcenter values(eli_seq_controlcenter.nextval, 'BAWZ Feldkirchen', 6);
@@ -275,5 +276,7 @@ insert into eli_operation_dept values(2, 1);
 insert into eli_operation_dept values(2, 2);
 insert into eli_operation_dept values(2, 3);
 insert into eli_operation_dept values(2, 4);
+
+insert into eli_operation_member values(1, '1234030999');
 
 commit;
