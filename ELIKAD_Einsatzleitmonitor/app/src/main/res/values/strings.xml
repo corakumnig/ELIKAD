@@ -17,4 +17,5 @@
     <string name="btn_login">Login</string>
     <string name="txt_signIn_header">SIGN IN</string>
     <string name="OpText">TestText</string>
+    <string name="accept">Zusagen</string>
 </resources>

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rajick.elikad_einsatzleitmonitor.Data.Operation;
@@ -14,6 +13,12 @@ import com.example.rajick.elikad_einsatzleitmonitor.Data.Operation;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+/*
+author: Kristian Rajic
+ */
+
+
 
 public class allOperationsAdapter extends BaseAdapter {
     private ArrayList<Operation> operations;
@@ -53,7 +58,7 @@ public class allOperationsAdapter extends BaseAdapter {
 
             // UI references
             convertView = inflater.inflate(R.layout.all_operations_list_layout, parent, false);
-            TextView txt_text = convertView.findViewById(R.id.txt_text);
+            TextView txt_text = convertView.findViewById(R.id.txt_info);
             TextView txt_caller = convertView.findViewById(R.id.txt_caller);
             TextView txt_alarmLevel = convertView.findViewById(R.id.txt_alarmLevel);
 
@@ -66,23 +71,23 @@ public class allOperationsAdapter extends BaseAdapter {
             switch(currenOperation.getAlarmLevel())
             {
                 case 1:
-                    txt_alarmLevel.setTextColor(Color.parseColor("#440000"));
+                    txt_alarmLevel.setBackgroundColor(Color.parseColor("#06ff00"));
                     break;
 
                 case 2:
-                    txt_alarmLevel.setTextColor(Color.parseColor("#640000"));
+                    txt_alarmLevel.setBackgroundColor(Color.parseColor("#e4ff00"));
                     break;
 
                 case 3:
-                    txt_alarmLevel.setTextColor(Color.parseColor("#960000"));
+                    txt_alarmLevel.setBackgroundColor(Color.parseColor("#ffa200"));
                     break;
 
                 case 4:
-                    txt_alarmLevel.setTextColor(Color.parseColor("#C80000"));
+                    txt_alarmLevel.setBackgroundColor(Color.parseColor("#ec5300"));
                     break;
 
                 case 5:
-                    txt_alarmLevel.setTextColor(Color.parseColor("#FA0000"));
+                    txt_alarmLevel.setBackgroundColor(Color.parseColor("#ff0000"));
                     break;
             }
         }

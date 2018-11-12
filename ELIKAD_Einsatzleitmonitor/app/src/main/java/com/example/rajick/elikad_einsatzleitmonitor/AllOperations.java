@@ -41,8 +41,11 @@ public class AllOperations extends AppCompatActivity {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         Date datetime = dateFormatter.parse("20.10.2018 13:12", pos);
 
-        testData.add(new Operation(1, "Baum auf Straße", 5, datetime, "Christof"));
-        testData.add(new Operation(2, "Baum brennt", 5, datetime, "Cora"));
+        testData.add(new Operation(1, "Baum auf Straße sidsiadidijasi jai jdsjidj aijdsj ijasijdj a", 5, datetime, "Christof"));
+        testData.add(new Operation(2, "Baum brennt", 1, datetime, "Cora"));
+        testData.add(new Operation(3, "Baum brennt", 3, datetime, "Cora"));
+        testData.add(new Operation(4, "Baum brennt", 2, datetime, "Cora"));
+        testData.add(new Operation(5, "Baum brennt", 4, datetime, "Cora"));
 
         return testData;
     }
