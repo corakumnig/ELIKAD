@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".LoginActivity">
+    tools:context=".Activities.LoginActivity">
 
     <!-- Login progress -->
     <ProgressBar
@@ -25,7 +25,8 @@
         android:id="@+id/txt_loginTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="100dp"
         android:text="@string/txt_loginTitle"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"

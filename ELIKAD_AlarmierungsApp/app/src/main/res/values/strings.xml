@@ -22,4 +22,16 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="lvItems">
+        <item>Eintrag 1</item>
+        <item>Eintrag 2</item>
+        <item>Eintrag 3</item>
+        <item>Eintrag 4</item>
+        <item>Eintrag 5</item>
+    </string-array>
+
 </resources>

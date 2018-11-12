@@ -1,4 +1,4 @@
-package com.example.cora.elikad_alarmierungsapp;
+package com.example.cora.elikad_alarmierungsapp.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -29,6 +29,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.cora.elikad_alarmierungsapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
