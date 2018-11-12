@@ -8,7 +8,6 @@ namespace ELIKAD_Verwaltungsclient.Data
 {
     class Member
     {
-        public int ID { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public DateTime DateOfBirth { get; set; }
@@ -16,10 +15,10 @@ namespace ELIKAD_Verwaltungsclient.Data
         public string Phonenumber { get; set; }
         public string Email { get; set; }
         public string SVNr { get; set; }
+        public string Gender { get; set; }
 
-        public Member(int ID, string Firstname, string Lastname, DateTime DateOfBirth, DateTime DateOfEntry, string Phonenumber, string Email, string SVNr)
+        public Member(string SVNr, string Firstname, string Lastname, DateTime DateOfBirth, DateTime DateOfEntry, string Phonenumber, string Email, string Gender)
         {
-            this.ID = ID;
             this.Firstname = Firstname;
             this.Lastname = Lastname;
             this.DateOfBirth = DateOfBirth;
@@ -27,6 +26,7 @@ namespace ELIKAD_Verwaltungsclient.Data
             this.Phonenumber = Phonenumber;
             this.Email = Email;
             this.SVNr = SVNr;
+            this.Gender = Gender;
         }
 
         public override string ToString()
