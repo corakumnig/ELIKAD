@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_operation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    tools:layout_editor_absoluteY="25dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/cv_iv_bell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="16dp"
+            app:srcCompat="@mipmap/ic_launcher_round" />
+
+        <TextView
+            android:id="@+id/cv_tv_controllCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/cv_iv_bell"
+            android:text="FF Himmelberg"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/cv_iv_alarmtyp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cv_tv_controllCenter"
+            android:layout_toRightOf="@+id/cv_iv_bell"
+            android:text="BRANDEINSATZ" />
+
+        <TextView
+            android:id="@+id/cv_iv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cv_iv_alarmtyp"
+            android:layout_toRightOf="@+id/cv_iv_bell"
+            android:text="Beispielstraße 1" />
+
+        <TextView
+            android:id="@+id/cv_iv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cv_iv_location"
+            android:layout_toRightOf="@+id/cv_iv_bell"
+            android:text="05.12.2018" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+

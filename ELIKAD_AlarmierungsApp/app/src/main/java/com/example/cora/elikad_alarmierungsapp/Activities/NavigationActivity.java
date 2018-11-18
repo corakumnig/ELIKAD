@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -36,10 +37,7 @@ public class NavigationActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         navigationView.setCheckedItem(R.id.nav_allAlarms);
-        Fragment fragment = new AllAlarmsFragment();
-        displaySelectedFragment(fragment);
     }
 
     @Override
@@ -56,6 +54,8 @@ public class NavigationActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
+        /*MenuItem mItem = menu.findItem(R.id.nav_allAlarms);
+        onNavigationItemSelected(mItem);*/
         return true;
     }
 
@@ -67,9 +67,7 @@ public class NavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -79,17 +77,18 @@ public class NavigationActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         Fragment fragment = null;
+        Class fragmentClass = null;
 
         switch(id) {
             case R.id.nav_allAlarms:
-                fragment = new AllAlarmsFragment();
-                displaySelectedFragment(fragment);
+                fragmentClass = AllAlarmsFragment.class;
+                //displaySelectedFragment(fragment);
                 break;
-            case R.id.nav_newAlarm:
+            case R.id.nav_setSound:
                 fragment = new CreateAlarmFragment();
                 displaySelectedFragment(fragment);
                 break;
-            case R.id.nav_newInfo:
+            case R.id.nav_changeTel:
                 fragment = new CreateInformationFragment();
                 displaySelectedFragment(fragment);
                 break;
@@ -97,6 +96,21 @@ public class NavigationActivity extends AppCompatActivity
                 startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
                 break;
         }
+
+        try{
+            fragment = (Fragment) fragmentClass.newInstance();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+        // Highlight the selected item has been done by NavigationView
+        item.setChecked(true);
+        // Set action bar title
+        setTitle(item.getTitle());
+        // Close the navigation drawer
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

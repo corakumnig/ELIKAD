@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.example.cora.elikad_alarmierungsapp.R;
 
-
 public class CreateAlarmFragment extends Fragment {
 
     @Override
