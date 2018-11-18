@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ELIKAD_Verwaltungsclient.Windows"
         mc:Ignorable="d"
-        Title="Add member" Height="405.881" Width="313.446">
+        Title="Add member" Height="384.279" Width="339.595">
     <Window.Resources>
         <SolidColorBrush x:Key="brushWatermarkBackground" Color="White" />
         <SolidColorBrush x:Key="brushWatermarkForeground" Color="LightSteelBlue" />
         <SolidColorBrush x:Key="brushWatermarkBorder" Color="Indigo" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <local:TextInputToVisibilityConverter x:Key="TextInputToVisibilityConverter" />
+        <!--<local:TextInputToVisibilityConverter x:Key="TextInputToVisibilityConverter" />-->
         <Style x:Key="EntryFieldStyle" TargetType="Grid" >
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -19,19 +19,24 @@
         </Style>
     </Window.Resources>
     <Grid>
-    <Grid>
-        <TextBox HorizontalAlignment="Left" Height="26" Margin="40,275,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="214"  BorderBrush="{StaticResource brushWatermarkBorder}"/>
-        <TextBox HorizontalAlignment="Left" Height="26" Margin="40,244,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="214"/>
-        <TextBox HorizontalAlignment="Left" Height="26" Margin="40,213,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="214"/>
-        <TextBox HorizontalAlignment="Left" Height="26" Margin="40,120,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="214"/>
-        <TextBox HorizontalAlignment="Left" Height="26" Margin="40,89,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="214"/>
-        <TextBox HorizontalAlignment="Left" Height="26" Margin="40,306,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="214"/>
-        <DatePicker HorizontalAlignment="Left" Margin="40,151,0,0" VerticalAlignment="Top" Height="26" Width="214"/>
-        <DatePicker HorizontalAlignment="Left" Margin="40,182,0,0" VerticalAlignment="Top" Height="26" Width="214"/>
-        <Label Content="Add a new Member:" FontSize="30" HorizontalAlignment="Left" Margin="9,0,0,0" VerticalAlignment="Top" Height="46" Width="285"/>
-        <Button x:Name="btnAddMember" Content="Add" HorizontalAlignment="Left" Margin="40,337,0,0" VerticalAlignment="Top" Width="100" Click="btnAddMember_Click"/>
-        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="154,337,0,0" VerticalAlignment="Top" Width="100" Click="btnCancel_Click"/>
-        <RadioButton x:Name="radSex" FontSize="20" Content="Female" HorizontalAlignment="Left" Margin="40,63,0,0" VerticalAlignment="Top" Height="26" Width="100" IsChecked="True"/>
-        <RadioButton x:Name="radSex_Copy" FontSize="20" Content="Male" HorizontalAlignment="Left" Margin="154,63,0,0" VerticalAlignment="Top" Height="26" Width="100"/>
+        <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="26" Margin="103,281,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="214"/>
+        <TextBox x:Name="txtPhonenumber" HorizontalAlignment="Left" Height="26" Margin="103,250,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="214"/>
+        <TextBox x:Name="txtSvNr" HorizontalAlignment="Left" Height="26" Margin="103,219,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="214"/>
+        <TextBox x:Name="txtLastname" HorizontalAlignment="Left" Height="26" Margin="103,126,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="214"/>
+        <TextBox x:Name="txtFirstname" HorizontalAlignment="Left" Height="26" Margin="103,95,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="214"/>
+        <DatePicker x:Name="dpDateOfBirth" HorizontalAlignment="Left" Margin="103,157,0,0" VerticalAlignment="Top" Height="26" Width="214"/>
+        <DatePicker x:Name="dpDateOfEntry" HorizontalAlignment="Left" Margin="103,188,0,0" VerticalAlignment="Top" Height="26" Width="214"/>
+        <Label Content="Add a new Member:" FontSize="30" HorizontalAlignment="Left" Margin="32,6,0,0" VerticalAlignment="Top" Height="46" Width="285"/>
+        <Button x:Name="btnAddMember" Content="Add" HorizontalAlignment="Left" Margin="103,321,0,0" VerticalAlignment="Top" Width="100" Click="btnAddMember_Click"/>
+        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="217,321,0,0" VerticalAlignment="Top" Width="100" Click="btnCancel_Click"/>
+        <RadioButton x:Name="radGenderFemale" GroupName="Gender" FontSize="20" Content="Female" HorizontalAlignment="Left" Margin="103,69,0,0" VerticalAlignment="Top" Height="26" Width="100" IsChecked="True"/>
+        <RadioButton x:Name="radGenderMale" GroupName="Gender" FontSize="20" Content="Male" HorizontalAlignment="Left" Margin="217,69,0,0" VerticalAlignment="Top" Height="26" Width="100"/>
+        <Label Content="Firstname:" HorizontalAlignment="Left" Margin="32,91,0,0" Height="26" VerticalAlignment="Top"/>
+        <Label Content="Lastname:" HorizontalAlignment="Left" Margin="32,126,0,0" Height="26" VerticalAlignment="Top"/>
+        <Label Content="Date of birth:" HorizontalAlignment="Left" Margin="15,157,0,0" Height="26" VerticalAlignment="Top"/>
+        <Label Content="Date of entry:" HorizontalAlignment="Left" Margin="13,188,0,0" Height="26" VerticalAlignment="Top"/>
+        <Label Content="SvNr:" HorizontalAlignment="Left" Margin="57,219,0,0" Height="26" VerticalAlignment="Top"/>
+        <Label Content="Phonenumber:" HorizontalAlignment="Left" Margin="10,250,0,0" Height="26" VerticalAlignment="Top"/>
+        <Label Content="Email:" HorizontalAlignment="Left" Margin="54,281,0,0" Height="26" VerticalAlignment="Top"/>
     </Grid>
 </Window>

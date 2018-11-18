@@ -1,4 +1,6 @@
-﻿using ELIKAD_Verwaltungsclient.UserControls;
+﻿using ELIKAD_Verwaltungsclient.Data;
+using ELIKAD_Verwaltungsclient.UserControls;
+using ELIKAD_Verwaltungsclient.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,19 +25,23 @@ namespace ELIKAD_Verwaltungsclient
     public partial class MainWindow : Window
     {
         private bool menuStatus = false;
-        public string currentView = "membersd";
+        public string currentView = "home";
 
         public MainWindow()
         {
             InitializeComponent();
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            HTTPClient.Init();
+            this.Visibility = Visibility.Hidden;
+            new LoginWindow(this).Visibility = Visibility.Visible;
         }
 
         private void btnLeftMenu_Click(object sender, RoutedEventArgs e)
         {
-            ShowHideMenu();
+            showHideMenu();
         }
 
-        private void ShowHideMenu()
+        private void showHideMenu()
         {
             if (menuStatus)
             {
@@ -55,12 +61,24 @@ namespace ELIKAD_Verwaltungsclient
         {
             if (currentView != "members")
             {
-                Members ac = new Members(this);
+                MembersPage mems = new MembersPage(this);
                 gridUserControl.Children.Clear();
-                gridUserControl.Children.Add(ac);
-                currentView = "addCourse";
+                gridUserControl.Children.Add(mems);
+                currentView = "members";
             }
-            ShowHideMenu();
+            showHideMenu();
+        }
+
+        private void btnDepartment_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentView != "department")
+            {
+                DepartmentPage dept = new DepartmentPage(this);
+                gridUserControl.Children.Clear();
+                gridUserControl.Children.Add(dept);
+                currentView = "department";
+            }
+            showHideMenu();
         }
     }
 }

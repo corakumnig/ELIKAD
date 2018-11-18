@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\App.xaml
-3-1180847972
+5-964473759
 
-12150611075
-131569487696
-MainWindow.xaml;UserControls\Members.xaml;Windows\AddMember.xaml;
+18-202119885
+16-1988780417
+MainWindow.xaml;UserControls\DepartmentPage.xaml;UserControls\MembersPage.xaml;Windows\AddMember.xaml;Windows\LoginWindow.xaml;
 
-True
+False
 

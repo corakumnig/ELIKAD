@@ -1,6 +1,9 @@
-﻿using System;
+﻿using ELIKAD_Verwaltungsclient.Data;
+using ELIKAD_Verwaltungsclient.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,14 +22,36 @@ namespace ELIKAD_Verwaltungsclient.Windows
     /// </summary>
     public partial class AddMember : Window
     {
-        public AddMember()
+        MembersPage membersPage = null;
+        public AddMember(MembersPage membersPage)
         {
             InitializeComponent();
+            this.membersPage = membersPage;
         }
 
         private void btnAddMember_Click(object sender, RoutedEventArgs e)
         {
+            if (!isDateValid(dpDateOfBirth.SelectedDate))
+            {
 
+            }
+            if (!isDateValid(dpDateOfEntry.SelectedDate))
+            {
+
+            }
+            else
+            {
+                Member m = new Member(txtSvNr.Text, txtFirstname.Text, txtLastname.Text,
+                    ((DateTime)dpDateOfBirth.SelectedDate).ToShortDateString(), ((DateTime)dpDateOfEntry.SelectedDate).ToShortDateString(),
+                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender(), 1);
+                Task<HttpStatusCode> t = Task.Run(() => HTTPClient.CreateMemberAsync(m));
+                t.Wait();
+                if(t.Result == HttpStatusCode.Created)
+                {
+                    //membersPage.dgMenbers.Items(m);
+                    this.Close();
+                }
+            }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -34,25 +59,19 @@ namespace ELIKAD_Verwaltungsclient.Windows
             this.Close();
         }
 
-        public class TextInputToVisibilityConverter : IMultiValueConverter
+        private string getSelectedGender()
         {
-            public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-            {
-                // Always test MultiValueConverter inputs for non-null 
-                // (to avoid crash bugs for views in the designer) 
-                if (values[0] is bool && values[1] is bool)
-                {
-                    bool hasText = !(bool)values[0];
-                    bool hasFocus = (bool)values[1];
-                    if (hasFocus || hasText)
-                        return Visibility.Collapsed;
-                }
-                return Visibility.Visible;
-            }
-            public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
-            {
-                throw new NotImplementedException();
-            }
+            string result = "";
+            if (radGenderFemale.IsChecked == true)
+                result = radGenderFemale.Content.ToString();
+            else if (radGenderMale.IsChecked == true)
+                result = radGenderMale.Content.ToString();
+            return result;
+        }
+
+        private bool isDateValid(DateTime? date)
+        {
+            return date != null && date < DateTime.Now;
         }
     }
 }
