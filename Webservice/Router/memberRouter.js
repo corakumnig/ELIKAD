@@ -1,12 +1,12 @@
 const express    = require('express');  
-const testRouter = express.Router({mergeParams: true}); 
+const memberRouter = express.Router({mergeParams: true}); 
 const oracleConnection = require("../Data/dbAccess");
 const classParser = require("../Data/classParser");
 const classes = require("../Data/classes");
 
-testRouter.get("/", function(req, res){
-    let query = "SELECT svnr, firstname, lastname, dateofbirth, dateofentry, phonenumber, email, eli_gender.name as gender, id_department as idDepartment" +
-    " from eli_member inner join eli_gender on eli_member.gender = eli_gender.id",
+memberRouter.get("/", function(req, res){
+    let query = "SELECT svnr, firstname, lastname, dateofbirth, dateofentry, phonenumber, " +
+    " email, gender, id_department as idDepartment from eli_member",
     param = [];
     try{
         oracleConnection.execute(query, param,
@@ -22,13 +22,18 @@ testRouter.get("/", function(req, res){
     }
 });
 
-testRouter.post("/", function(req, res){
-    let query = "insert into members()",
-    param = [];
+memberRouter.post("/", function(req, res){
+    var member = req.body;
+    let query = "insert into eli_member values(:SVNr, :Firstname, :Lastname, to_date(:DateOfBirth, 'dd/MM/yyyy'), to_date(:DateOfEntry, 'dd/MM/yyyy'), :Phonenumber, :Email, null, null, :IdDepartment, :Gender)",
+    param = [member.SVNr, member.Firstname, member.Lastname, member.DateOfBirth, 
+        member.DateOfEntry, member.Phonenumber, member.Email, member.IdDepartment, member.Gender];
     try{
         oracleConnection.execute(query, param,
-            (result) => res.status(200).json(classParser(result.rows, classes.Member)),
-            (err) => res.status(404).json({
+            (result) => res.status(201).json({
+                message: 'Creation successful',
+                details: result
+            }),
+            (err) => res.status(403).json({
                 message: err.message,
                 details: err
             })
@@ -39,4 +44,25 @@ testRouter.post("/", function(req, res){
     }
 });
 
-module.exports = testRouter;
+memberRouter.delete("/:SVNr", function(req, res){
+    var SVNr = req.params.SVNr;
+    let query = "delete from eli_member where svnr = :SVNr",
+    param = [SVNr];
+    try{
+        oracleConnection.execute(query, param,
+            (result) => res.status(200).json({
+                message: 'Delete successful',
+                details: result
+            }),
+            (err) => res.status(403).json({
+                message: err.message,
+                details: err
+            })
+        );
+    }
+    catch(ex){
+        res.status(500).send("500: " + ex);
+    }
+});
+
+module.exports = memberRouter;

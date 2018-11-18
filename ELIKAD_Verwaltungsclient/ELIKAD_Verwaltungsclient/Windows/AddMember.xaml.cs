@@ -42,13 +42,13 @@ namespace ELIKAD_Verwaltungsclient.Windows
             else
             {
                 Member m = new Member(txtSvNr.Text, txtFirstname.Text, txtLastname.Text,
-                    (DateTime)dpDateOfBirth.SelectedDate, (DateTime)dpDateOfEntry.SelectedDate,
-                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender());
+                    ((DateTime)dpDateOfBirth.SelectedDate).ToShortDateString(), ((DateTime)dpDateOfEntry.SelectedDate).ToShortDateString(),
+                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender(), 1);
                 Task<HttpStatusCode> t = Task.Run(() => HTTPClient.CreateMemberAsync(m));
                 t.Wait();
                 if(t.Result == HttpStatusCode.Created)
                 {
-                    membersPage.dgMenbers.Items.Add(m);
+                    //membersPage.dgMenbers.Items(m);
                     this.Close();
                 }
             }

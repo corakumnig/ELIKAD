@@ -13,7 +13,6 @@ drop table eli_function_member cascade constraints;
 drop table eli_operation_member cascade constraints;
 drop table eli_admin cascade constraints;
 drop table eli_operation_dept cascade constraints;
-drop table eli_gender cascade constraints;
 
 drop SEQUENCE eli_seq_region;
 drop SEQUENCE eli_seq_function;
@@ -70,7 +69,7 @@ create table eli_organization(
 
 create table eli_department(
   id integer,
-  name varchar2(50),
+  name varchar2(50) not null,
   password varchar(100),
   image blob,
   id_organization integer,
@@ -132,13 +131,6 @@ create table eli_operation(
   constraint fk_eli_operation_operationtype foreign key(id_operationtype) references eli_operationtype(id)
 );
 
-create table eli_gender(
-  id integer,
-  name varchar(10),
-  
-  constraint pk_eli_gender primary key(id)
-);
-
 create table eli_member(
   svNr varchar2(10),
   firstname varchar2(50),
@@ -150,13 +142,12 @@ create table eli_member(
   operator_username varchar2(50),
   admin_username varchar2(50),
   id_department int,
-  gender integer,
+  gender varchar2(50),
   
   constraint pk_eli_svNr primary key (svNr),
   constraint fk_eli_member_operator foreign key (operator_username) references eli_operator (username),
   constraint fk_eli_member_admin foreign key (admin_username) references eli_admin (username),
-  constraint fk_eli_department foreign key (id_department) references eli_department(id),
-  constraint fk_eli_member_gender foreign key (gender) references eli_gender (id)
+  constraint fk_eli_department foreign key (id_department) references eli_department(id)
 );
 
 create table eli_function_member(
@@ -248,13 +239,10 @@ insert into eli_admin values('kraschlc', 'Test123');
 insert into eli_admin values('rajick', 'Test123');
 insert into eli_admin values('kumnigc', 'Test123');
 
-insert into eli_gender values(1, 'male');
-insert into eli_gender values(2, 'female');
-
-insert into eli_member values('1234030999', 'Christof', 'Kraschl', '03.09.1999', '01.07.2015', '+435647126482', 'christof@hero.com', 'kraschlc', 'kraschlc',1, 1);
-insert into eli_member values('1234200300', 'Cora', 'Kumnig', '20.03.2000', '15.08.2016', '+435647345382', 'cora@hero.com', 'kumnigc', 'kumnigc',4, 2);
-insert into eli_member values('1234141199', 'Kristian', 'Rajic', '14.11.1999', '02.11.2018', '+43523453482', 'kristian@hero.com', 'rajick', 'rajick', 1, 1);
-insert into eli_member values('1234120357', 'Hans', 'Zimmer', '12.03.1957', '15.01.1977', '+433467453482', 'hans@hero.com', null, null,3, 1);
+insert into eli_member values('1234030999', 'Christof', 'Kraschl', '03.09.1999', '01.07.2015', '+435647126482', 'christof@hero.com', 'kraschlc', 'kraschlc',1, 'Male');
+insert into eli_member values('1234200300', 'Cora', 'Kumnig', '20.03.2000', '15.08.2016', '+435647345382', 'cora@hero.com', 'kumnigc', 'kumnigc',4, 'Female');
+insert into eli_member values('1234141199', 'Kristian', 'Rajic', '14.11.1999', '02.11.2018', '+43523453482', 'kristian@hero.com', 'rajick', 'rajick', 1, 'Male');
+insert into eli_member values('1234120357', 'Hans', 'Zimmer', '12.03.1957', '15.01.1977', '+433467453482', 'hans@hero.com', null, null,3, 'Male');
 
 insert into eli_function_member values(2, '1234030999');
 insert into eli_function_member values(5, '1234030999');

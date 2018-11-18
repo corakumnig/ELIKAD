@@ -3,6 +3,7 @@ using ELIKAD_Verwaltungsclient.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -54,6 +55,29 @@ namespace ELIKAD_Verwaltungsclient.UserControls
         {
             AddMember addMemberWindow = new AddMember(this);
             addMemberWindow.Show();
+        }
+
+        private void BtnDeleteMember_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if(dgMenbers.SelectedItem == null)
+                    MessageBox.Show("Bitte ein Mitglied auswählen", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                {
+                    Member m = (Member)dgMenbers.SelectedItem;
+                    Task<HttpStatusCode> t = Task.Run(() => HTTPClient.DeleteMember(m));
+                    t.Wait();
+                    if (t.Result == HttpStatusCode.OK)
+                    {
+                       // dgMenbers.Items.Remove(dgMenbers.SelectedItem);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

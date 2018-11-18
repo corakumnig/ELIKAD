@@ -54,8 +54,8 @@ namespace ELIKAD_Verwaltungsclient.Data
             OracleDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                members.Add(new Member(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDateTime(3), reader.GetDateTime(4),
-                    reader.GetString(5), reader.GetString(6), reader.GetString(7)));
+            //    members.Add(new Member(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDateTime(3).ToShortDateString(), 
+              //      reader.GetDateTime(4).ToShortDateString(), reader.GetString(5), reader.GetString(6), reader.GetString(7), 1));
             }
             return members;
         }

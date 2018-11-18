@@ -12,6 +12,7 @@ namespace ELIKAD_Verwaltungsclient.Data
     static class HTTPClient
     {
         static HttpClient client = new HttpClient();
+        public static string Token { get; set; }
 
         public static async Task<List<Member>> GetMembersAsync()
         {
@@ -27,8 +28,14 @@ namespace ELIKAD_Verwaltungsclient.Data
         public static async Task<HttpStatusCode> CreateMemberAsync(Member member)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync(
-                "api/members", member);
-            response.EnsureSuccessStatusCode();
+                "members", member);
+            return response.StatusCode;
+        }
+
+        public static async Task<HttpStatusCode> DeleteMember(Member member)
+        {
+            HttpResponseMessage response = await client.DeleteAsync(
+                "members/" + member.SVNr);
             return response.StatusCode;
         }
 

@@ -44,4 +44,5 @@ sessionRouter.use('/ratings/:ratingId', ratingsRouter);
 // =============================================================================
 app.listen(port);
 app.use('/api/members', memberRouter);
+app.use('/api/members/:SVNr', memberRouter);
 console.log('Server started on port ' + port);
