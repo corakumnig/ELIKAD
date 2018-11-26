@@ -24,6 +24,11 @@ public class Member {
         this.setFunction(function);
     }
 
+    public Member(String firstName, String lastName){
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public String getFirstName() {
         return firstName;
     }

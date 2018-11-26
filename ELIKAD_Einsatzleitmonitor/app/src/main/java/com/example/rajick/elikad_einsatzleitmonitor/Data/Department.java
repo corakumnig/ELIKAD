@@ -1,16 +1,23 @@
 package com.example.rajick.elikad_einsatzleitmonitor.Data;
 
 public class Department {
-    private int id;
-    private String name;
+    private static int id;
+    private static String name;
 
-    public Department(int id, String name)
-    {
-        this.id = id;
-        this.name = name;
+    public static String getName(){
+        return name;
     }
 
-    public String getName(){
-        return this.name;
+    public static void setName(String DepName){
+        name = DepName;
     }
+
+    public static int getId(){
+        return id;
+    }
+
+    public static void setId(int DepId){
+        id = DepId;
+    }
+
 }

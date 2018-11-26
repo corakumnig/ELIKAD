@@ -18,4 +18,8 @@
     <string name="txt_signIn_header">SIGN IN</string>
     <string name="OpText">TestText</string>
     <string name="accept">Zusagen</string>
+    <string name="EL">EL</string>
+    <string name="AGT">AGT</string>
+    <string name="MA">MA</string>
+    <string name="SAN">SAN</string>
 </resources>
