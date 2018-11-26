@@ -11,8 +11,5 @@
     Height="auto"
     Width="auto">
 
-    <Grid Background="Black">
-        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="141,87,0,0" VerticalAlignment="Top"/>
-
-    </Grid>
+    <Grid/>
 </UserControl>

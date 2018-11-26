@@ -1,13 +1,13 @@
 const express    = require('express');  
-const memberRouter = express.Router({mergeParams: true}); 
+const departmentRouter = express.Router({mergeParams: true}); 
 const oracleConnection = require("../Data/dbAccess");
 const classParser = require("../Data/classParser");
 const classes = require("../Data/classes");
 
-memberRouter.get("/", function(req, res){
+departmentRouter.get("/", function(req, res){
     var SVNr = req.params.svnr;
     let query = "SELECT svnr, firstname, lastname, dateofbirth, dateofentry, phonenumber, " +
-    " email, gender, id_department as idDepartment from eli_member",
+    " email, gender, id_department from eli_member",
     param = [];
 
     if(SVNr != null){
@@ -16,8 +16,22 @@ memberRouter.get("/", function(req, res){
             param.push(SVNr);
 
             oracleConnection.execute(query, param,
-                (result) => res.status(200).json(classParser(result.rows, classes.Member)),
+                (result) => res.status(200).json(new Department(classParser(result.rows, classes.Member)),
                 (err) => res.status(404).json({
+                    message: err.message,
+                    details: err
+                })
+            ));
+        }
+        catch(ex){
+            res.status(500).send("500: " + ex);
+        }
+    }
+    else{
+        try{
+            oracleConnection.execute(query, param,
+                (result) => res.status(200).json(classParser(result.rows, classes.Member)),
+                (err) => res.status(403).json({
                     message: err.message,
                     details: err
                 })
@@ -27,23 +41,9 @@ memberRouter.get("/", function(req, res){
             res.status(500).send("500: " + ex);
         }
     }
-    else{
-    try{
-        oracleConnection.execute(query, param,
-            (result) => res.status(200).json(classParser(result.rows, classes.Member)),
-            (err) => res.status(403).json({
-                message: err.message,
-                details: err
-            })
-        );
-    }
-    catch(ex){
-        res.status(500).send("500: " + ex);
-    }
-}
 });
 
-memberRouter.post("/", function(req, res){
+departmentRouter.post("/", function(req, res){
     var member = req.body;
     let query = "insert into eli_member values(:SVNr, :Firstname, :Lastname, to_date(:DateOfBirth, 'dd/MM/yyyy'), to_date(:DateOfEntry, 'dd/MM/yyyy'), :Phonenumber, :Email, null, null, :IdDepartment, :Gender)",
     param = [member.SVNr, member.Firstname, member.Lastname, member.DateOfBirth, 
@@ -65,7 +65,7 @@ memberRouter.post("/", function(req, res){
     }
 });
 
-memberRouter.delete("/:SVNr", function(req, res){
+departmentRouter.delete("/:SVNr", function(req, res){
     var SVNr = req.params.SVNr;
     let query = "delete from eli_member where svnr = :SVNr",
     param = [SVNr];
@@ -86,4 +86,4 @@ memberRouter.delete("/:SVNr", function(req, res){
     }
 });
 
-module.exports = memberRouter;
+module.exports = departmentRouter;

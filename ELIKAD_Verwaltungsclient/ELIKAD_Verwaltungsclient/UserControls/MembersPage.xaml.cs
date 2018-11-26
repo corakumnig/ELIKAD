@@ -25,6 +25,7 @@ namespace ELIKAD_Verwaltungsclient.UserControls
     {
         MainWindow mainWindow;
         Database db = Database.GetInstance();
+        string[] colnames = { "Sv-Nr", "Vorname", "Nachname", "Geburtsdatum", "Eintrittsdatum", "E-mail", "Telefonnummer", "Geschlecht" };
 
         public MembersPage(MainWindow mainWindow)
         {
@@ -32,9 +33,8 @@ namespace ELIKAD_Verwaltungsclient.UserControls
             try
             {
                 this.mainWindow = mainWindow;
-                //db.Connect();
-                //dgMenbers.ItemsSource = db.GetAllMembers();
-                // Get the product
+                cmbFilter.ItemsSource = colnames;
+                cmbFilter.SelectedIndex = 0;
                 Task<List<Member>> t = Task.Run(() => HTTPClient.GetMembersAsync());
                 t.Wait();
                 dgMenbers.ItemsSource = t.Result;
@@ -78,6 +78,11 @@ namespace ELIKAD_Verwaltungsclient.UserControls
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void DgMenbers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

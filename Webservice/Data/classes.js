@@ -12,7 +12,28 @@ class Member {
     }
 }
 
+class Department {
+    constructor(id, name, location, organization) {
+        this.id = id;
+        this.name = name;
+        this.lastname = lastname;
+        this.location = location;
+        this.organization = organization;
+    }
+}
+
+class Location {
+    constructor(id, name, location, organization) {
+        this.id = id;
+        this.name = name;
+        this.lastname = lastname;
+        this.location = location;
+        this.organization = organization;
+    }
+}
+
 
 module.exports = {
-    Member: Member
+    Member: Member,
+    Department: Department
 };

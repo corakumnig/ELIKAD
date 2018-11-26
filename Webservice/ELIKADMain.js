@@ -13,14 +13,16 @@ var port = process.env.PORT || 8080;        // set our port
 
 // ROUTES FOR OUR API
 // =============================================================================
+
+var defaultrouter = require('./Router/defaultRouter');
 /*
-var defaultrouter = require('./serviceLayer/defaultRouter.js');
 var sessionRouter = require('./serviceLayer/sessionRouter.js');             // get an instance of the express Router             // get an instance of the express Router
 var ratingsRouter = require('./serviceLayer/ratingsRouter.js');              // get an instance of the express Router
 var speakerRouter = require('./serviceLayer/speakerRouter.js');
 */
 
 var memberRouter = require('./Router/memberRouter');
+var departmentRouter = require('./Router/departmentRouter');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -43,6 +45,9 @@ sessionRouter.use('/ratings/:ratingId', ratingsRouter);
 // START THE SERVER
 // =============================================================================
 app.listen(port);
-app.use('/api/members', memberRouter);
-app.use('/api/members/:SVNr', memberRouter);
+app.use('/api', defaultrouter)
+defaultrouter.use('/members', memberRouter);
+defaultrouter.use('/members/:svnr', memberRouter);
+defaultrouter.use('/departments', departmentRouter);
+defaultrouter.use('/departments/:id', departmentRouter);
 console.log('Server started on port ' + port);

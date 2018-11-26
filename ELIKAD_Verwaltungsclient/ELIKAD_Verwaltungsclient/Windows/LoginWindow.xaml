@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ELIKAD_Verwaltungsclient.Windows"
         mc:Ignorable="d"
-        Title="Login" Height="199.868" Width="355.322">
+        Title="Login" Height="199.868" Width="355.322"
+        ResizeMode="NoResize">
     <Grid>
         <Label Content="Username:" HorizontalAlignment="Left" Margin="46,27,0,0" VerticalAlignment="Top" Height="31" Width="87"/>
         <Label Content="Password:" HorizontalAlignment="Left" Margin="46,65,0,0" VerticalAlignment="Top" Height="25" Width="87"/>
