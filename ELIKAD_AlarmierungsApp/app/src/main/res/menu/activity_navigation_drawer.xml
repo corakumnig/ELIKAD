@@ -7,24 +7,31 @@
         <item
             android:id="@+id/nav_allAlarms"
             android:icon="@drawable/ic_menu_camera"
-            android:title="All Alarms" />
-        <item
-            android:id="@+id/nav_newAlarm"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Create new alarm" />
-        <item
-            android:id="@+id/nav_newInfo"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Create new information" />
+            android:title="Alle Alarme" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Settings">
         <menu>
+            <item
+                android:id="@+id/nav_setSound"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Töne ändern" />
+        </menu>
+    </item>
+
+    <item android:title="Account">
+        <menu>
+            <item
+                android:id="@+id/nav_changeTel"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Telefonnummer ändern"
+                />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Logout" />
         </menu>
     </item>
+
 
 </menu>

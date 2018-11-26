@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ELIKAD_Verwaltungsclient", "ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient.csproj", "{FDF33C06-0450-4016-B79D-B4494174F0AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ELIKAD_Verwaltungsclient", "ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient.csproj", "{7F3A9BBD-EEC2-4D95-9C1F-707164A50CBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FDF33C06-0450-4016-B79D-B4494174F0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDF33C06-0450-4016-B79D-B4494174F0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDF33C06-0450-4016-B79D-B4494174F0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDF33C06-0450-4016-B79D-B4494174F0AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F3A9BBD-EEC2-4D95-9C1F-707164A50CBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F3A9BBD-EEC2-4D95-9C1F-707164A50CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F3A9BBD-EEC2-4D95-9C1F-707164A50CBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F3A9BBD-EEC2-4D95-9C1F-707164A50CBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D03AEFAB-290A-4796-8093-A7D74AD52923}
+		SolutionGuid = {8545FC9B-7D31-4CDD-A18E-6076331D012D}
 	EndGlobalSection
 EndGlobal
