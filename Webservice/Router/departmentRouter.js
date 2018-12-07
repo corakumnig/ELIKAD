@@ -5,23 +5,33 @@ const classParser = require("../Data/classParser");
 const classes = require("../Data/classes");
 
 departmentRouter.get("/", function(req, res){
-    var SVNr = req.params.svnr;
-    let query = "SELECT svnr, firstname, lastname, dateofbirth, dateofentry, phonenumber, " +
-    " email, gender, id_department from eli_member",
+    var idDepartment = req.params.idDepartment;
+    let query = "select eli_department.id as id, eli_department.NAME as name, eli_organization.NAME as organization,"
+    + " eli_region.name as region, eli_regiontype.TYPE as regiontype,"
+    + " eli_location.id as idLocation, eli_location.housenumber as housenumber, eli_location.street as street, eli_location.postalcode as postalcode,"
+    +    " eli_location.village as village"
+    + " from eli_department inner join eli_location"
+    + " on eli_location.id = eli_department.id_location"
+    + " inner join eli_organization"
+    + " on eli_organization.id = eli_department.id_organization"
+    + " inner join eli_region"
+    + " on eli_region.id = eli_location.id_region"
+    + " inner join eli_regiontype"
+    + " on eli_regiontype.id = eli_region.regiontype",
     param = [];
 
-    if(SVNr != null){
+    if(idDepartment != null){
         try{
-            query += " where svnr = :SVNr"
-            param.push(SVNr);
+            query += " where eli_department.id = :idDepartment"
+            param.push(idDepartment);
 
             oracleConnection.execute(query, param,
-                (result) => res.status(200).json(new Department(classParser(result.rows, classes.Member)),
+                (result) => res.status(200).json(classParser(result.rows, classes.Department)),
                 (err) => res.status(404).json({
                     message: err.message,
                     details: err
                 })
-            ));
+            );
         }
         catch(ex){
             res.status(500).send("500: " + ex);
@@ -30,7 +40,7 @@ departmentRouter.get("/", function(req, res){
     else{
         try{
             oracleConnection.execute(query, param,
-                (result) => res.status(200).json(classParser(result.rows, classes.Member)),
+                (result) => res.status(200).json(classParser(result.rows, classes.Department)),
                 (err) => res.status(403).json({
                     message: err.message,
                     details: err

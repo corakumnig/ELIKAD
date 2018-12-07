@@ -1,5 +1,6 @@
 class Member {
-    constructor(svNr, firstname, lastname, dateOfBirth, dateOfEntry, phonenumber, email, gender, idDepartment) {
+    constructor(id, svNr, firstname, lastname, dateOfBirth, dateOfEntry, phonenumber, email, gender, idDepartment) {
+        this.id = id;
         this.svNr = svNr;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -13,27 +14,29 @@ class Member {
 }
 
 class Department {
-    constructor(id, name, location, organization) {
+    constructor(id, name, organization, region, regiontype, idLocation, housenumber, street, postalcode, village) {
         this.id = id;
         this.name = name;
-        this.lastname = lastname;
-        this.location = location;
         this.organization = organization;
+        this.region = region;
+        this.regiontype = regiontype;
+        this.location = new Location(idLocation, housenumber, street, postalcode, village);
     }
 }
 
 class Location {
-    constructor(id, name, location, organization) {
+    constructor(id, housenumber, street, postalcode, village) {
         this.id = id;
-        this.name = name;
-        this.lastname = lastname;
-        this.location = location;
-        this.organization = organization;
+        this.housenumber = housenumber;
+        this.street = street;
+        this.postalcode = postalcode;
+        this.village = village;
     }
 }
 
 
 module.exports = {
     Member: Member,
-    Department: Department
+    Department: Department,
+    Location: Location
 };

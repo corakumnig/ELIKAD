@@ -132,6 +132,7 @@ create table eli_operation(
 );
 
 create table eli_member(
+  id integer,
   svNr varchar2(10),
   firstname varchar2(50),
   lastname varchar2(50),
@@ -144,7 +145,8 @@ create table eli_member(
   id_department int,
   gender varchar2(50),
   
-  constraint pk_eli_svNr primary key (svNr),
+  constraint pk_eli_id primary key (id),
+  constraint uq_eli_svNr unique (svNr),
   constraint fk_eli_member_operator foreign key (operator_username) references eli_operator (username),
   constraint fk_eli_member_admin foreign key (admin_username) references eli_admin (username),
   constraint fk_eli_department foreign key (id_department) references eli_department(id)
@@ -152,20 +154,20 @@ create table eli_member(
 
 create table eli_function_member(
   id_function integer,
-  svnr_member varchar2(10),
+  id_member integer,
   
-  constraint pk_eli_func_member primary key(id_function, svnr_member),
+  constraint pk_eli_func_member primary key(id_function, id_member),
   constraint fk_eli_func_member_function foreign key (id_function) references eli_function(id),
-  constraint fk_eli_func_member_member foreign key(svnr_member) references eli_member(svnr)
+  constraint fk_eli_func_member_member foreign key(id_member) references eli_member(id)
 );
 
 create table eli_operation_member(
   id_operation integer,
-  svnr_member varchar2(10),
+  id_member integer,
   
-  constraint pk_eli_op_member primary key(id_operation, svnr_member),
+  constraint pk_eli_op_member primary key(id_operation, id_member),
   constraint fk_eli_op_member_operation foreign key (id_operation) references eli_operation(id),
-  constraint fk_eli_op_member_member foreign key(svnr_member) references eli_member(svnr)
+  constraint fk_eli_op_member_member foreign key(id_member) references eli_member(id)
 );
 
 create table eli_operation_dept(
@@ -239,16 +241,16 @@ insert into eli_admin values('kraschlc', 'Test123');
 insert into eli_admin values('rajick', 'Test123');
 insert into eli_admin values('kumnigc', 'Test123');
 
-insert into eli_member values('1234030999', 'Christof', 'Kraschl', '03.09.1999', '01.07.2015', '+435647126482', 'christof@hero.com', 'kraschlc', 'kraschlc',1, 'Male');
-insert into eli_member values('1234200300', 'Cora', 'Kumnig', '20.03.2000', '15.08.2016', '+435647345382', 'cora@hero.com', 'kumnigc', 'kumnigc',4, 'Female');
-insert into eli_member values('1234141199', 'Kristian', 'Rajic', '14.11.1999', '02.11.2018', '+43523453482', 'kristian@hero.com', 'rajick', 'rajick', 1, 'Male');
-insert into eli_member values('1234120357', 'Hans', 'Zimmer', '12.03.1957', '15.01.1977', '+433467453482', 'hans@hero.com', null, null,3, 'Male');
+insert into eli_member values(eli_seq_member.nextval, '1234030999', 'Christof', 'Kraschl', '03.09.1999', '01.07.2015', '+435647126482', 'christof@hero.com', 'kraschlc', 'kraschlc',1, 'Male');
+insert into eli_member values(eli_seq_member.nextval, '1234200300', 'Cora', 'Kumnig', '20.03.2000', '15.08.2016', '+435647345382', 'cora@hero.com', 'kumnigc', 'kumnigc',4, 'Female');
+insert into eli_member values(eli_seq_member.nextval, '1234141199', 'Kristian', 'Rajic', '14.11.1999', '02.11.2018', '+43523453482', 'kristian@hero.com', 'rajick', 'rajick', 1, 'Male');
+insert into eli_member values(eli_seq_member.nextval, '1234120357', 'Hans', 'Zimmer', '12.03.1957', '15.01.1977', '+433467453482', 'hans@hero.com', null, null,3, 'Male');
 
-insert into eli_function_member values(2, '1234030999');
-insert into eli_function_member values(5, '1234030999');
-insert into eli_function_member values(6, '1234200300');
-insert into eli_function_member values(2, '1234120357');
-insert into eli_function_member values(1, '1234120357');
+insert into eli_function_member values(2, 1);
+insert into eli_function_member values(5, 1);
+insert into eli_function_member values(6, 2);
+insert into eli_function_member values(2, 4);
+insert into eli_function_member values(1, 4);
 
 insert into eli_operationtype values(eli_seq_operationtype.nextval, 'Brandeinsatz');
 insert into eli_operationtype values(eli_seq_operationtype.nextval, 'Techn. Einsatz');
@@ -265,6 +267,6 @@ insert into eli_operation_dept values(2, 2);
 insert into eli_operation_dept values(2, 3);
 insert into eli_operation_dept values(2, 4);
 
-insert into eli_operation_member values(1, '1234030999');
+insert into eli_operation_member values(1, 1);
 
 commit;
