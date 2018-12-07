@@ -15,14 +15,16 @@ import java.net.URL;
 
 public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
 
-    private static final String BASE_URL = "http://{{ip}}:8080/api/";
+    private static final String BASE_URL = "https://elikadweb.herokuapp.com/api/";
     private URL url;
     private String httpMethod;
+    private AsyncTaskHandler handler;
 
-    public AsyncWebserviceTask(String method, String route, Context context) throws MalformedURLException {
+    public AsyncWebserviceTask(String method, String route, AsyncTaskHandler handler, Context context) throws MalformedURLException {
         this.httpMethod = method;
         String ip = PreferenceManager.getDefaultSharedPreferences(context).getString("ip","127.0.0.1");
         this.url = new URL(BASE_URL.replace("{{ip}}",ip) + route);
+        this.handler = handler;
     }
 
     @Override
@@ -57,6 +59,27 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
         }
 
         return result;
+    }
+
+    //region LISTENER
+    @Override
+    protected void onPreExecute() {
+        handler.onPreExecute();
+    }
+
+    @Override
+    protected void onCancelled(TaskResult result) {
+        handler.onError(result.getError());
+    }
+
+    @Override
+    protected void onCancelled() {
+        handler.onError(null);
+    }
+
+    @Override
+    protected void onPostExecute(TaskResult result) {
+        handler.onSuccess(result.getStatusCode(), result.getContent());
     }
 
     private String read(HttpURLConnection connection) throws IOException {
