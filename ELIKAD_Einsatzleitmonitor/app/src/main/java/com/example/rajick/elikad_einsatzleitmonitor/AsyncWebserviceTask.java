@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -15,7 +16,7 @@ import java.net.URL;
 
 public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
 
-    private static final String BASE_URL = "https://elikadweb.herokuapp.com/api/";
+    private static final String BASE_URL = "http://192.168.43.142:8080/api/";
     private URL url;
     private String httpMethod;
     private AsyncTaskHandler handler;
@@ -40,7 +41,6 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
             }
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
             if(jsonString != null && httpMethod == "POST"){
                 write(connection, httpMethod, jsonString);
             }
@@ -83,7 +83,12 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
     }
 
     private String read(HttpURLConnection connection) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader((connection.getInputStream())));
+        InputStream stream = connection.getErrorStream();
+        if(stream == null)
+        {
+            stream = connection.getInputStream();
+        }
+        BufferedReader reader = new BufferedReader(new InputStreamReader((stream)));
         StringBuilder sb = new StringBuilder();
         String line;
 
