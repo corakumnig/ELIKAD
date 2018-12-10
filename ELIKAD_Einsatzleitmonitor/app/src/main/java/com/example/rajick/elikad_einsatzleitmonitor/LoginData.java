@@ -1,35 +1,35 @@
 package com.example.rajick.elikad_einsatzleitmonitor;
 
 public class LoginData {
-    private String TelNr;
-    private String Code;
+    private String name;
+    private String password;
 
     public LoginData(String TelNr, String Code){
-        this.TelNr =TelNr;
-        this.Code = TelNr;
+        this.name =TelNr;
+        this.password = Code;
     }
 
-    public String getTelNr() {
-        return TelNr;
+    public String getName() {
+        return name;
     }
 
-    public void setTelNr(String telNr) {
-        TelNr = telNr;
+    public void setName(String telNr) {
+        name = telNr;
     }
 
     public String getCode() {
-        return Code;
+        return password;
     }
 
     public void setCode(String code) {
-        Code = code;
+        password = code;
     }
 
     @Override
     public String toString() {
         return "LoginData{" +
-                "TelNr='" + TelNr + '\'' +
-                ", Code='" + Code + '\'' +
+                "Name='" + name + '\'' +
+                ", Password='" + password + '\'' +
                 '}';
     }
 }

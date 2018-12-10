@@ -28,6 +28,9 @@ public class Login_Activity extends AppCompatActivity implements AsyncTaskHandle
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
+        gson = new Gson();
+        initComponents();
+        initEventHandlers();
     }
 
     private void initComponents(){
@@ -45,9 +48,10 @@ public class Login_Activity extends AppCompatActivity implements AsyncTaskHandle
                     String Code = txtCode.getText().toString();
 
                     LoginData lg = new LoginData(TelNr, Code);
+
                     String json = gson.toJson(lg);
 
-                    AsyncWebserviceTask task = new AsyncWebserviceTask("POST", "login", Login_Activity.this, getApplicationContext());
+                    AsyncWebserviceTask task = new AsyncWebserviceTask("POST", "login/department", Login_Activity.this, getApplicationContext());
                     task.execute(null, json);
 
                 } catch (Exception ex) {
@@ -87,7 +91,7 @@ public class Login_Activity extends AppCompatActivity implements AsyncTaskHandle
                 break;
 
             default:
-                Toast.makeText(this, "Server error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Server error lol", Toast.LENGTH_SHORT).show();
         }
 
         progDialog.dismiss();
