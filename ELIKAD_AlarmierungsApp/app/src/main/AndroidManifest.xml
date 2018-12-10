@@ -27,7 +27,8 @@
             android:name=".Activities.NavigationActivity"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.InfoAlarmActivity"></activity>
+        <activity android:name=".Activities.InfoAlarmActivity" />
+        <activity android:name=".Activities.MapViewActivity"></activity>
     </application>
 
 </manifest>

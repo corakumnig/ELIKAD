@@ -1,7 +1,6 @@
 package com.example.cora.elikad_alarmierungsapp.Fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,22 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.example.cora.elikad_alarmierungsapp.Data.Location;
 import com.example.cora.elikad_alarmierungsapp.Data.Operation;
 import com.example.cora.elikad_alarmierungsapp.Data.OperationType;
 import com.example.cora.elikad_alarmierungsapp.Data.RVAdapter;
-import com.example.cora.elikad_alarmierungsapp.Data.allOperationsAdapter;
 import com.example.cora.elikad_alarmierungsapp.R;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.zip.Inflater;
 
 public class AllAlarmsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;

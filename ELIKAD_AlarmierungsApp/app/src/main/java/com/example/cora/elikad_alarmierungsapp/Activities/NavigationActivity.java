@@ -15,8 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.cora.elikad_alarmierungsapp.Fragments.AllAlarmsFragment;
-import com.example.cora.elikad_alarmierungsapp.Fragments.CreateAlarmFragment;
-import com.example.cora.elikad_alarmierungsapp.Fragments.CreateInformationFragment;
 import com.example.cora.elikad_alarmierungsapp.R;
 
 public class NavigationActivity extends AppCompatActivity
@@ -85,12 +83,8 @@ public class NavigationActivity extends AppCompatActivity
                 //displaySelectedFragment(fragment);
                 break;
             case R.id.nav_setSound:
-                fragment = new CreateAlarmFragment();
-                displaySelectedFragment(fragment);
                 break;
             case R.id.nav_changeTel:
-                fragment = new CreateInformationFragment();
-                displaySelectedFragment(fragment);
                 break;
             case R.id.nav_logout:
                 startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
