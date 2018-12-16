@@ -1,34 +1,66 @@
 module.exports = (function(){
-    var tokens = [];
-    function _createToken(id) {
-        length = 32;
-        chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var departmentTokens = [];
+    var memberTokens = [];
+    var adminTokens = [];
+
+    function _createMemberToken(id) {
         var result = '';
+        var length = 32;
+        var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+        return id + "_" + result;
+    }
+
+    function _createDepartmentToken(id) {
+        var result = '';
+        var length = 32;
+        var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
         return id + "_" + result;
     }
     
-    function _addToken(token){
-        if(tokens.indexOf(token) >= 0)
-            throw "Already logged in"
-        tokens.push(token);
+    function _addDepartmentToken(token){
+        if(departmentTokens.indexOf(token) >= 0)
+            throw "Already logged in";
+        departmentTokens.push(token);
     }
 
-    function _deleteToken(token){
-        var idx = tokens.indexOf(token);
+    function _deleteDepartmentToken(token){
+        var idx = departmentTokens.indexOf(token);
         if(idx == -1)
-            throw "User not logged in"
-        tokens.slice(idx);
+            throw "User not logged in";
+        departmentTokens.slice(idx);
     }
 
-    function _tokenExists(token){
-        return (tokens.indexOf(token) >= 0);
+    function _departmentTokenExists(token){
+        return (departmentTokens.indexOf(token) >= 0);
+    }
+
+    function _addMemberToken(token){
+        if(memberTokens.indexOf(token) >= 0)
+            throw "Already logged in";
+            memberTokens.push(token);
+    }
+
+    function _deleteMemberToken(token){
+        var idx = memberTokens.indexOf(token);
+        if(idx == -1)
+            throw "User not logged in";
+            memberTokens.slice(idx);
+    }
+
+    function _memberTokenExists(token){
+        return (memberTokens.indexOf(token) >= 0);
     }
 
     return{
-        CreateToken: _createToken,
-        AddToken: _addToken,
-        DeleteToken: _deleteToken,
-        TokenExists: _tokenExists
+        CreateMemberToken: _createMemberToken,
+        CreateDepartmentToken: _createDepartmentToken,
+        AddDepartmentToken: _addDepartmentToken,
+        DeleteDepartmentToken: _deleteDepartmentToken,
+        DepartmentTokenExists: _departmentTokenExists,
+        AddMemberToken: _addMemberToken,
+        DeleteMemberToken: _deleteMemberToken,
+        MemberTokenExists: _memberTokenExists
     }
 })();

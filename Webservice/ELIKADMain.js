@@ -23,6 +23,10 @@ var speakerRouter = require('./serviceLayer/speakerRouter.js');
 
 var memberRouter = require('./Router/memberRouter');
 var departmentRouter = require('./Router/departmentRouter');
+var departmentLoginRouter = require('./Router/Login/departmentLoginRouter');
+var memberLoginRouter = require('./Router/Login/memberLoginRouter');
+var adminLoginRouter = require('./Router/Login/adminLoginRouter');
+var functionsRouter = require('./Router/functionRouter');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -46,8 +50,15 @@ sessionRouter.use('/ratings/:ratingId', ratingsRouter);
 // =============================================================================
 app.listen(port);
 app.use('/api', defaultrouter)
+defaultrouter.use("/login/department", departmentLoginRouter);
+defaultrouter.use("/login/member", memberLoginRouter);
+defaultrouter.use("/login/admin", adminLoginRouter);
 defaultrouter.use('/members', memberRouter);
-defaultrouter.use('/members/:svnr', memberRouter);
+defaultrouter.use('/members/:idMember', memberRouter);
 defaultrouter.use('/departments', departmentRouter);
-defaultrouter.use('/departments/:id', departmentRouter);
+defaultrouter.use('/departments/:idDepartment', departmentRouter);
+defaultrouter.use("/functions", functionsRouter);
+defaultrouter.use("/functions/:idFunction", functionsRouter);
+memberRouter.use("/functions", functionsRouter);
+memberRouter.use("/functions/:idFunction", functionsRouter);
 console.log('Server started on port ' + port);

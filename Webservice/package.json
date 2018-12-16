@@ -1,0 +1,27 @@
+{
+  "name": "elikadwebservice",
+  "version": "1.0.0",
+  "description": "This is our webservice",
+  "main": "ELIKADMain.js",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node ELIKADMain.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "elikadweb"
+  },
+  "keywords": [
+    "elikad",
+    "node",
+    "express"
+  ],
+  "author": "Christof Kraschl",
+  "license": "ISC",
+  "engines": {
+    "node": "10.13.0"
+  }
+}

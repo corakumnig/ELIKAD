@@ -23,6 +23,8 @@ drop SEQUENCE eli_seq_controlcenter;
 drop SEQUENCE eli_seq_organization;
 drop SEQUENCE eli_seq_operationtype;
 drop SEQUENCE eli_seq_location;
+drop SEQUENCE eli_seq_admin;
+drop SEQUENCE eli_seq_operator;
 
 create table eli_regiontype(
   id integer,
@@ -99,19 +101,23 @@ create table eli_controlcenter(
 );
 
 create table eli_operator(
+  id integer,
   username varchar2(50),
   password varchar2(50),
   id_controlcenter integer,
   
-  constraint pk_eli_operator primary key(username),
+  constraint pk_eli_operator primary key(id),
+  constraint uq_eli_operator unique (username),
   constraint fk_eli_operator_controlcenter foreign key(id_controlcenter) references eli_controlcenter(id)
 );
 
 create table eli_admin(
+  id integer,
   username varchar2(50),
   password varchar2(50),
   
-  constraint pk_eli_admin primary key(username)
+  constraint pk_eli_admin primary key(id),
+  constraint uq_eli_admin unique (username)
 );
 
 
@@ -140,6 +146,7 @@ create table eli_member(
   dateOfEntry date,
   phonenumber varchar2(20),
   email varchar(50),
+  pin varchar(8),
   operator_username varchar2(50),
   admin_username varchar2(50),
   id_department int,
@@ -188,6 +195,8 @@ CREATE SEQUENCE eli_seq_controlcenter START WITH 0 INCREMENT BY 1 MINVALUE 0;
 CREATE SEQUENCE eli_seq_organization START WITH 0 INCREMENT BY 1 MINVALUE 0;
 CREATE SEQUENCE eli_seq_operationtype START WITH 0 INCREMENT BY 1 MINVALUE 0;
 CREATE SEQUENCE eli_seq_location START WITH 0 INCREMENT BY 1 MINVALUE 0;
+CREATE SEQUENCE eli_seq_admin START WITH 0 INCREMENT BY 1 MINVALUE 0;
+CREATE SEQUENCE eli_seq_operator START WITH 0 INCREMENT BY 1 MINVALUE 0;
 
 insert into eli_regiontype values(1, 'Continent');
 insert into eli_regiontype values(2, 'State');
@@ -233,18 +242,18 @@ insert into eli_function values(eli_seq_function.nextval, 'Technischer Einsatz',
 insert into eli_function values(eli_seq_function.nextval, 'Maschninist', 'MA');
 insert into eli_function values(eli_seq_function.nextval, 'Taucher', 'TAUCH');
 
-insert into eli_operator values('kraschlc', 'Test123', 1);
-insert into eli_operator values('rajick', 'Test123', 2);
-insert into eli_operator values('kumnigc', 'Test123', 1);
+insert into eli_operator values(eli_seq_operator.nextval, 'kraschlc', 'Test123', 1);
+insert into eli_operator values(eli_seq_operator.nextval, 'rajick', 'Test123', 2);
+insert into eli_operator values(eli_seq_operator.nextval, 'kumnigc', 'Test123', 1);
 
-insert into eli_admin values('kraschlc', 'Test123');
-insert into eli_admin values('rajick', 'Test123');
-insert into eli_admin values('kumnigc', 'Test123');
+insert into eli_admin values(eli_seq_admin.nextval,'kraschlc', 'Test123');
+insert into eli_admin values(eli_seq_admin.nextval,'rajick', 'Test123');
+insert into eli_admin values(eli_seq_admin.nextval,'kumnigc', 'Test123');
 
-insert into eli_member values(eli_seq_member.nextval, '1234030999', 'Christof', 'Kraschl', '03.09.1999', '01.07.2015', '+435647126482', 'christof@hero.com', 'kraschlc', 'kraschlc',1, 'Male');
-insert into eli_member values(eli_seq_member.nextval, '1234200300', 'Cora', 'Kumnig', '20.03.2000', '15.08.2016', '+435647345382', 'cora@hero.com', 'kumnigc', 'kumnigc',4, 'Female');
-insert into eli_member values(eli_seq_member.nextval, '1234141199', 'Kristian', 'Rajic', '14.11.1999', '02.11.2018', '+43523453482', 'kristian@hero.com', 'rajick', 'rajick', 1, 'Male');
-insert into eli_member values(eli_seq_member.nextval, '1234120357', 'Hans', 'Zimmer', '12.03.1957', '15.01.1977', '+433467453482', 'hans@hero.com', null, null,3, 'Male');
+insert into eli_member values(eli_seq_member.nextval, '1234030999', 'Christof', 'Kraschl', '03.09.1999', '01.07.2015', '+435647126482', 'christof@hero.com', '12345678', 'kraschlc', 'kraschlc',1, 'Male');
+insert into eli_member values(eli_seq_member.nextval, '1234200300', 'Cora', 'Kumnig', '20.03.2000', '15.08.2016', '+435647345382', 'cora@hero.com', '12345678', 'kumnigc', 'kumnigc',4, 'Female');
+insert into eli_member values(eli_seq_member.nextval, '1234141199', 'Kristian', 'Rajic', '14.11.1999', '02.11.2018', '+43523453482', 'kristian@hero.com', '12345678', 'rajick', 'rajick', 1, 'Male');
+insert into eli_member values(eli_seq_member.nextval, '1234120357', 'Hans', 'Zimmer', '12.03.1957', '15.01.1977', '+433467453482', 'hans@hero.com', '12345678', null, null,3, 'Male');
 
 insert into eli_function_member values(2, 1);
 insert into eli_function_member values(5, 1);

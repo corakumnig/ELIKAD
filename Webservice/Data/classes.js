@@ -34,9 +34,18 @@ class Location {
     }
 }
 
+class Function {
+    constructor (id, name, shortcut){
+        this.id = id;
+        this.name = name;
+        this.shortcut = shortcut;
+    }
+}
+
 
 module.exports = {
     Member: Member,
     Department: Department,
-    Location: Location
+    Location: Location,
+    Function: Function
 };

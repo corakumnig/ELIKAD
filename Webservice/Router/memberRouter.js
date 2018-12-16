@@ -6,14 +6,14 @@ const classes = require("../Data/classes");
 const tokenHandler = require("../Data/tokenHandler");
 
 memberRouter.get("/", function(req, res){
-    var id = req.params.id;
+    var id = req.params.idMember;
     let query = "SELECT id, svnr, firstname, lastname, dateofbirth, dateofentry, phonenumber, " +
     " email, gender, id_department as idDepartment from eli_member",
     param = [];
     var apiToken = req.get("Token");
 
     try{
-        if(apiToken == null || apiToken == undefined || !tokenHandler.TokenExists(apiToken)){
+        if(apiToken == null || apiToken == undefined || !tokenHandler.MemberTokenExists(apiToken)){
             res.status(401).json({
                 message: "Not authenticated"
             });
@@ -32,7 +32,6 @@ memberRouter.get("/", function(req, res){
                     );
             }
             else{
-                tokenHandler.TokenExists();
                 oracleConnection.execute(query, param,
                     (result) => res.status(200).json(classParser(result.rows, classes.Member)),
                     (err) => res.status(403).json({
@@ -70,10 +69,10 @@ memberRouter.get("/", function(req, res){
     }
 });
 
-memberRouter.delete("/:SVNr", function(req, res){
-    var SVNr = req.params.SVNr;
-    let query = "delete from eli_member where svnr = :SVNr",
-    param = [SVNr];
+memberRouter.delete("/:idMember", function(req, res){
+    var idMember = req.params.idMember;
+    let query = "delete from eli_member where id = :idMember",
+    param = [idMember];
     try{
         oracleConnection.execute(query, param,
             (result) => res.status(200).json({

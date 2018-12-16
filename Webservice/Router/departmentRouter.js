@@ -3,9 +3,11 @@ const departmentRouter = express.Router({mergeParams: true});
 const oracleConnection = require("../Data/dbAccess");
 const classParser = require("../Data/classParser");
 const classes = require("../Data/classes");
+const tokenHandler = require("../Data/tokenHandler");
 
 departmentRouter.get("/", function(req, res){
     var idDepartment = req.params.idDepartment;
+    var apiToken = req.get("Token");
     let query = "select eli_department.id as id, eli_department.NAME as name, eli_organization.NAME as organization,"
     + " eli_region.name as region, eli_regiontype.TYPE as regiontype,"
     + " eli_location.id as idLocation, eli_location.housenumber as housenumber, eli_location.street as street, eli_location.postalcode as postalcode,"
@@ -20,35 +22,42 @@ departmentRouter.get("/", function(req, res){
     + " on eli_regiontype.id = eli_region.regiontype",
     param = [];
 
-    if(idDepartment != null){
-        try{
-            query += " where eli_department.id = :idDepartment"
-            param.push(idDepartment);
-
-            oracleConnection.execute(query, param,
-                (result) => res.status(200).json(classParser(result.rows, classes.Department)),
-                (err) => res.status(404).json({
-                    message: err.message,
-                    details: err
-                })
-            );
-        }
-        catch(ex){
-            res.status(500).send("500: " + ex);
-        }
+    if(apiToken == null || apiToken == undefined || !tokenHandler.DepartmentTokenExists(apiToken)){
+        res.status(401).json({
+            message: "Not authenticated"
+        });
     }
     else{
-        try{
-            oracleConnection.execute(query, param,
-                (result) => res.status(200).json(classParser(result.rows, classes.Department)),
-                (err) => res.status(403).json({
-                    message: err.message,
-                    details: err
-                })
-            );
+        if(idDepartment != null){
+            try{
+                query += " where eli_department.id = :idDepartment"
+                param.push(idDepartment);
+
+                oracleConnection.execute(query, param,
+                    (result) => res.status(200).json(classParser(result.rows, classes.Department)),
+                    (err) => res.status(404).json({
+                        message: err.message,
+                        details: err
+                    })
+                );
+            }
+            catch(ex){
+                res.status(500).send("500: " + ex);
+            }
         }
-        catch(ex){
-            res.status(500).send("500: " + ex);
+        else{
+            try{
+                oracleConnection.execute(query, param,
+                    (result) => res.status(200).json(classParser(result.rows, classes.Department)),
+                    (err) => res.status(403).json({
+                        message: err.message,
+                        details: err
+                    })
+                );
+            }
+            catch(ex){
+                res.status(500).send("500: " + ex);
+            }
         }
     }
 });
