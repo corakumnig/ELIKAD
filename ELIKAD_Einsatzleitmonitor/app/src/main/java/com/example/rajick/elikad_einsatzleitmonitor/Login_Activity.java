@@ -14,21 +14,17 @@ import com.example.rajick.elikad_einsatzleitmonitor.Data.Department;
 import com.google.gson.Gson;
 import android.widget.Toast;
 
-public class Login_Activity extends AppCompatActivity implements AsyncTaskHandler{
+public class Login_Activity extends SharedClass implements AsyncTaskHandler{
 
     EditText txtCode;
     AutoCompleteTextView txt_telNr;
     Button btn_signIn;
 
-    SharedPreferences preferences;
-    ProgressDialog progDialog;
-    Gson gson;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_);
-        gson = new Gson();
+
         initComponents();
         initEventHandlers();
     }
@@ -37,8 +33,6 @@ public class Login_Activity extends AppCompatActivity implements AsyncTaskHandle
         txtCode = findViewById(R.id.txtCode);
         txt_telNr = findViewById(R.id.txt_telNr);
         btn_signIn = findViewById(R.id.btn_signIn);
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     }
 
     private void initEventHandlers(){
@@ -76,8 +70,10 @@ public class Login_Activity extends AppCompatActivity implements AsyncTaskHandle
         switch (statusCode) {
             case 202:
                 Department department = gson.fromJson(content, Department.class);
-                preferences.edit().putString("DepName", department.getName()).apply();
-                preferences.edit().putString("DepId", Integer.toString(department.getId())).apply();
+
+                preferences.edit().putString("DepName", department.getName()).commit();
+                preferences.edit().putString("DepId", Integer.toString(department.getId())).commit();
+
                 startActivity(new Intent(this, AllOperations.class));
                 finish();
                 break;
@@ -91,7 +87,7 @@ public class Login_Activity extends AppCompatActivity implements AsyncTaskHandle
                 break;
 
             default:
-                Toast.makeText(this, "Server error lol", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Login Error: Try again.", Toast.LENGTH_SHORT).show();
         }
 
         progDialog.dismiss();

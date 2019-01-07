@@ -1,6 +1,7 @@
 package com.example.rajick.elikad_einsatzleitmonitor;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
@@ -16,14 +17,18 @@ import java.net.URL;
 
 public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
 
-    private static final String BASE_URL = "http://192.168.43.142:8080/api/";
+    private static final String BASE_URL = "https://{{ip}}/api/";
     private URL url;
     private String httpMethod;
     private AsyncTaskHandler handler;
+    private SharedPreferences preferences;
+
+    private static String accessToken;
 
     public AsyncWebserviceTask(String method, String route, AsyncTaskHandler handler, Context context) throws MalformedURLException {
         this.httpMethod = method;
-        String ip = PreferenceManager.getDefaultSharedPreferences(context).getString("ip","127.0.0.1");
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String ip = preferences.getString("ip","elikadweb.herokuapp.com");
         this.url = new URL(BASE_URL.replace("{{ip}}",ip) + route);
         this.handler = handler;
     }
@@ -41,12 +46,21 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
             }
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            if (accessToken != null) {
+                connection.setRequestProperty("Token", accessToken);
+            }
+
             if(jsonString != null && httpMethod == "POST"){
                 write(connection, httpMethod, jsonString);
             }
 
             int statusCode = connection.getResponseCode();
             String content = read(connection);
+
+            if (accessToken == null) {
+                accessToken = connection.getHeaderField("Token");
+            }
 
             result = new TaskResult(statusCode, content);
 
@@ -96,6 +110,7 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
             sb.append(line);
         }
 
+        preferences.edit().putString("Token", connection.getHeaderField("Token"));
         reader.close();
         return sb.toString();
     }
@@ -110,5 +125,9 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
         writer.close();
 
         connection.getResponseCode();
+    }
+
+    public static String getAccesToken(){
+        return accessToken;
     }
 }

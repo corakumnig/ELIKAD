@@ -1,12 +1,17 @@
 package com.example.rajick.elikad_einsatzleitmonitor;
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rajick.elikad_einsatzleitmonitor.Data.Department;
 import com.example.rajick.elikad_einsatzleitmonitor.Data.Operation;
+import com.google.gson.Gson;
 
 import java.lang.reflect.Array;
 import java.text.ParsePosition;
@@ -14,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AllOperations extends AppCompatActivity {
+public class AllOperations extends SharedClass {
 
     ListView listView_AllOperations;
     TextView txt_Depname;
@@ -24,19 +29,22 @@ public class AllOperations extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_operations);
 
-        getViewElements();
+        initComponents();
         setViewElements();
         setAdapterData(getTestData());
 
+        Toast.makeText(this, AsyncWebserviceTask.getAccesToken(), Toast.LENGTH_SHORT).show();
+        System.out.println("Test1" + preferences.getString("DepName", "default"));
+        System.out.println("Test2" + preferences.getString("DepId", "default"));
     }
 
-    private void getViewElements() {
+    private void initComponents() {
         listView_AllOperations = findViewById(R.id.listView_allOperations);
         txt_Depname = findViewById(R.id.txt_Depname);
     }
 
     private void setViewElements(){
-        txt_Depname.setText(Department.getName());
+        txt_Depname.setText(preferences.getString("DepName", "Default"));
     }
 
     private void setAdapterData(ArrayList<Operation> entries) {
