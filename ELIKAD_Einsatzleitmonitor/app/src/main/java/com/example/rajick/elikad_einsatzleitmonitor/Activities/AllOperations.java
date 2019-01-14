@@ -1,28 +1,22 @@
-package com.example.rajick.elikad_einsatzleitmonitor;
+package com.example.rajick.elikad_einsatzleitmonitor.Activities;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.rajick.elikad_einsatzleitmonitor.Data.Department;
+import com.example.rajick.elikad_einsatzleitmonitor.Backend.AsyncTaskHandler;
+import com.example.rajick.elikad_einsatzleitmonitor.Backend.AsyncWebserviceTask;
 import com.example.rajick.elikad_einsatzleitmonitor.Data.Operation;
-import com.google.gson.Gson;
+import com.example.rajick.elikad_einsatzleitmonitor.R;
+import com.example.rajick.elikad_einsatzleitmonitor.Misc.SharedClass;
+import com.example.rajick.elikad_einsatzleitmonitor.Adapters.allOperationsAdapter;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Array;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-public class AllOperations extends SharedClass implements AsyncTaskHandler{
+public class AllOperations extends SharedClass implements AsyncTaskHandler {
 
     ListView listView_AllOperations;
     TextView txt_Depname;
@@ -34,7 +28,8 @@ public class AllOperations extends SharedClass implements AsyncTaskHandler{
 
         initComponents();
         setViewElements();
-
+        initEventListeners();
+        loadAllOperations();
     }
 
     private void initComponents() {
@@ -46,6 +41,13 @@ public class AllOperations extends SharedClass implements AsyncTaskHandler{
         txt_Depname.setText(preferences.getString("DepName", "Default"));
     }
 
+    private void initEventListeners(){
+        try{
+        }
+        catch(Exception ex){
+            Toast.makeText(AllOperations.this, "Something went wrong", Toast.LENGTH_LONG).show();
+        }
+    }
     private void setAdapterData(ArrayList<Operation> entries) {
         allOperationsAdapter adapter = new allOperationsAdapter(this, entries);
         listView_AllOperations.setAdapter(adapter);
@@ -79,7 +81,7 @@ public class AllOperations extends SharedClass implements AsyncTaskHandler{
 
                 ArrayList<Operation> operationList = gson.fromJson(content, new TypeToken<ArrayList<Operation>>(){}.getType());
                 setAdapterData(operationList);
-                
+
                 break;
 
             case 404:
