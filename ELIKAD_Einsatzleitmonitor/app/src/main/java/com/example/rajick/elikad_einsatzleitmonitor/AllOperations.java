@@ -1,6 +1,7 @@
 package com.example.rajick.elikad_einsatzleitmonitor;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,14 +13,16 @@ import android.widget.Toast;
 import com.example.rajick.elikad_einsatzleitmonitor.Data.Department;
 import com.example.rajick.elikad_einsatzleitmonitor.Data.Operation;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Array;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class AllOperations extends SharedClass {
+public class AllOperations extends SharedClass implements AsyncTaskHandler{
 
     ListView listView_AllOperations;
     TextView txt_Depname;
@@ -31,11 +34,7 @@ public class AllOperations extends SharedClass {
 
         initComponents();
         setViewElements();
-        setAdapterData(getTestData());
 
-        Toast.makeText(this, AsyncWebserviceTask.getAccesToken(), Toast.LENGTH_SHORT).show();
-        System.out.println("Test1" + preferences.getString("DepName", "default"));
-        System.out.println("Test2" + preferences.getString("DepId", "default"));
     }
 
     private void initComponents() {
@@ -52,19 +51,52 @@ public class AllOperations extends SharedClass {
         listView_AllOperations.setAdapter(adapter);
     }
 
-    private ArrayList<Operation> getTestData(){
-        ArrayList<Operation> testData = new ArrayList<>();
+    private void loadAllOperations(){
+        try {
+            String route = "department/" + preferences.getString("DepId", "Default") + "/operations";
+            AsyncWebserviceTask task = new AsyncWebserviceTask("POST", route, AllOperations.this, getApplicationContext());
+            task.execute(null, null);
 
-        ParsePosition pos = new ParsePosition(0);
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-        Date datetime = dateFormatter.parse("20.10.2018 13:12", pos);
+        } catch (Exception ex) {
+            Toast.makeText(AllOperations.this, ex.getMessage(), Toast.LENGTH_LONG).show();
+            ex.printStackTrace();
+        }
+    }
+    @Override
+    public void onPreExecute() {
+        progDialog = new ProgressDialog(AllOperations.this);
+        progDialog.setMessage("Loading...");
+        progDialog.setIndeterminate(false);
+        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDialog.setCancelable(true);
+        progDialog.show();
+    }
 
-        testData.add(new Operation(1, "Baum auf Straße", 5, datetime, "Christof"));
-        testData.add(new Operation(2, "Baum brennt", 1, datetime, "Cora"));
-        testData.add(new Operation(3, "Baum brennt", 3, datetime, "Cora"));
-        testData.add(new Operation(4, "Baum brennt", 2, datetime, "Cora"));
-        testData.add(new Operation(5, "Baum brennt", 4, datetime, "Cora"));
+    @Override
+    public void onSuccess(int statusCode, String content) {
+        switch (statusCode) {
+            case 200:
 
-        return testData;
+                ArrayList<Operation> operationList = gson.fromJson(content, new TypeToken<ArrayList<Operation>>(){}.getType());
+                setAdapterData(operationList);
+                
+                break;
+
+            case 404:
+                Toast.makeText(this, "Could't connect", Toast.LENGTH_SHORT).show();
+                break;
+
+            default:
+                Toast.makeText(this, "Error at loading. Restart please", Toast.LENGTH_SHORT).show();
+        }
+
+        progDialog.dismiss();
+    }
+
+    @Override
+    public void onError(Error err) {
+        progDialog.cancel();
+        Toast.makeText(AllOperations.this, "Something went wrong", Toast.LENGTH_LONG).show();
+        err.printStackTrace();
     }
 }
