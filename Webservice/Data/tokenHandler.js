@@ -3,20 +3,16 @@ module.exports = (function(){
     var memberTokens = [];
     var adminTokens = [];
 
-    function _createMemberToken(id) {
-        var result = '';
-        var length = 32;
-        var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-        return id + "_" + result;
-    }
+    departmentTokens.push("1234");
+    memberTokens.push("1234");
+    adminTokens.push("1234");
 
-    function _createDepartmentToken(id) {
+    function _createToken() {
         var result = '';
         var length = 32;
         var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-        return id + "_" + result;
+        return result;
     }
     
     function _addDepartmentToken(token){
@@ -39,28 +35,47 @@ module.exports = (function(){
     function _addMemberToken(token){
         if(memberTokens.indexOf(token) >= 0)
             throw "Already logged in";
-            memberTokens.push(token);
+        memberTokens.push(token);
     }
 
     function _deleteMemberToken(token){
         var idx = memberTokens.indexOf(token);
         if(idx == -1)
             throw "User not logged in";
-            memberTokens.slice(idx);
+        memberTokens.slice(idx);
     }
 
     function _memberTokenExists(token){
         return (memberTokens.indexOf(token) >= 0);
     }
 
+    function _addAdminToken(token){
+        if(adminTokens.indexOf(token) >= 0)
+            throw "Already logged in";
+        adminTokens.push(token);
+    }
+
+    function _deleteAdminToken(token){
+        var idx = adminTokens.indexOf(token);
+        if(idx == -1)
+            throw "User not logged in";
+        adminTokens.slice(idx);
+    }
+
+    function _adminTokenExists(token){
+        return (adminTokens.indexOf(token) >= 0);
+    }
+
     return{
-        CreateMemberToken: _createMemberToken,
-        CreateDepartmentToken: _createDepartmentToken,
+        CreateToken: _createToken,
         AddDepartmentToken: _addDepartmentToken,
         DeleteDepartmentToken: _deleteDepartmentToken,
         DepartmentTokenExists: _departmentTokenExists,
         AddMemberToken: _addMemberToken,
         DeleteMemberToken: _deleteMemberToken,
-        MemberTokenExists: _memberTokenExists
+        MemberTokenExists: _memberTokenExists,
+        AddAdminToken: _addAdminToken,
+        DeleteAdminToken: _deleteAdminToken,
+        AdminTokenExists: _adminTokenExists
     }
 })();

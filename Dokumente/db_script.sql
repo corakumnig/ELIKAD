@@ -125,7 +125,7 @@ create table eli_operation(
   id integer,
   datetime date,
   caller varchar2(100),
-  description varchar2(500),
+  text varchar2(500),
   alarmlevel varchar(50),
   id_controlcenter integer,
   id_location integer,
@@ -227,7 +227,7 @@ insert into eli_location values(eli_seq_location.nextval, null, 'St. Stefan', 95
 insert into eli_location values(eli_seq_location.nextval, '34b', 'Kirchgasse', 9560, 'Feldkichen in Kärnten', 8);
 
 
-insert into eli_department values(eli_seq_department.nextval, 'FF Himmelberg', 'TestHimmelber', null, 1, 1);
+insert into eli_department values(eli_seq_department.nextval, 'FF Himmelberg', '1234', null, 1, 1);
 insert into eli_department values(eli_seq_department.nextval, 'FF Gnesau', 'TestGnesau', null, 1, 2);
 insert into eli_department values(eli_seq_department.nextval, 'FF Lieserhofen', 'TestLieserhofen', null, 1, 3);
 insert into eli_department values(eli_seq_department.nextval, 'ÖWR Millstatt', 'TestMillstatt', null, 2, 4);
@@ -238,7 +238,6 @@ insert into eli_controlcenter values(eli_seq_controlcenter.nextval, 'BAWZ Feldki
 insert into eli_function values(eli_seq_function.nextval, 'Atemschutz', 'ATS');
 insert into eli_function values(eli_seq_function.nextval, 'Einsatzleiter', 'EL');
 insert into eli_function values(eli_seq_function.nextval, 'Sanitäter', 'SAN');
-insert into eli_function values(eli_seq_function.nextval, 'Technischer Einsatz', 'TE');
 insert into eli_function values(eli_seq_function.nextval, 'Maschninist', 'MA');
 insert into eli_function values(eli_seq_function.nextval, 'Taucher', 'TAUCH');
 
@@ -256,8 +255,8 @@ insert into eli_member values(eli_seq_member.nextval, '1234141199', 'Kristian', 
 insert into eli_member values(eli_seq_member.nextval, '1234120357', 'Hans', 'Zimmer', '12.03.1957', '15.01.1977', '+433467453482', 'hans@hero.com', '12345678', null, null,3, 'Male');
 
 insert into eli_function_member values(2, 1);
-insert into eli_function_member values(5, 1);
-insert into eli_function_member values(6, 2);
+insert into eli_function_member values(4, 1);
+insert into eli_function_member values(5, 2);
 insert into eli_function_member values(2, 4);
 insert into eli_function_member values(1, 4);
 

@@ -42,10 +42,21 @@ class Function {
     }
 }
 
+class Operation {
+    constructor (id, text, alarmlevel, datetime, caller){
+        this.id = id;
+        this.text = text;
+        this.alarmlevel = alarmlevel;
+        this.datetime = datetime;
+        this.caller = caller;
+    }
+}
+
 
 module.exports = {
     Member: Member,
     Department: Department,
     Location: Location,
-    Function: Function
+    Function: Function,
+    Operation: Operation
 };

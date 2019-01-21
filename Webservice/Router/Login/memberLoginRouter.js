@@ -7,7 +7,7 @@ const tokenHandler = require("../../Data/tokenHandler");
 
 loginRouter.post("/", function(req, res){
     var credentials = req.body;
-    let query = "select * from eli_member where phonenumber = :phonenumber" + 
+    let query = "select id, svnr, firstname, lastname, dateofbirth, dateofentry, phonenumber, email, gender, id_department as department from eli_member where phonenumber = :phonenumber" + 
         " and pin = :pin",
     param = [credentials.phonenumber, credentials.pin];
     try{
@@ -20,11 +20,14 @@ loginRouter.post("/", function(req, res){
                 }
                 else{
                     var id = result.rows[0][0];
-                    var token = tokenHandler.CreateMemberToken(id);
+                    var token = tokenHandler.CreateToken(id);
                     tokenHandler.AddMemberToken(token);
+                    res.setHeader('Token', token);
                     res.status(202).json({
                         id: id,
-                        token: token
+                        firstname: result.rows[0][2],
+                        lastname: result.rows[0][3],
+                        email: result.rows[0][7],
                     });     
                 }    
         },

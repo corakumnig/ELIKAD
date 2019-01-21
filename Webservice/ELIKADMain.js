@@ -27,6 +27,7 @@ var departmentLoginRouter = require('./Router/Login/departmentLoginRouter');
 var memberLoginRouter = require('./Router/Login/memberLoginRouter');
 var adminLoginRouter = require('./Router/Login/adminLoginRouter');
 var functionsRouter = require('./Router/functionRouter');
+var operationsRouter = require('./Router/operationsRouter');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -57,6 +58,8 @@ defaultrouter.use('/members', memberRouter);
 defaultrouter.use('/members/:idMember', memberRouter);
 defaultrouter.use('/departments', departmentRouter);
 defaultrouter.use('/departments/:idDepartment', departmentRouter);
+departmentRouter.use('/operations', operationsRouter);
+departmentRouter.use('/operations/:idOperation', operationsRouter);
 defaultrouter.use("/functions", functionsRouter);
 defaultrouter.use("/functions/:idFunction", functionsRouter);
 memberRouter.use("/functions", functionsRouter);

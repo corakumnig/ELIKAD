@@ -10,7 +10,7 @@ loginRouter.post("/", function(req, res){
     var credentials = req.body;
     let query = "select id from eli_department"
     + " where name = :name and PASSWORD like :password",
-    param = [credentials.name, credentials.password];
+    param = [credentials.username, credentials.password];
     try{
         oracleConnection.execute(query, param,
             (result) => {
@@ -22,7 +22,7 @@ loginRouter.post("/", function(req, res){
                 else{
                     var id = result.rows[0][0];
                     var token = tokenHandler.CreateToken(id);
-                    tokenHandler.AddToken(token);
+                    tokenHandler.AddAdminToken(token);
                     res.status(202).json({
                         id: id,
                         token: token

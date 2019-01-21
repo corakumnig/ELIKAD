@@ -41,7 +41,7 @@
             <ColumnDefinition MinWidth="1000" Width="auto"></ColumnDefinition>
             <ColumnDefinition MinWidth="200" Width="auto"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dgMenbers" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" Grid.Column="0"  MinHeight="100" MinWidth="1000" Height="auto" Width="auto" Margin="15,10,10,10" SelectionChanged="DgMenbers_SelectionChanged">
+        <DataGrid x:Name="dgMembers" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" Grid.Column="0"  MinHeight="100" MinWidth="1000" Height="auto" Width="auto" Margin="15,10,10,10" SelectionChanged="DgMenbers_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn MinWidth="90" Header="SV-Nr" Binding="{Binding SVNr}"/>
                 <DataGridTextColumn MinWidth="150" Header="Vorname" Binding="{Binding Firstname}"/>

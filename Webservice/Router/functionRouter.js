@@ -5,50 +5,6 @@ const classParser = require("../Data/classParser");
 const classes = require("../Data/classes");
 const tokenHandler = require("../Data/tokenHandler");
 
-/*
-functionsRouter.get("/", function(req, res){
-    var id = req.params.id;
-    let query = "SELECT id, name, shortcut from eli_function",
-    param = [];
-    var apiToken = req.get("Token");
-
-    try{
-        //if(apiToken == null || apiToken == undefined || !tokenHandler.MemberTokenExists(apiToken)){
-        if(false){
-            res.status(401).json({
-                message: "Not authenticated"
-            });
-        }
-        else{
-            if(id != null){
-                    query += " where id = :id"
-                    param.push(id);
-
-                    oracleConnection.execute(query, param,
-                        (result) => res.status(200).json(classParser(result.rows, classes.Function)),
-                        (err) => res.status(404).json({
-                            message: err.message,
-                            details: err
-                        })
-                    );
-            }
-            else{
-                oracleConnection.execute(query, param,
-                    (result) => res.status(200).json(classParser(result.rows, classes.Function)),
-                    (err) => res.status(403).json({
-                        message: err.message,
-                        details: err
-                    })
-                );
-            }
-        }
-    }
-    catch(ex){
-        res.status(500).send("500: " + ex);
-    }
-});
-*/
-
 functionsRouter.get("/", function(req, res){
     var idFunction = req.params.idFunction;
     var idMember = req.params.idMember;
@@ -89,6 +45,34 @@ functionsRouter.get("/", function(req, res){
                     details: err
                 })
             );
+        }
+    }
+    catch(ex){
+        res.status(500).send("500: " + ex);
+    }
+});
+
+functionsRouter.put("/", function(req, res){
+    var idMember = req.params.idMember;
+    var idFunction = req.params.idFunction;
+    var param = [];
+    try{
+        if(idMember != undefined && idFunction != undefined){
+            var query = "insert into eli_function_member values(:idFunction, :idMember)";
+            param.push(idFunction);
+            param.push(idMember);
+            oracleConnection.execute(query, param,
+                (result) => res.status(200).json({
+                    message: "function added"
+                }),
+                (err) => res.status(404).json({
+                    message: err.message,
+                    details: err
+                })
+            );
+        }
+        else{
+            res.status(400).send("400: Parameter missing");
         }
     }
     catch(ex){

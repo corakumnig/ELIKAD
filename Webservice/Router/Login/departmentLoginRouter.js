@@ -21,12 +21,12 @@ loginRouter.post("/", function(req, res){
                 else{
                     var id = result.rows[0][0];
                     var name = result.rows[0][1];
-                    var token = tokenHandler.CreateDepartmentToken(id);
+                    var token = tokenHandler.CreateToken(id);
                     tokenHandler.AddDepartmentToken(token);
+                    res.setHeader('Token', token);
                     res.status(202).json({
                         id: id,
-                        name: name,
-                        token: token
+                        name: name
                     });     
                 }    
         },

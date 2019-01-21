@@ -13,7 +13,7 @@ memberRouter.get("/", function(req, res){
     var apiToken = req.get("Token");
 
     try{
-        if(apiToken == null || apiToken == undefined || !tokenHandler.MemberTokenExists(apiToken)){
+        if(apiToken == null || apiToken == undefined || (!tokenHandler.MemberTokenExists(apiToken) && !tokenHandler.AdminTokenExists(apiToken))){
             res.status(401).json({
                 message: "Not authenticated"
             });
