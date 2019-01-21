@@ -1,4 +1,4 @@
-package com.example.rajick.elikad_einsatzleitmonitor;
+package com.example.rajick.elikad_einsatzleitmonitor.Data;
 
 public class LoginData {
     private String name;

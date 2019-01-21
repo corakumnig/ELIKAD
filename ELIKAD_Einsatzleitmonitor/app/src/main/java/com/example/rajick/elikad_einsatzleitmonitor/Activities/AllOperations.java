@@ -1,7 +1,12 @@
 package com.example.rajick.elikad_einsatzleitmonitor.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +17,7 @@ import com.example.rajick.elikad_einsatzleitmonitor.Data.Operation;
 import com.example.rajick.elikad_einsatzleitmonitor.R;
 import com.example.rajick.elikad_einsatzleitmonitor.Misc.SharedClass;
 import com.example.rajick.elikad_einsatzleitmonitor.Adapters.allOperationsAdapter;
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -43,6 +49,16 @@ public class AllOperations extends SharedClass implements AsyncTaskHandler {
 
     private void initEventListeners(){
         try{
+            listView_AllOperations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    Operation clickedOp = (Operation) listView_AllOperations.getItemAtPosition(position);
+                    String clickedOpAsJson = gson.toJson(clickedOp, Operation.class);
+                    preferences.edit().putString("currentOperation", clickedOpAsJson).commit();
+                    startActivity(new Intent(view.getContext(), com.example.rajick.elikad_einsatzleitmonitor.Activities.Operation.class));
+                }
+            });
         }
         catch(Exception ex){
             Toast.makeText(AllOperations.this, "Something went wrong", Toast.LENGTH_LONG).show();
@@ -55,7 +71,7 @@ public class AllOperations extends SharedClass implements AsyncTaskHandler {
 
     private void loadAllOperations(){
         try {
-            String route = "department/" + preferences.getString("DepId", "Default") + "/operations";
+            String route = "departments/" + preferences.getString("DepId", "Default") + "/operations";
             AsyncWebserviceTask task = new AsyncWebserviceTask("POST", route, AllOperations.this, getApplicationContext());
             task.execute(null, null);
 

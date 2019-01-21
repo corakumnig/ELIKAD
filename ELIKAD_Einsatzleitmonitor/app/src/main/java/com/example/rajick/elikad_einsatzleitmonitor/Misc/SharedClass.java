@@ -1,4 +1,4 @@
-package com.example.rajick.elikad_einsatzleitmonitor;
+package com.example.rajick.elikad_einsatzleitmonitor.Misc;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;

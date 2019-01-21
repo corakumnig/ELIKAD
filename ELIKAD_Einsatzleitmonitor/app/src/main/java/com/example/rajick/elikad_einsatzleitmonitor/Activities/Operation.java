@@ -1,18 +1,22 @@
-package com.example.rajick.elikad_einsatzleitmonitor;
+package com.example.rajick.elikad_einsatzleitmonitor.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.rajick.elikad_einsatzleitmonitor.Adapters.AcceptedAdapter;
 import com.example.rajick.elikad_einsatzleitmonitor.Data.Member;
+import com.example.rajick.elikad_einsatzleitmonitor.Misc.SharedClass;
+import com.example.rajick.elikad_einsatzleitmonitor.R;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Operation extends AppCompatActivity {
+public class Operation extends SharedClass {
 
+    //ToDo: api/operations/:ID/members
     ListView list_Member;
 
     ArrayList<Member> allMembers;
@@ -35,8 +39,6 @@ public class Operation extends AppCompatActivity {
         list_Member.setAdapter(adapter);
     }
 
-    private void setFunctionCounters(){
-    }
     private ArrayList<Member> getTestData(){
         ArrayList<Member> testData = new ArrayList<>();
 

@@ -1,4 +1,4 @@
-package com.example.rajick.elikad_einsatzleitmonitor;
+package com.example.rajick.elikad_einsatzleitmonitor.Backend;
 
 public class TaskResult {
     private int statusCode;

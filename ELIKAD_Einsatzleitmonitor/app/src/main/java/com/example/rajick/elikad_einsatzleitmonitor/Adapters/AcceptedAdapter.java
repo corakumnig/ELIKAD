@@ -1,4 +1,4 @@
-package com.example.rajick.elikad_einsatzleitmonitor;
+package com.example.rajick.elikad_einsatzleitmonitor.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.rajick.elikad_einsatzleitmonitor.Data.Member;
 import com.example.rajick.elikad_einsatzleitmonitor.Data.Operation;
+import com.example.rajick.elikad_einsatzleitmonitor.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,8 +55,12 @@ public class AcceptedAdapter extends BaseAdapter {
             // UI references
             convertView = inflater.inflate(R.layout.accepted_list_layout, parent, false);
             TextView txt_name = convertView.findViewById(R.id.txt_Name);
-
-
+            TextView txt_acceptCount = convertView.findViewById(R.id.txt_acceptCount);
+            TextView txt_ELCount = convertView.findViewById(R.id.txt_ELCount);
+            TextView txt_ASCount = convertView.findViewById(R.id.txt_ASCount);
+            TextView txt_MACount = convertView.findViewById(R.id.txt_MACount);
+            TextView txt_SACount = convertView.findViewById(R.id.txt_SACount);
+            //ToDo: Counts outside, because only ListVariables are accessable
             // set values
             txt_name.setText(currentMember.getFirstName() +" "+ currentMember.getLastName());
 
