@@ -1,35 +1,35 @@
 package com.example.cora.elikad_alarmierungsapp.Data;
 
 public class LoginData {
-    private String telNr;
-    private String passw;
+    private String phonenumber;
+    private String pin;
 
-    public LoginData(String telNr, String passw) {
-        this.telNr = telNr;
-        this.passw = passw;
+    public LoginData(String phonenumber, String pin) {
+        this.phonenumber = phonenumber;
+        this.pin = pin;
     }
 
-    public String getTelNr() {
-        return telNr;
+    public String getPhonenumber() {
+        return phonenumber;
     }
 
-    public void setTelNr(String telNr) {
-        this.telNr = telNr;
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
     }
 
-    public String getPassw() {
-        return passw;
+    public String getPin() {
+        return pin;
     }
 
-    public void setPassw(String passw) {
-        this.passw = passw;
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 
     @Override
     public String toString() {
         return "LoginData{" +
-                "telNr='" + telNr + '\'' +
-                ", passw='" + passw + '\'' +
+                "telNr='" + phonenumber + '\'' +
+                ", passw='" + pin + '\'' +
                 '}';
     }
 }

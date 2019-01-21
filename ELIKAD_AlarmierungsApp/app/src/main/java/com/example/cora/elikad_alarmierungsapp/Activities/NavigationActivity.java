@@ -14,11 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.cora.elikad_alarmierungsapp.Data.AsyncTaskHandler;
 import com.example.cora.elikad_alarmierungsapp.Fragments.AllAlarmsFragment;
 import com.example.cora.elikad_alarmierungsapp.R;
 
 public class NavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AsyncTaskHandler {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,5 +116,20 @@ public class NavigationActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public void onSuccess(int statusCode, String content) {
+
+    }
+
+    @Override
+    public void onError(Error err) {
+
     }
 }

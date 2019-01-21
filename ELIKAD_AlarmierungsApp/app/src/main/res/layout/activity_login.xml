@@ -56,6 +56,7 @@
                     android:inputType="phone"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:text="+435647345382"
                     android:textColor="@color/colorFontLight"
                     android:textColorHighlight="@android:color/background_light"
                     android:textColorHint="@color/colorFontLight" />

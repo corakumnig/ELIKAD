@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,21 +42,23 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskHandler
         mTelefoneNrView = (AutoCompleteTextView) findViewById(R.id.txt_telNr);
         mPasswordView = (EditText) findViewById(R.id.txt_password);
         gson = new Gson();
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         Button loginButton = (Button) findViewById(R.id.btn_login);
         loginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    String telNr = mTelefoneNrView.getText().toString();
-                    String passw = mPasswordView.getText().toString();
+                    String phonenumber = mTelefoneNrView.getText().toString();
+                    String pin = mPasswordView.getText().toString();
 
-                    LoginData lg = new LoginData(telNr, passw);
+                    LoginData lg = new LoginData(phonenumber, pin);
 
                     System.out.println("Test 1: " + lg);
                     String json = gson.toJson(lg);
 
                     AsyncWebserviceTask task = new AsyncWebserviceTask("POST", "login/member", LoginActivity.this, getApplicationContext());
+
                     task.execute(null, json);
 
                 } catch (Exception ex) {
@@ -334,15 +337,17 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskHandler
     public void onSuccess(int statusCode, String content) {
         switch (statusCode) {
             case 202:
+                //+435647345382
+                //12345678
                 System.out.println("Test 2: " + content);
 
                 Member member = gson.fromJson(content, Member.class);
 
+                preferences.edit().putInt("MemberId", member.getId()).commit();
                 preferences.edit().putString("MemberFirstName", member.getFirstName()).commit();
                 preferences.edit().putString("MemberLastName", member.getLastName()).commit();
                 preferences.edit().putString("MemberEmail", member.getEmail()).commit();
 
-                preferences.edit().putString("DepName", member.getDepartment().getName()).commit();
 
                 startActivity(new Intent(this, NavigationActivity.class));
                 finish();
@@ -366,7 +371,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskHandler
     @Override
     public void onError(Error err) {
         progDialog.cancel();
-        Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+        //Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
         err.printStackTrace();
     }
 }
