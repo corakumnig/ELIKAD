@@ -25,7 +25,7 @@ module.exports = (function(){
         var idx = departmentTokens.indexOf(token);
         if(idx == -1)
             throw "User not logged in";
-        departmentTokens.slice(idx);
+        departmentTokens.splice(idx, 1);
     }
 
     function _departmentTokenExists(token){
@@ -42,7 +42,7 @@ module.exports = (function(){
         var idx = memberTokens.indexOf(token);
         if(idx == -1)
             throw "User not logged in";
-        memberTokens.slice(idx);
+        memberTokens.splice(idx, 1);
     }
 
     function _memberTokenExists(token){
@@ -59,7 +59,7 @@ module.exports = (function(){
         var idx = adminTokens.indexOf(token);
         if(idx == -1)
             throw "User not logged in";
-        adminTokens.slice(idx);
+        adminTokens.splice(idx, 1);
     }
 
     function _adminTokenExists(token){

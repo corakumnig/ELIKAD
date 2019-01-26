@@ -147,15 +147,15 @@ create table eli_member(
   phonenumber varchar2(20),
   email varchar(50),
   pin varchar(8),
-  operator_username varchar2(50),
-  admin_username varchar2(50),
+  id_operator int,
+  id_admin int,
   id_department int,
   gender varchar2(50),
   
   constraint pk_eli_id primary key (id),
   constraint uq_eli_svNr unique (svNr),
-  constraint fk_eli_member_operator foreign key (operator_username) references eli_operator (username),
-  constraint fk_eli_member_admin foreign key (admin_username) references eli_admin (username),
+  constraint fk_eli_member_operator foreign key (id_operator) references eli_operator (id),
+  constraint fk_eli_member_admin foreign key (id_admin) references eli_admin (id),
   constraint fk_eli_department foreign key (id_department) references eli_department(id)
 );
 
@@ -249,9 +249,9 @@ insert into eli_admin values(eli_seq_admin.nextval,'kraschlc', 'Test123');
 insert into eli_admin values(eli_seq_admin.nextval,'rajick', 'Test123');
 insert into eli_admin values(eli_seq_admin.nextval,'kumnigc', 'Test123');
 
-insert into eli_member values(eli_seq_member.nextval, '1234030999', 'Christof', 'Kraschl', '03.09.1999', '01.07.2015', '+435647126482', 'christof@hero.com', '12345678', 'kraschlc', 'kraschlc',1, 'Male');
-insert into eli_member values(eli_seq_member.nextval, '1234200300', 'Cora', 'Kumnig', '20.03.2000', '15.08.2016', '+435647345382', 'cora@hero.com', '12345678', 'kumnigc', 'kumnigc',4, 'Female');
-insert into eli_member values(eli_seq_member.nextval, '1234141199', 'Kristian', 'Rajic', '14.11.1999', '02.11.2018', '+43523453482', 'kristian@hero.com', '12345678', 'rajick', 'rajick', 1, 'Male');
+insert into eli_member values(eli_seq_member.nextval, '1234030999', 'Christof', 'Kraschl', '03.09.1999', '01.07.2015', '+435647126482', 'christof@hero.com', '12345678', 1, 1,1, 'Male');
+insert into eli_member values(eli_seq_member.nextval, '1234200300', 'Cora', 'Kumnig', '20.03.2000', '15.08.2016', '+435647345382', 'cora@hero.com', '12345678', 3, 3, 4, 'Female');
+insert into eli_member values(eli_seq_member.nextval, '1234141199', 'Kristian', 'Rajic', '14.11.1999', '02.11.2018', '+43523453482', 'kristian@hero.com', '12345678', 2, 2, 1, 'Male');
 insert into eli_member values(eli_seq_member.nextval, '1234120357', 'Hans', 'Zimmer', '12.03.1957', '15.01.1977', '+433467453482', 'hans@hero.com', '12345678', null, null,3, 'Male');
 
 insert into eli_function_member values(2, 1);
@@ -276,5 +276,7 @@ insert into eli_operation_dept values(2, 3);
 insert into eli_operation_dept values(2, 4);
 
 insert into eli_operation_member values(1, 1);
+insert into eli_operation_member values(1, 2);
+insert into eli_operation_member values(2, 2);
 
 commit;

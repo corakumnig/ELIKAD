@@ -37,7 +37,8 @@ functionsRouter.get("/", function(req, res){
                 query += " where eli_function.id = :idFunction";
                 param.push(idFunction);
             }
-
+            else
+                query = "select * from eli_function"
             oracleConnection.execute(query, param,
                 (result) => res.status(200).json(classParser(result.rows, classes.Function)),
                 (err) => res.status(404).json({
@@ -52,7 +53,7 @@ functionsRouter.get("/", function(req, res){
     }
 });
 
-functionsRouter.put("/", function(req, res){
+functionsRouter.post("/", function(req, res){
     var idMember = req.params.idMember;
     var idFunction = req.params.idFunction;
     var param = [];
@@ -64,6 +65,34 @@ functionsRouter.put("/", function(req, res){
             oracleConnection.execute(query, param,
                 (result) => res.status(200).json({
                     message: "function added"
+                }),
+                (err) => res.status(404).json({
+                    message: err.message,
+                    details: err
+                })
+            );
+        }
+        else{
+            res.status(400).send("400: Parameter missing");
+        }
+    }
+    catch(ex){
+        res.status(500).send("500: " + ex);
+    }
+});
+
+functionsRouter.delete("/", function(req, res){
+    var idMember = req.params.idMember;
+    var idFunction = req.params.idFunction;
+    var param = [];
+    try{
+        if(idMember != undefined && idFunction != undefined){
+            var query = "delete from eli_function_member where id_function = :idFunction and id_member = :idMember";
+            param.push(idFunction);
+            param.push(idMember);
+            oracleConnection.execute(query, param,
+                (result) => res.status(200).json({
+                    message: "function deleted"
                 }),
                 (err) => res.status(404).json({
                     message: err.message,

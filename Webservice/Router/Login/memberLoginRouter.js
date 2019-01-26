@@ -28,6 +28,7 @@ loginRouter.post("/", function(req, res){
                         firstname: result.rows[0][2],
                         lastname: result.rows[0][3],
                         email: result.rows[0][7],
+                        email: result.rows[0][6]
                     });     
                 }    
         },
@@ -36,6 +37,17 @@ loginRouter.post("/", function(req, res){
                 details: err
             })
         );
+    }
+    catch(ex){
+        res.status(500).send("500: " + ex);
+    }
+});
+
+loginRouter.delete("/", function(req, res){
+    try{
+        var apiToken = req.get("Token");
+        tokenHandler.DeleteMemberToken(apiToken);
+        res.status(200).send();
     }
     catch(ex){
         res.status(500).send("500: " + ex);

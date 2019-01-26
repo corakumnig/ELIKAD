@@ -1,5 +1,3 @@
-// sessionRaterMain.js
-
 // BASE SETUP
 // =============================================================================
 
@@ -15,11 +13,6 @@ var port = process.env.PORT || 8080;        // set our port
 // =============================================================================
 
 var defaultrouter = require('./Router/defaultRouter');
-/*
-var sessionRouter = require('./serviceLayer/sessionRouter.js');             // get an instance of the express Router             // get an instance of the express Router
-var ratingsRouter = require('./serviceLayer/ratingsRouter.js');              // get an instance of the express Router
-var speakerRouter = require('./serviceLayer/speakerRouter.js');
-*/
 
 var memberRouter = require('./Router/memberRouter');
 var departmentRouter = require('./Router/departmentRouter');
@@ -28,6 +21,7 @@ var memberLoginRouter = require('./Router/Login/memberLoginRouter');
 var adminLoginRouter = require('./Router/Login/adminLoginRouter');
 var functionsRouter = require('./Router/functionRouter');
 var operationsRouter = require('./Router/operationsRouter');
+var departmentStatisticsRouter = require('./Router/departmentStatisticsRouter');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -37,16 +31,7 @@ app.use(bodyParser.json());
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use(express.static('Frontend'));
-/*app.use('/api', defaultrouter);
-defaultrouter.use('/sessions', sessionRouter);
-defaultrouter.use('/sessions/:sessionId', sessionRouter);
-defaultrouter.use('/ratings', ratingsRouter);
-defaultrouter.use('/ratings/:ratingId', ratingsRouter);
-defaultrouter.use('/speakers', speakerRouter);
-defaultrouter.use('/speakers/:speakerId', speakerRouter);
-sessionRouter.use('/ratings', ratingsRouter);
-sessionRouter.use('/ratings/:ratingId', ratingsRouter);
-*/
+
 // START THE SERVER
 // =============================================================================
 app.listen(port);
@@ -64,4 +49,12 @@ defaultrouter.use("/functions", functionsRouter);
 defaultrouter.use("/functions/:idFunction", functionsRouter);
 memberRouter.use("/functions", functionsRouter);
 memberRouter.use("/functions/:idFunction", functionsRouter);
+memberRouter.use("/operations", operationsRouter);
+memberRouter.use("/operations/:idOperation", operationsRouter);
+defaultrouter.use("/operations", operationsRouter);
+defaultrouter.use("/operations/:idOperation", operationsRouter);
+operationsRouter.use("/members", memberRouter);
+operationsRouter.use("/members/:idMember", memberRouter);
+departmentRouter.use("/statistic", departmentStatisticsRouter);
+
 console.log('Server started on port ' + port);

@@ -43,12 +43,14 @@ class Function {
 }
 
 class Operation {
-    constructor (id, text, alarmlevel, datetime, caller){
+    constructor (id, text, alarmlevel, datetime, caller, operationTpye, controlcenterName){
         this.id = id;
         this.text = text;
         this.alarmlevel = alarmlevel;
         this.datetime = datetime;
         this.caller = caller;
+        this.operationTpye = operationTpye;
+        this.controlcenterName = controlcenterName;
     }
 }
 
