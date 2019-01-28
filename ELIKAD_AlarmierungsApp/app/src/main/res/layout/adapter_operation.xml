@@ -22,7 +22,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="16dp"
-            app:srcCompat="@mipmap/ic_launcher_round" />
+            android:minWidth="70dp"
+            android:minHeight="70dp"
+            app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
 
         <TextView
             android:id="@+id/cv_tv_controllCenter"

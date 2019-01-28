@@ -7,20 +7,20 @@ public class Operation {
     private Date datetime;
     private Enum OperationType;
     private String caller;
-    private String description;
+    private String text;
     private String alarmlevel;
+    private String controlcenterName;
     private Location location;
-    private String controllcenter;
 
-    public Operation(Date datetime, Enum operationType, String caller, String description,
-                     String alarmlevel, Location location, String controllcenter) {
+    public Operation(int id, String text, String alarmlevel, Date datetime, String caller,
+                      Enum operationType, String controlcenterName, Location location) {
         this.datetime = datetime;
         OperationType = operationType;
         this.caller = caller;
-        this.description = description;
+        this.text = text;
         this.alarmlevel = alarmlevel;
+        this.controlcenterName = controlcenterName;
         this.location = location;
-        this.controllcenter = controllcenter;
     }
 
     public Date getDatetime() {
@@ -47,12 +47,12 @@ public class Operation {
         this.caller = caller;
     }
 
-    public String getDescription() {
-        return description;
+    public String getText() {
+        return text;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getAlarmlevel() {
@@ -63,6 +63,14 @@ public class Operation {
         this.alarmlevel = alarmlevel;
     }
 
+    public String getControlcenterName() {
+        return controlcenterName;
+    }
+
+    public void setControlcenterName(String controllcenter) {
+        this.controlcenterName = controllcenter;
+    }
+
     public Location getLocation() {
         return location;
     }
@@ -71,11 +79,16 @@ public class Operation {
         this.location = location;
     }
 
-    public String getControllcenter() {
-        return controllcenter;
-    }
-
-    public void setControllcenter(String controllcenter) {
-        this.controllcenter = controllcenter;
+    @Override
+    public String toString() {
+        return "Operation{" +
+                "datetime=" + datetime +
+                ", OperationType=" + OperationType +
+                ", caller='" + caller + '\'' +
+                ", text='" + text + '\'' +
+                ", alarmlevel='" + alarmlevel + '\'' +
+                ", controlcenterName='" + controlcenterName + '\'' +
+                ", location=" + location +
+                '}';
     }
 }

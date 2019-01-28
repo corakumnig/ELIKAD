@@ -25,11 +25,19 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
 
     private static String accessToken;
 
+    public String getUrl(){
+        return url.toString();
+    }
+
+    public String getHttpMethod(){
+        return httpMethod;
+    }
+
     public AsyncWebserviceTask(String method, String route, AsyncTaskHandler handler, Context context) throws MalformedURLException {
         this.httpMethod = method;
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        //String ip = preferences.getString("ip","elikadweb.herokuapp.com");
-        String ip = preferences.getString("ip","192.168.193.40:8080");
+        String ip = preferences.getString("ip","elikadweb.herokuapp.com");
+        //String ip = preferences.getString("ip","192.168.43.142:8080");
         this.url = new URL(BASE_URL.replace("{{ip}}",ip) + route);
         this.handler = handler;
     }
@@ -53,6 +61,14 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
             }
 
             if(jsonString != null && httpMethod == "POST"){
+                write(connection, httpMethod, jsonString);
+            }
+
+            if (jsonString == null && httpMethod == "DELETE") {
+                write(connection, httpMethod, "");
+            }
+
+            if(jsonString !=null && httpMethod == "PUT"){
                 write(connection, httpMethod, jsonString);
             }
 
@@ -130,5 +146,9 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
 
     public static String getAccesToken(){
         return accessToken;
+    }
+
+    public static void setAccessToken(String accessToken) {
+        AsyncWebserviceTask.accessToken = accessToken;
     }
 }

@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_allAlarms"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@android:drawable/ic_lock_idle_alarm"
             android:title="Alle Alarme" />
     </group>
 
@@ -14,7 +14,7 @@
         <menu>
             <item
                 android:id="@+id/nav_setSound"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@android:drawable/ic_btn_speak_now"
                 android:title="Töne ändern" />
         </menu>
     </item>
@@ -23,12 +23,11 @@
         <menu>
             <item
                 android:id="@+id/nav_changeTel"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Telefonnummer ändern"
-                />
+                android:icon="@android:drawable/ic_menu_call"
+                android:title="Telefonnummer ändern" />
             <item
                 android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@android:drawable/ic_menu_close_clear_cancel"
                 android:title="Logout" />
         </menu>
     </item>

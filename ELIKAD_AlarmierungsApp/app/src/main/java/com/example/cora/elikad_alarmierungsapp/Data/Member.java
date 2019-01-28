@@ -1,18 +1,18 @@
 package com.example.cora.elikad_alarmierungsapp.Data;
 
-import java.util.Date;
-
 public class Member {
     private int id;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     private String email;
+    private String phonenumber;
 
-    public Member(int id, String firstName, String lastName, String email) {
+    public Member(int id, String firstname, String lastname, String email, String phonenumber) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
+        this.phonenumber = phonenumber;
     }
 
     public int getId() {
@@ -23,20 +23,20 @@ public class Member {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getEmail() {
@@ -45,5 +45,24 @@ public class Member {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phonenumber='" + phonenumber + '\'' +
+                '}';
     }
 }

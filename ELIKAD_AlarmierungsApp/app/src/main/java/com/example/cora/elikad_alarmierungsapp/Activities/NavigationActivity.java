@@ -1,7 +1,14 @@
 package com.example.cora.elikad_alarmierungsapp.Activities;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.TestLooperManager;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,21 +16,52 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cora.elikad_alarmierungsapp.Data.AsyncTaskHandler;
+import com.example.cora.elikad_alarmierungsapp.Data.AsyncWebserviceTask;
+import com.example.cora.elikad_alarmierungsapp.Data.Member;
+import com.example.cora.elikad_alarmierungsapp.Data.Operation;
 import com.example.cora.elikad_alarmierungsapp.Fragments.AllAlarmsFragment;
 import com.example.cora.elikad_alarmierungsapp.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.w3c.dom.Text;
+
+import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.nio.channels.AsynchronousServerSocketChannel;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AsyncTaskHandler {
 
+    private ProgressDialog progDialog;
+    private Gson gson;
+    private SharedPreferences preferences;
+    Fragment fragment = null;
+    Class fragmentClass = null;
+    private int caseNr = 0;
+    AsyncWebserviceTask task = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gson = new Gson();
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -37,6 +75,20 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_allAlarms);
+
+        View hView = navigationView.getHeaderView(0);
+        TextView memberName = (TextView) hView.findViewById(R.id.nav_header_name);
+        memberName.setText(preferences.getString("MemberFirstName", null) + " " + preferences.getString("MemberLastName", null));
+
+        try {
+            caseNr = 1;
+            task = new AsyncWebserviceTask("POST", "members/" + preferences.getInt("MemberId", 0) + "/operations", NavigationActivity.this, getApplicationContext());
+            task.execute();
+            fragmentClass = AllAlarmsFragment.class;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -53,8 +105,6 @@ public class NavigationActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
-        /*MenuItem mItem = menu.findItem(R.id.nav_allAlarms);
-        onNavigationItemSelected(mItem);*/
         return true;
     }
 
@@ -75,38 +125,37 @@ public class NavigationActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Fragment fragment = null;
-        Class fragmentClass = null;
+        caseNr = 0;
 
         switch(id) {
             case R.id.nav_allAlarms:
+                caseNr = 1;
+                try {
+                    System.out.println("Test 4: in try");
+                    task = new AsyncWebserviceTask("POST", "members/" + preferences.getInt("MemberId", 0) + "/operations", NavigationActivity.this, getApplicationContext());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                task.execute();
+                setTitle(item.getTitle());
                 fragmentClass = AllAlarmsFragment.class;
-                //displaySelectedFragment(fragment);
                 break;
             case R.id.nav_setSound:
+                caseNr = 2;
+                //ToDO
                 break;
             case R.id.nav_changeTel:
+                caseNr = 3;
+                changePhoneDialog();
                 break;
             case R.id.nav_logout:
-                startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
+                caseNr = 4;
+                System.out.println("Test 5: case nummer - " + caseNr);
+                logoutDialog();
                 break;
         }
 
-        try{
-            fragment = (Fragment) fragmentClass.newInstance();
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
-        // Highlight the selected item has been done by NavigationView
         item.setChecked(true);
-        // Set action bar title
-        setTitle(item.getTitle());
-        // Close the navigation drawer
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -120,16 +169,152 @@ public class NavigationActivity extends AppCompatActivity
 
     @Override
     public void onPreExecute() {
-
+        progDialog = new ProgressDialog(NavigationActivity.this);
+        progDialog.setMessage("Loading ...");
+        progDialog.setIndeterminate(false);
+        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDialog.setCancelable(true);
+        progDialog.show();
     }
 
     @Override
     public void onSuccess(int statusCode, String content) {
+        switch (statusCode) {
+            case 200:
+                switch(caseNr) {
+                    case 1:
+                        Type listType = new TypeToken<ArrayList<Operation>>() {
+                        }.getType();
+                        List<Operation> op = gson.fromJson(content, listType);
+                        System.out.println("Test 3" + op);
 
+                        AllAlarmsFragment.setOperations(op);
+                        try {
+                            fragment = (Fragment) fragmentClass.newInstance();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        displaySelectedFragment(fragment);
+                        break;
+                    case 2:
+                        //ToDO Sound
+                        break;
+                    case 3:
+                        Toast.makeText(this, "Successfully changed", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4:
+                        startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
+                        AsyncWebserviceTask.setAccessToken(null);
+                        break;
+                }
+                break;
+            case 403:
+                Toast.makeText(this, "Wrong inputs", Toast.LENGTH_SHORT).show();
+                break;
+
+            case 404:
+                Toast.makeText(this, "Could't connect", Toast.LENGTH_SHORT).show();
+                System.out.println("Test 7: " + caseNr);
+                System.out.println("Test 9: " + task.getUrl() + " ... " + task.getHttpMethod());
+                break;
+
+            default:
+                Toast.makeText(this, "Error: Try again.", Toast.LENGTH_SHORT).show();
+                System.out.println("Test 10: " + statusCode);
+        }
+
+        progDialog.dismiss();
     }
 
     @Override
     public void onError(Error err) {
+        progDialog.cancel();
+        //Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+        err.printStackTrace();
+    }
 
+
+    public void logoutDialog(){
+        final AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+        builderSingle.setTitle("Logout");
+        builderSingle.setMessage("Sind Sie sicher, dass Sie sich ausloggen wollen?");
+
+        builderSingle.setNegativeButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        builderSingle.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //AsyncWebserviceTask task = null;
+                        try {
+                            task = new AsyncWebserviceTask("DELETE", "login/member", NavigationActivity.this, getApplicationContext());
+                            System.out.println("Test 6: " + task.getUrl());
+                            System.out.println("Test 8: " + task.getHttpMethod());
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                        task.execute();
+                    }
+                });
+
+        builderSingle.show();
+    }
+
+    public void changePhoneDialog(){
+        final AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        builderSingle.setTitle("Telefonnummer ändern");
+
+        View dialogView = inflater.inflate(R.layout.dialog_changephone, null);
+        builderSingle.setView(dialogView);
+
+        final EditText txt_newPhone = (EditText) dialogView.findViewById(R.id.txt_newPhone);
+
+        System.out.println("Test 11: " + txt_newPhone);
+
+        builderSingle.setNegativeButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        builderSingle.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        preferences.edit().putString("MemberPhonenumber", txt_newPhone.getText().toString()).commit();
+
+                        int id = preferences.getInt("MemberId", 0);
+                        String fName = preferences.getString("MemberFirstName", null);
+                        String lName = preferences.getString("MemberLastName", null);
+                        String email = preferences.getString("MemberEmail", null);
+                        String phone = preferences.getString("MemberPhonenumber", null);
+
+                        Member member  = new Member(id, fName, lName, email, phone);
+                        System.out.println("Test 12: " + member.toString());
+
+                        try {
+                            String json = gson.toJson(member);
+                            task = new AsyncWebserviceTask("PUT", "members/" + preferences.getInt("MemberId", 0) , NavigationActivity.this, getApplicationContext());
+                            task.execute(null, json);
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        builderSingle.show();
     }
 }
