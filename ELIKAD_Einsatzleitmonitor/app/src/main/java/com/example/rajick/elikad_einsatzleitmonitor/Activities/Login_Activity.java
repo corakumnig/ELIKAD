@@ -29,6 +29,7 @@ public class Login_Activity extends SharedClass implements AsyncTaskHandler {
 
         initComponents();
         initEventHandlers();
+        AsyncWebserviceTask.resetAccessToken();
     }
 
     private void initComponents(){
@@ -70,7 +71,7 @@ public class Login_Activity extends SharedClass implements AsyncTaskHandler {
     @Override
     public void onSuccess(int statusCode, String content) {
         switch (statusCode) {
-            case 202:
+            case 200:
                 Department department = gson.fromJson(content, Department.class);
 
                 preferences.edit().putString("DepName", department.getName()).commit();

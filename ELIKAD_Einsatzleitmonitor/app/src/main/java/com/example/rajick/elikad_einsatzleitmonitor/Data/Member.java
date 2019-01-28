@@ -1,56 +1,58 @@
 package com.example.rajick.elikad_einsatzleitmonitor.Data;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Member {
 
-    private String firstName;
-    private String lastName;
-    private LocalDate dateOfBirth;
-    private LocalDate dateOfEntry;
-    private String phoneNumber;
-    private String eMail;
+    private int id;
     private String svNr;
-    private MemberFunctions function;
+    private String firstname;
+    private String lastname;
+    private Date dateOfBirth;
+    private Date dateOfEntry;
+    private String phonenumber;
+    private String email;
+    private String gender;
+    private String functionName;
+    private int idDepartement;
 
-    public Member(String firstName, String lastName, LocalDate dateOfBirth, LocalDate dateOfEntry, String phoneNumber, String eMail, String svNr, MemberFunctions function){
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
+    public Member(int id, String svNr, String firstname, String lastname, String dateOfBirth, String dateOfEntry, String phonenumber, String email, int idDepartement, String functionName) throws Exception{
+        this.setFirstName(firstname);
+        this.setLastName(lastname);
         this.setDateOfBirth(dateOfBirth);
         this.setDateOfEntry(dateOfEntry);
-        this.setPhoneNumber(phoneNumber);
-        this.seteMail(eMail);
+        this.setPhoneNumber(phonenumber);
+        this.seteMail(email);
         this.setSvNr(svNr);
-        this.setFunction(function);
-    }
-
-    public Member(String firstName, String lastName){
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.functionName = functionName;
+        this.id = id;
+        this.idDepartement = idDepartement;
     }
 
     public String getFirstName() {
-        return firstName;
+        return firstname;
     }
 
     public String getLastName() {
-        return lastName;
+        return lastname;
     }
 
-    public LocalDate getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public LocalDate getDateOfEntry() {
+    public Date getDateOfEntry() {
         return dateOfEntry;
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return phonenumber;
     }
 
     public String geteMail() {
-        return eMail;
+        return email;
     }
 
     public String getSvNr() {
@@ -58,38 +60,40 @@ public class Member {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstname = firstName;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastname = lastName;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setDateOfBirth(String dateOfBirth) throws Exception{
+        SimpleDateFormat simpleDateFormatter = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+        this.dateOfBirth = simpleDateFormatter.parse(dateOfBirth);
     }
 
-    public void setDateOfEntry(LocalDate dateOfEntry) {
-        this.dateOfEntry = dateOfEntry;
+    public void setDateOfEntry(String dateOfEntry) throws Exception{
+        SimpleDateFormat simpleDateFormatter = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+        this.dateOfBirth = simpleDateFormatter.parse(dateOfEntry);
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.phonenumber = phoneNumber;
     }
 
     public void seteMail(String eMail) {
-        this.eMail = eMail;
+        this.email = eMail;
     }
 
     public void setSvNr(String svNr) {
         this.svNr = svNr;
     }
 
-    public MemberFunctions getFunction(){
-        return function;
+    public String getFunction(){
+        return functionName;
     }
 
-    public void setFunction(MemberFunctions function){
-        this.function = function;
+    public void setFunctionName(String function){
+        this.functionName = functionName;
     }
 }
