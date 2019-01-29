@@ -7,9 +7,9 @@ const tokenHandler = require("../Data/tokenHandler");
 
 departmentStatisticsRouter.get('/', function(req, res) {
     var idDepartment = req.params.idDepartment;
-    var numOfMem;
-    var numOfMemInOps;
-    var numOfOps;
+    var numberOfMembers;
+    var numberOfMembersInOperations;
+    var numberOfOperations;
 
     let queryNumOfOps = "select count(*) from eli_operation" 
         + " inner join eli_operation_dept"
@@ -32,17 +32,17 @@ departmentStatisticsRouter.get('/', function(req, res) {
     try{
         oracleConnection.execute(queryNumOfOps, param,
             (result) => {
-                numOfOps = result.rows[0][0];
+                numberOfOperations = result.rows[0][0];
                 oracleConnection.execute(queryNumOfMemInOps, param,
                     (result) => {
-                        numOfMemInOps = result.rows[0][0];
+                        numberOfMembersInOperations = result.rows[0][0];
                         oracleConnection.execute(queryNumOfMem, param,
                             (result) => {
-                                numOfMem = result.rows[0][0];
+                                numberOfMembers = result.rows[0][0];
                                 res.status(200).json({
-                                    numOfOps: numOfOps,
-                                    numOfMemInOps: numOfMemInOps,
-                                    numOfMem: numOfMem
+                                    numberOfOperations: numberOfOperations,
+                                    numberOfMembers: numberOfMembers,
+                                    numberOfMembersInOperations: numberOfMembersInOperations
                                 });
                         },
                         (err) => res.status(403).json({

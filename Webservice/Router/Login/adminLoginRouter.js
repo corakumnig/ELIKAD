@@ -29,7 +29,7 @@ loginRouter.post("/", function(req, res){
 
                     tokenHandler.AddAdminToken(token);
                     res.setHeader('Token', token);
-                    res.status(202).json({
+                    res.status(200).json({
                         id: id,
                         firstname: firstname,
                         lastname: lastname,
@@ -42,6 +42,17 @@ loginRouter.post("/", function(req, res){
                 details: err
             })
         );
+    }
+    catch(ex){
+        res.status(500).send("500: " + ex);
+    }
+});
+
+loginRouter.delete("/", function(req, res){
+    try{
+        var apiToken = req.get("Token");
+        tokenHandler.DeleteAdminToken(apiToken);
+        res.status(200).send();
     }
     catch(ex){
         res.status(500).send("500: " + ex);

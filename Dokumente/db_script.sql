@@ -272,8 +272,6 @@ insert into eli_operation values(eli_seq_operation.nextval, to_date('01.10.2018 
 insert into eli_operation_dept values(1, 1);
 insert into eli_operation_dept values(2, 1);
 insert into eli_operation_dept values(2, 2);
-insert into eli_operation_dept values(2, 3);
-insert into eli_operation_dept values(2, 4);
 
 insert into eli_operation_member values(1, 1);
 insert into eli_operation_member values(1, 2);

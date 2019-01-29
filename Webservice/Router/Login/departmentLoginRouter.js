@@ -24,7 +24,7 @@ loginRouter.post("/", function(req, res){
                     var token = tokenHandler.CreateToken(id);
                     tokenHandler.AddDepartmentToken(token);
                     res.setHeader('Token', token);
-                    res.status(202).json({
+                    res.status(200).json({
                         id: id,
                         name: name
                     });     
@@ -35,6 +35,17 @@ loginRouter.post("/", function(req, res){
                 details: err
             })
         );
+    }
+    catch(ex){
+        res.status(500).send("500: " + ex);
+    }
+});
+
+loginRouter.delete("/", function(req, res){
+    try{
+        var apiToken = req.get("Token");
+        tokenHandler.DeleteDepartmentToken(apiToken);
+        res.status(200).send();
     }
     catch(ex){
         res.status(500).send("500: " + ex);

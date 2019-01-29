@@ -1,5 +1,5 @@
 class Member {
-    constructor(id, svNr, firstname, lastname, dateOfBirth, dateOfEntry, phonenumber, email, gender, idDepartment) {
+    constructor(id, svNr, firstname, lastname, dateOfBirth, dateOfEntry, phonenumber, email, gender, idDepartment, functionName) {
         this.id = id;
         this.svNr = svNr;
         this.firstname = firstname;
@@ -10,6 +10,7 @@ class Member {
         this.email = email;
         this.gender = gender;
         this.idDepartment = idDepartment;
+        this.functionName = functionName;
     }
 }
 
@@ -18,19 +19,19 @@ class Department {
         this.id = id;
         this.name = name;
         this.organization = organization;
-        this.region = region;
-        this.regiontype = regiontype;
-        this.location = new Location(idLocation, housenumber, street, postalcode, village);
+        this.location = new Location(idLocation, housenumber, street, postalcode, village, region, regiontype);
     }
 }
 
 class Location {
-    constructor(id, housenumber, street, postalcode, village) {
+    constructor(id, housenumber, street, postalcode, village, region, regiontype) {
         this.id = id;
         this.housenumber = housenumber;
         this.street = street;
         this.postalcode = postalcode;
         this.village = village;
+        this.region = region;
+        this.regiontype = regiontype;
     }
 }
 

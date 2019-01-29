@@ -8,13 +8,17 @@ const tokenHandler = require("../Data/tokenHandler");
 memberRouter.get("/", function(req, res){
     var idMember = req.params.idMember;
     var idOperation = req.params.idOperation;
-    let query = "SELECT eli_member.id as id, svnr, firstname, lastname, dateofbirth, dateofentry, phonenumber, " +
-    " email, gender, id_department as idDepartment from eli_member",
+    let query = "SELECT distinct eli_member.id as id, svnr, firstname, lastname, dateofbirth, dateofentry, phonenumber, " +
+    " email, gender, id_department as idDepartment, eli_function.name as functionName from eli_member"
+    + " inner join eli_function_member"
+    + " on eli_function_member.id_member = eli_member.id"
+    + " inner join eli_function"
+    + " on eli_function.id = eli_function_member.id_function";
     param = [];
     var apiToken = req.get("Token");
 
     try{
-        if(apiToken == null || apiToken == undefined || (!tokenHandler.MemberTokenExists(apiToken) && !tokenHandler.AdminTokenExists(apiToken))){
+        if(apiToken == null || apiToken == undefined || (!tokenHandler.MemberTokenExists(apiToken) && !tokenHandler.AdminTokenExists(apiToken) && !tokenHandler.DepartmentTokenExists(apiToken))){
             res.status(401).json({
                 message: "Not authenticated"
             });
@@ -60,7 +64,7 @@ memberRouter.post("/", function(req, res){
         }
         else{
             oracleConnection.execute(query, param,
-                (result) => res.status(201).json({
+                (result) => res.status(200).json({
                     message: 'Creation successful',
                     details: result
                 }),
@@ -105,12 +109,39 @@ memberRouter.delete("/", function(req, res){
     }
 });
 
-memberRouter.put("/", function(req, res){
+memberRouter.put("/", function(req, res){ //toDo prüfen ob alle parameter != null sind und alles updaten
     var idMember = req.params.idMember;
-    let query = "update eli_member set firstname=:firstname, lastname=:lastname, phonenumber=:phonenumber, email=:email, pin=:pin, id_department=:idDepartment where id = :id";
+    let query = "update eli_member set";
     var member = req.body;
-    param = [member.firstname, member.lastname, member.phonenumber, member.email, member.pin, member.idDepartment, member.id];
+    var param = [];
     var apiToken = req.get("Token");
+
+    if(member.firstname != null){
+        param.push(member.firstname);
+        query += " firstname=:firstname";
+    }
+    if(member.lastname != null){
+        param.push(member.lastname);
+        query += ", lastname=:lastname";
+    }
+    if(member.phonenumber != null){
+        param.push(member.phonenumber);
+        query += ", phonenumber=:phonenumber";
+    }
+    if(member.email != null){
+        param.push(member.email);
+        query += ", email=:email";
+    }
+    if(member.idDepartment != null){
+        param.push(member.idDepartment);
+        query += ", id_department=:idDepartment";
+    }
+    if(member.dateOfBirth != null){
+        param.push(member.dateOfBirth);
+        query += ", dateofbirth=to_date(:dateofbirth, 'dd/MM/yyyy')";
+    }
+    param.push(idMember);
+    query += " where id = :id";
     try{
         if(!tokenHandler.MemberTokenExists(apiToken) && !tokenHandler.AdminTokenExists(apiToken)){
             res.status(401).json({

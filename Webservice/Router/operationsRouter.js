@@ -30,7 +30,7 @@ operationsRouter.get("/", function (req, res){
                 query +=  " inner join ELI_OPERATION_DEPT"
                     + " on eli_operation.ID = ELI_OPERATION_DEPT.ID_OPERATION"
                     + " inner join eli_department"
-                    + " on eli_department.ID = ELI_OPERATION_DEPT.ID_OPERATION where eli_department.id = :idDepartment";
+                    + " on eli_department.ID = ELI_OPERATION_DEPT.id_department where eli_department.id = :idDepartment";
                 if(idOperation != null){
                     query += " and eli_operation.id = :idOperation";
                     param.push(idOperation);
@@ -55,7 +55,7 @@ operationsRouter.get("/", function (req, res){
                 query += " where eli_operation.id = :idOperation";
             }
             oracleConnection.execute(query, param,
-                (result) => res.status(202).json(classParser(result.rows, classes.Operation)),
+                (result) => res.status(200).json(classParser(result.rows, classes.Operation)),
                 (err) => res.status(404).json({
                     message: err.message,
                     details: err

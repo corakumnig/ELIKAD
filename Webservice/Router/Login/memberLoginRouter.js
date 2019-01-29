@@ -23,12 +23,12 @@ loginRouter.post("/", function(req, res){
                     var token = tokenHandler.CreateToken(id);
                     tokenHandler.AddMemberToken(token);
                     res.setHeader('Token', token);
-                    res.status(202).json({
+                    res.status(200).json({
                         id: id,
                         firstname: result.rows[0][2],
                         lastname: result.rows[0][3],
-                        email: result.rows[0][7],
-                        email: result.rows[0][6]
+                        phonenumber: result.rows[0][6],
+                        email: result.rows[0][7]
                     });     
                 }    
         },

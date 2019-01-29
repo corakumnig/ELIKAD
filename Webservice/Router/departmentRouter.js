@@ -22,7 +22,7 @@ departmentRouter.get("/", function(req, res){
     + " on eli_regiontype.id = eli_region.regiontype",
     param = [];
 
-    if(apiToken == null || apiToken == undefined || !tokenHandler.DepartmentTokenExists(apiToken)){
+    if(apiToken == null || apiToken == undefined || (!tokenHandler.DepartmentTokenExists(apiToken) && !tokenHandler.AdminTokenExists(apiToken))){
         res.status(401).json({
             message: "Not authenticated"
         });
@@ -69,7 +69,7 @@ departmentRouter.post("/", function(req, res){
         member.DateOfEntry, member.Phonenumber, member.Email, member.IdDepartment, member.Gender];
     try{
         oracleConnection.execute(query, param,
-            (result) => res.status(201).json({
+            (result) => res.status(200).json({
                 message: 'Creation successful',
                 details: result
             }),
