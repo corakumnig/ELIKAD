@@ -130,4 +130,8 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
     public static String getAccesToken(){
         return accessToken;
     }
+
+    public static void resetAccessToken(){
+        accessToken = null;
+    }
 }

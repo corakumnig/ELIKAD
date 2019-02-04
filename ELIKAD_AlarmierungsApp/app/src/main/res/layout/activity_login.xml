@@ -79,6 +79,7 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:text="12345678"
                     android:textColor="@android:color/background_light"
                     android:textColorHighlight="@android:color/background_light"
                     android:textColorHint="@color/colorFontLight" />

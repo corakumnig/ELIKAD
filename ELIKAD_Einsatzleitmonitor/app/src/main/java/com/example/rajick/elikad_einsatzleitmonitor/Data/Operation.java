@@ -10,13 +10,18 @@ public class Operation {
     private int alarmLevel;
     private Date datetime;
     private String caller;
+    private String operationType;
+    private String controlcenterName;
 
-    public Operation(int id, String text, int alarmLevel, String datetime, String caller)throws Exception{
+
+    public Operation(int id, String text, int alarmLevel, String datetime, String caller, String operationType, String controlcenterName)throws Exception{
         this.id = id;
         this.text = text;
         this.alarmLevel = alarmLevel;
         setDatetime(datetime);
         this.caller = caller;
+        this.operationType = operationType;
+        this.controlcenterName = controlcenterName;
     }
 
     public int getId(){
@@ -57,5 +62,21 @@ public class Operation {
 
     public void setCaller(String caller) {
         this.caller = caller;
+    }
+
+    public String getOperationType() {
+        return operationType;
+    }
+
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
+    }
+
+    public String getControlcenterName() {
+        return controlcenterName;
+    }
+
+    public void setControlcenterName(String controlcenterName) {
+        this.controlcenterName = controlcenterName;
     }
 }
