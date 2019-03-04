@@ -5,8 +5,10 @@
  */
 package elikad_leitstellenmonitor;
 
+import Backend.HttpClient;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -57,6 +59,18 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private TextField txtCaller;
+
+    @FXML
+    void onButtonClicked(ActionEvent event) {
+        try{
+            HttpClient client = new HttpClient();
+            client.TestDeps();
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Error: " + ex.getMessage());
+        }
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
