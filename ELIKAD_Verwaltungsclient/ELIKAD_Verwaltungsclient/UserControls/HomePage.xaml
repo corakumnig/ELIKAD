@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="ELIKAD_Verwaltungsclient.UserControls.HomePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ELIKAD_Verwaltungsclient.UserControls"
+    HorizontalAlignment="Stretch"
+	VerticalAlignment="Stretch"
+	HorizontalContentAlignment="Stretch"
+	VerticalContentAlignment="Stretch"
+    Height="auto"
+    Width="auto">
+    <UserControl.Resources>
+        <Style x:Key="MyButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                            BorderThickness="1"
+                            Padding="4,2" 
+                            BorderBrush="RoyalBlue" 
+                            CornerRadius="3" 
+                            Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Grid.Row="1" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Label FontSize="28" Content="Einsätze:" HorizontalAlignment="Left" Margin="35,121,0,0" VerticalAlignment="Top" Height="48" Width="127"/>
+        <Label FontSize="28" Content="Mitglieder:" HorizontalAlignment="Left" Margin="35,193,0,0" VerticalAlignment="Top"/>
+        <Label FontSize="28" Content="Eing. Mannschaft:" HorizontalAlignment="Left" Margin="35,262,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblDepartmentName" FontSize="40" FontWeight="DemiBold" Content="FF Test" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="64" Width="565"/>
+        <Label x:Name="lblNumOperations" FontSize="30" HorizontalAlignment="Left" Margin="276,119,0,0"  Content="TextBox" VerticalAlignment="Top" Height="48" Width="127"/>
+        <Label x:Name="lblNumMembers" FontSize="30" HorizontalAlignment="Left" Margin="276,191,0,0"  Content="TextBox" VerticalAlignment="Top" Height="48" Width="127"/>
+        <Label x:Name="lblNumMembersOperation" FontSize="30" HorizontalAlignment="Left" Margin="276,261,0,0" Content="TextBox" VerticalAlignment="Top" Height="48" Width="127"/>
+    </Grid>
+</UserControl>
