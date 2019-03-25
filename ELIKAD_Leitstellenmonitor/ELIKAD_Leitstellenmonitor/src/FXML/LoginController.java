@@ -41,7 +41,6 @@ public class LoginController implements Initializable {
         try{
             client.Login(new LoginObject(txtUsername.getText(), txtPassword.getText()));
             lblMessage.setText("Logged in");
-            //ToDo: Weiterleitung
         }
         catch(Exception ex)
         {
