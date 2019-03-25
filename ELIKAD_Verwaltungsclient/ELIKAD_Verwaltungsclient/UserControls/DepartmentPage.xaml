@@ -1,15 +1,63 @@
 ﻿<UserControl x:Class="ELIKAD_Verwaltungsclient.UserControls.DepartmentPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:ELIKAD_Verwaltungsclient.UserControls"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-          HorizontalAlignment="Stretch"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ELIKAD_Verwaltungsclient.UserControls"
+    HorizontalAlignment="Stretch"
 	VerticalAlignment="Stretch"
+	HorizontalContentAlignment="Stretch"
+	VerticalContentAlignment="Stretch"
     Height="auto"
     Width="auto">
-
-    <Grid/>
+    <UserControl.Resources>
+        <Style x:Key="MyButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                            BorderThickness="1"
+                            Padding="4,2" 
+                            BorderBrush="RoyalBlue" 
+                            CornerRadius="3" 
+                            Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="1000" Width="auto"></ColumnDefinition>
+            <ColumnDefinition MinWidth="200" Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="dgMembers" x:FieldModifier="public" IsReadOnly="True" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" Grid.Column="0"  MinHeight="100" MinWidth="1000" Height="auto" Width="auto" Margin="15,10,10,10" SelectionChanged="DgMenbers_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn MinWidth="40" Header="Id" Binding="{Binding Id}"/>
+                <DataGridTextColumn MinWidth="90" Header="SV-Nr" Binding="{Binding SVNr}"/>
+                <DataGridTextColumn MinWidth="150" Header="Vorname" Binding="{Binding Firstname}"/>
+                <DataGridTextColumn MinWidth="150" Header="Nachname" Binding="{Binding Lastname}"/>
+                <DataGridTextColumn MinWidth="130" Header="Geburtsdatum" Binding="{Binding DateOfBirth, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn MinWidth="130" Header="Eintrittsdatum" Binding="{Binding DateOfEntry, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn MinWidth="160" Header="Telefonnummer" Binding="{Binding Phonenumber}"/>
+                <DataGridTextColumn MinWidth="170" Header="E-mail" Binding="{Binding Email}"/>
+                <DataGridTextColumn MinWidth="60" Header="Geschlecht" Binding="{Binding Gender}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <ComboBox x:Name="cmbFilter" Margin="0,10,225,0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="27" Width="275"/>
+        <Button x:Name="btnAddNewMember" Content="Hinzufügen" Grid.Column="1" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" Width="128" Click="btnAddNewMember_Click" Height="32"/>
+        <Button x:Name="btnDeleteMember" Content="Löschen" Grid.Column="1" HorizontalAlignment="Left" Margin="0,88,0,0" VerticalAlignment="Top" Width="128" Click="BtnDeleteMember_Click" Height="34"/>
+        <Button x:Name="btnEdit" Content="Ändern" Grid.Column="1" HorizontalAlignment="Left" Margin="148,43,0,0" VerticalAlignment="Top" Width="127" RenderTransformOrigin="0.318,1.63" Height="34" Click="BtnEdit_Click"/>
+        <Button x:Name="btnAddFunction" Content="Funktionen" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="148,88,0,0" Width="127" Height="34" Click="BtnAddFunction_Click"/>
+    </Grid>
 </UserControl>

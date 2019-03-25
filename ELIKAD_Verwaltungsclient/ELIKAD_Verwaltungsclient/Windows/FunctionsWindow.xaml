@@ -1,0 +1,14 @@
+﻿<Window x:Class="ELIKAD_Verwaltungsclient.Windows.FunctionsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ELIKAD_Verwaltungsclient.Windows"
+        mc:Ignorable="d"
+        Title="FunctionsWindow" Height="470.168" Width="294.538">
+    <Grid>
+        <Button x:Name="btnCancel" Content="Abbruch" HorizontalAlignment="Left" Margin="23,404,0,0" VerticalAlignment="Top" Width="100" Height="25" Click="BtnCancel_Click"/>
+        <Button x:Name="btnDeligate" Content="Zuordnen" HorizontalAlignment="Left" Margin="164,404,0,0" VerticalAlignment="Top" Width="100" Height="25" Click="BtnDeligate_Click"/>
+        <ListView x:Name="listViewFunctions" HorizontalAlignment="Left" Height="358" Margin="23,21,0,0" VerticalAlignment="Top" Width="241" SelectionChanged="ListView_SelectionChanged"/>
+    </Grid>
+</Window>

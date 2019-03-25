@@ -27,6 +27,9 @@ namespace ELIKAD_Verwaltungsclient.Windows
         {
             InitializeComponent();
             this.membersPage = membersPage;
+            dpDateOfEntry.SelectedDate = DateTime.Now;
+            dpDateOfBirth.SelectedDate = DateTime.Now;
+            dpDateOfBirth.SelectedDateFormat = DatePickerFormat.Short;
         }
 
         private void btnAddMember_Click(object sender, RoutedEventArgs e)
@@ -41,14 +44,13 @@ namespace ELIKAD_Verwaltungsclient.Windows
             }
             else
             {
-                Member m = new Member(txtSvNr.Text, txtFirstname.Text, txtLastname.Text,
-                    ((DateTime)dpDateOfBirth.SelectedDate).ToShortDateString(), ((DateTime)dpDateOfEntry.SelectedDate).ToShortDateString(),
-                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender(), 1);
+                Member m = new Member(0, txtSvNr.Text, txtFirstname.Text, txtLastname.Text,
+                    (DateTime)dpDateOfBirth.SelectedDate, (DateTime)dpDateOfEntry.SelectedDate,
+                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender(), HTTPClient.Department.Id);
                 Task<HttpStatusCode> t = Task.Run(() => HTTPClient.CreateMemberAsync(m));
                 t.Wait();
-                if(t.Result == HttpStatusCode.Created)
+                if(t.Result == HttpStatusCode.OK)
                 {
-                    //membersPage.dgMenbers.Items(m);
                     this.Close();
                 }
             }
@@ -63,9 +65,9 @@ namespace ELIKAD_Verwaltungsclient.Windows
         {
             string result = "";
             if (radGenderFemale.IsChecked == true)
-                result = radGenderFemale.Content.ToString();
+                result = "Female";
             else if (radGenderMale.IsChecked == true)
-                result = radGenderMale.Content.ToString();
+                result = "Male";
             return result;
         }
 

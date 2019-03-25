@@ -8,22 +8,24 @@ namespace ELIKAD_Verwaltungsclient.Data
 {
     class Member
     {
+        public int Id { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
-        public string DateOfBirth { get; set; }
-        public string DateOfEntry { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public DateTime DateOfEntry { get; set; }
         public string Phonenumber { get; set; }
         public string Email { get; set; }
         public string SVNr { get; set; }
         public string Gender { get; set; }
         public int IdDepartment { get; set; }
 
-        public Member(string SVNr, string Firstname, string Lastname, string DateOfBirth, string DateOfEntry, string Phonenumber, string Email, string Gender, int IdDepartment)
+        public Member(int Id, string SVNr, string Firstname, string Lastname, DateTime DateOfBirth, DateTime DateOfEntry, string Phonenumber, string Email, string Gender, int IdDepartment)
         {
+            this.Id = Id;
             this.Firstname = Firstname;
             this.Lastname = Lastname;
             this.DateOfBirth = DateOfBirth;
-            this.DateOfEntry = DateOfBirth;
+            this.DateOfEntry = DateOfEntry;
             this.Phonenumber = Phonenumber;
             this.Email = Email;
             this.SVNr = SVNr;

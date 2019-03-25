@@ -6,11 +6,19 @@ using System.Threading.Tasks;
 
 namespace ELIKAD_Verwaltungsclient.Data
 {
-    static class Department
+    class Department
     {
-        public static int Id { get; set; }
-        public static string name { get; set; }
-        public static string Organization { get; set; }
-        public static Location location { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Organization { get; set; }
+        public Location Location { get; set; }
+
+        public Department(int id, string name, string organization, Location location)
+        {
+            Id = id;
+            Name = name;
+            Organization = organization;
+            Location = location;
+        }
     }
 }

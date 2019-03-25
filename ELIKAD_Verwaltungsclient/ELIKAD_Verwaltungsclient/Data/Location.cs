@@ -14,8 +14,9 @@ namespace ELIKAD_Verwaltungsclient.Data
         public string Postalcode { get; set; }
         public string Village { get; set; }
         public string Region { get; set; }
+        public string RegionType { get; set; }
 
-        public Location(int id, string housenumber, string street, string postalcode, string village, string region)
+        public Location(int id, string housenumber, string street, string postalcode, string village, string region, string regionType)
         {
             Id = id;
             Housenumber = housenumber;
@@ -23,6 +24,7 @@ namespace ELIKAD_Verwaltungsclient.Data
             Postalcode = postalcode;
             Village = village;
             Region = region;
+            RegionType = regionType;
         }
     }
 }
