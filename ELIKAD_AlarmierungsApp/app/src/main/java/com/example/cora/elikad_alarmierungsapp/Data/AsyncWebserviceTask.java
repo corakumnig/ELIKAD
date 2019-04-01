@@ -17,7 +17,7 @@ import java.net.URL;
 
 public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
 
-    private static final String BASE_URL = "http://{{ip}}/api/";
+    private static final String BASE_URL = "https://{{ip}}/api/";
     private URL url;
     private String httpMethod;
     private AsyncTaskHandler handler;
@@ -37,7 +37,7 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
         this.httpMethod = method;
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String ip = preferences.getString("ip","elikadweb.herokuapp.com");
-        //String ip = preferences.getString("ip","192.168.43.142:8080");
+        //String ip = preferences.getString("ip","192.168.193.88:8080");
         this.url = new URL(BASE_URL.replace("{{ip}}",ip) + route);
         this.handler = handler;
     }

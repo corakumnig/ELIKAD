@@ -33,6 +33,8 @@ import com.example.cora.elikad_alarmierungsapp.Data.AsyncWebserviceTask;
 import com.example.cora.elikad_alarmierungsapp.Data.Member;
 import com.example.cora.elikad_alarmierungsapp.Data.Operation;
 import com.example.cora.elikad_alarmierungsapp.Fragments.AllAlarmsFragment;
+import com.example.cora.elikad_alarmierungsapp.Fragments.AllMembersFragment;
+import com.example.cora.elikad_alarmierungsapp.Fragments.CreateReportFragment;
 import com.example.cora.elikad_alarmierungsapp.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -126,33 +128,60 @@ public class NavigationActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         caseNr = 0;
+        //MenuItem createReport = (MenuItem)findViewById(R.id.nav_createReport);
+        //MenuItem showMembers = (MenuItem)findViewById(R.id.nav_showMembers);
+        //createReport.setVisible(true);
+        //showMembers.setVisible(true);
+        /*createReport.setVisible(false);
+        showMembers.setVisible(false);
 
-        switch(id) {
-            case R.id.nav_allAlarms:
-                caseNr = 1;
-                try {
-                    System.out.println("Test 4: in try");
+
+        if(preferences.getString("MemberFunction", null).equals("Einsatzleiter")){
+            createReport.setVisible(true);
+        }else if(preferences.getString("MemberFunction", null).equals("Kommandant")){
+            createReport.setVisible(true);
+            showMembers.setVisible(true);
+        }*/
+
+        try {
+            switch (id) {
+                case R.id.nav_allAlarms:
+                    caseNr = 1;
                     task = new AsyncWebserviceTask("POST", "members/" + preferences.getInt("MemberId", 0) + "/operations", NavigationActivity.this, getApplicationContext());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                task.execute();
-                setTitle(item.getTitle());
-                fragmentClass = AllAlarmsFragment.class;
-                break;
-            case R.id.nav_setSound:
-                caseNr = 2;
-                //ToDO
-                break;
-            case R.id.nav_changeTel:
-                caseNr = 3;
-                changePhoneDialog();
-                break;
-            case R.id.nav_logout:
-                caseNr = 4;
-                System.out.println("Test 5: case nummer - " + caseNr);
-                logoutDialog();
-                break;
+                    task.execute();
+                    setTitle(item.getTitle());
+                    fragmentClass = AllAlarmsFragment.class;
+                    break;
+                case R.id.nav_setSound:
+                    caseNr = 2;
+                    //ToDO
+                    break;
+                case R.id.nav_changeTel:
+                    caseNr = 3;
+                    changePhoneDialog();
+                    break;
+                case R.id.nav_logout:
+                    caseNr = 4;
+                    logoutDialog();
+                    break;
+                case R.id.nav_createReport:
+                    caseNr = 5;
+                    fragmentClass = CreateReportFragment.class;
+                    fragment = (Fragment) fragmentClass.newInstance();
+                    displaySelectedFragment(fragment);
+                    break;
+                case R.id.nav_showMembers:
+                    caseNr = 6;
+                    task = new AsyncWebserviceTask("POST", "departments/" + preferences.getInt("MemberIdDepartment", 0) + "/members", NavigationActivity.this, getApplicationContext());
+                    System.out.println("Test ID: " + preferences.getInt("MemberIdDepartment", 255));
+                    task.execute();
+                    setTitle(item.getTitle());
+                    fragmentClass = AllMembersFragment.class;
+                    break;
+            }
+
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
 
         item.setChecked(true);
@@ -205,6 +234,23 @@ public class NavigationActivity extends AppCompatActivity
                     case 4:
                         startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
                         AsyncWebserviceTask.setAccessToken(null);
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        Type lType = new TypeToken<ArrayList<Member>>() {
+                        }.getType();
+                        List<Member> m = gson.fromJson(content, lType);
+
+                        System.out.println("Test size: " + m.size());
+                        System.out.println("Test member: " + m.toString());
+                        AllMembersFragment.setMembers(m);
+                        try {
+                            fragment = (Fragment) fragmentClass.newInstance();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        displaySelectedFragment(fragment);
                         break;
                 }
                 break;
@@ -301,8 +347,13 @@ public class NavigationActivity extends AppCompatActivity
                         String lName = preferences.getString("MemberLastName", null);
                         String email = preferences.getString("MemberEmail", null);
                         String phone = preferences.getString("MemberPhonenumber", null);
+                        String function = preferences.getString("MemberFunction", null);
+                        int idDepartment = preferences.getInt("MemberIdDepartment", 0);
+                        String birthDate = preferences.getString("MemberBirthDate", null);
+                        String entryDate = preferences.getString("MemberEntryDate", null);
 
-                        Member member  = new Member(id, fName, lName, email, phone);
+
+                        Member member  = new Member(id, fName, lName, email, phone, function, idDepartment, birthDate, entryDate);
                         System.out.println("Test 12: " + member.toString());
 
                         try {

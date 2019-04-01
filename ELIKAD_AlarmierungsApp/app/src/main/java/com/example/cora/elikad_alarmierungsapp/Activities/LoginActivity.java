@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskHandler
 
     @Override
     public void onSuccess(int statusCode, String content) {
+        System.out.println("START TEST: " + statusCode);
         switch (statusCode) {
             case 200:
                 //+435647345382
@@ -99,8 +100,14 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskHandler
                 preferences.edit().putString("MemberLastName", member.getLastname()).commit();
                 preferences.edit().putString("MemberEmail", member.getEmail()).commit();
                 preferences.edit().putString("MemberPhonenumber", member.getPhonenumber()).commit();
+                preferences.edit().putString("MemberGroup", member.getGroup()).commit();
+                preferences.edit().putInt("MemberIdDepartment", member.getIdDepartment()).commit();
+                //preferences.edit().putString("MemberBirthDate", member.getDateOfBirth()).commit();
+                //preferences.edit().putString("MemberEntryDate", member.getDateOfEntry()).commit();
 
 
+
+                System.out.println("Test Member: " + member.toString());
 
                 startActivity(new Intent(this, NavigationActivity.class));
                 finish();

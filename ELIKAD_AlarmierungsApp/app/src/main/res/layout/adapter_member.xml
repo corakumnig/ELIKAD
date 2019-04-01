@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_operation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    tools:layout_editor_absoluteY="25dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/adMember_nachname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="KUMNIG"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/adMember_vorname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/adMember_nachname"
+            android:text="Cora"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/adMember_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/adMember_telNr"
+            android:layout_toRightOf="@+id/cv_iv_bell"
+            android:text="corakumnig@gmail.com" />
+
+        <TextView
+            android:id="@+id/adMember_telNr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/adMember_nachname"
+            android:layout_toRightOf="@+id/cv_iv_bell"
+            android:text="+435647345382" />
+
+        <TextView
+            android:id="@+id/adMember_birthDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/adMember_email"
+            android:text="20.03.2000" />
+
+        <TextView
+            android:id="@+id/adMember_entryDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/adMember_birthDate"
+            android:text="01.07.2016" />
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+
