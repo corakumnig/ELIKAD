@@ -60,8 +60,8 @@ public class LVAdapterMembers extends BaseAdapter {
         adMember_vorname.setText(m.getFirstname());
         adMember_telNr.setText(m.getPhonenumber());
         adMember_email.setText(m.getEmail());
-        adMember_birthDate.setText(m.getDateOfBirth());
-        adMember_entryDate.setText(m.getDateOfEntry());
+        adMember_birthDate.setText("Date of Birth: " + m.getDateOfBirth());
+        adMember_entryDate.setText("Date of Entry: " + m.getDateOfEntry());
 
         return vi;
     }

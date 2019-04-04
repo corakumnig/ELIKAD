@@ -22,6 +22,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:text="KUMNIG"
+            android:textAllCaps="true"
             android:textSize="20sp" />
 
         <TextView
