@@ -25,7 +25,7 @@ namespace ELIKAD_Verwaltungsclient.Windows
 
     public partial class MainWindow : Window
     {
-        private bool menuStatus = false;
+        private bool menuStatus = true;
         private string currentView = "somewhere";
         private string currentSliderState = "closed";
 

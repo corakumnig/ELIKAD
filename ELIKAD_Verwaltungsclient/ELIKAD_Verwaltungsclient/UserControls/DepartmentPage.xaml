@@ -41,23 +41,19 @@
             <ColumnDefinition MinWidth="1000" Width="auto"></ColumnDefinition>
             <ColumnDefinition MinWidth="200" Width="auto"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dgMembers" x:FieldModifier="public" IsReadOnly="True" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" Grid.Column="0"  MinHeight="100" MinWidth="1000" Height="auto" Width="auto" Margin="15,10,10,10" SelectionChanged="DgMenbers_SelectionChanged">
+        <DataGrid x:Name="dgOperations" x:FieldModifier="public" CanUserAddRows="False" IsReadOnly="True" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" Grid.Column="0"  MinHeight="100" MinWidth="1000" Height="auto" Width="auto" Margin="15,10,10,10">
             <DataGrid.Columns>
                 <DataGridTextColumn MinWidth="40" Header="Id" Binding="{Binding Id}"/>
-                <DataGridTextColumn MinWidth="90" Header="SV-Nr" Binding="{Binding SVNr}"/>
-                <DataGridTextColumn MinWidth="150" Header="Vorname" Binding="{Binding Firstname}"/>
-                <DataGridTextColumn MinWidth="150" Header="Nachname" Binding="{Binding Lastname}"/>
-                <DataGridTextColumn MinWidth="130" Header="Geburtsdatum" Binding="{Binding DateOfBirth, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                <DataGridTextColumn MinWidth="130" Header="Eintrittsdatum" Binding="{Binding DateOfEntry, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                <DataGridTextColumn MinWidth="160" Header="Telefonnummer" Binding="{Binding Phonenumber}"/>
-                <DataGridTextColumn MinWidth="170" Header="E-mail" Binding="{Binding Email}"/>
-                <DataGridTextColumn MinWidth="60" Header="Geschlecht" Binding="{Binding Gender}"/>
+                <DataGridTextColumn MinWidth="130" Header="Alarmzeit" Binding="{Binding StartDatetime, StringFormat=\{0:dd.MM.yyyy hh:mm\}}"/>
+                <DataGridTextColumn MinWidth="130" Header="Einrückzeit" Binding="{Binding EndDatetime, StringFormat=\{0:dd.MM.yyyy hh:mm\}}"/>
+                <DataGridTextColumn MinWidth="130" Header="Einsatzart" Binding="{Binding Type}"/>
+                <DataGridTextColumn MinWidth="170" Header="Text" Binding="{Binding Text}"/>
+                <DataGridTextColumn MinWidth="130" Header="Alarmstufe" Binding="{Binding Alarmlevel}"/>
+                <DataGridTextColumn MinWidth="150" Header="Leitstelle" Binding="{Binding ControlcenterName}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <ComboBox x:Name="cmbFilter" Margin="0,10,225,0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="27" Width="275"/>
-        <Button x:Name="btnAddNewMember" Content="Hinzufügen" Grid.Column="1" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" Width="128" Click="btnAddNewMember_Click" Height="32"/>
-        <Button x:Name="btnDeleteMember" Content="Löschen" Grid.Column="1" HorizontalAlignment="Left" Margin="0,88,0,0" VerticalAlignment="Top" Width="128" Click="BtnDeleteMember_Click" Height="34"/>
-        <Button x:Name="btnEdit" Content="Ändern" Grid.Column="1" HorizontalAlignment="Left" Margin="148,43,0,0" VerticalAlignment="Top" Width="127" RenderTransformOrigin="0.318,1.63" Height="34" Click="BtnEdit_Click"/>
-        <Button x:Name="btnAddFunction" Content="Funktionen" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="148,88,0,0" Width="127" Height="34" Click="BtnAddFunction_Click"/>
+        <ComboBox x:Name="cmbFilter" Margin="0,43,363,0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="34" Width="127"/>
+        <Button x:Name="btnReport" Content="Bericht" Grid.Column="1" HorizontalAlignment="Left" Margin="320,43,0,0" VerticalAlignment="Top" Width="127" RenderTransformOrigin="0.318,1.63" Height="34" Click="BtnEdit_Click"/>
+        <Button x:Name="btnAddMember" Content="Hinzufügen" Grid.Column="1" HorizontalAlignment="Left" Margin="161,43,0,0" VerticalAlignment="Top" Height="34" Width="127" Click="BtnAddMember_Click"/>
     </Grid>
 </UserControl>

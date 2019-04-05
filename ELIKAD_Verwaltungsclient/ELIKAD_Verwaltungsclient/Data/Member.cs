@@ -37,5 +37,17 @@ namespace ELIKAD_Verwaltungsclient.Data
         {
             return base.ToString();
         }
+
+        public override bool Equals(object obj)
+        {
+            var member = obj as Member;
+            return member != null &&
+                   Id == member.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return 2108858624 + Id.GetHashCode();
+        }
     }
 }

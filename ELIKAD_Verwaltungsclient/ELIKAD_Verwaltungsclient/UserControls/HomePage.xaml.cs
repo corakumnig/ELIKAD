@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,6 +25,9 @@ namespace ELIKAD_Verwaltungsclient.UserControls
         public HomePage()
         {
             InitializeComponent();
+            Task<HttpStatusCode> taskDepartmentStatistics;
+            taskDepartmentStatistics = Task.Run(() => HTTPClient.GetDepartmentStatisticsAsync());
+            taskDepartmentStatistics.Wait();
             lblDepartmentName.Content = HTTPClient.Department.Name;
             lblNumMembers.Content = HTTPClient.DepartmentStats.NumberOfMembers;
             lblNumMembersOperation.Content = HTTPClient.DepartmentStats.NumberOfMembersInOperations;

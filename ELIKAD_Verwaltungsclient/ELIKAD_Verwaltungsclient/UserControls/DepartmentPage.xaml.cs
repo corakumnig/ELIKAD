@@ -24,7 +24,6 @@ namespace ELIKAD_Verwaltungsclient.UserControls
     public partial class DepartmentPage : UserControl
     {
         MainWindow mainWindow;
-        Database db = Database.GetInstance();
         string[] colnames = { "Id", "Sv-Nr", "Vorname", "Nachname", "Geburtsdatum", "Eintrittsdatum", "E-mail", "Telefonnummer", "Geschlecht" };
 
         public DepartmentPage(MainWindow mainWindow)
@@ -35,9 +34,9 @@ namespace ELIKAD_Verwaltungsclient.UserControls
                 this.mainWindow = mainWindow;
                 cmbFilter.ItemsSource = colnames;
                 cmbFilter.SelectedIndex = 0;
-                Task<List<Member>> t = Task.Run(() => HTTPClient.GetMembersAsync());
+                Task<List<Operation>> t = Task.Run(() => HTTPClient.GetOperationsAsync());
                 t.Wait();
-                dgMembers.ItemsSource = t.Result;
+                dgOperations.ItemsSource = t.Result;
 
             }
             catch (Exception ex)
@@ -56,12 +55,12 @@ namespace ELIKAD_Verwaltungsclient.UserControls
         {
             try
             {
-                if (dgMembers.SelectedItem == null)
+                if (dgOperations.SelectedItem == null)
                     MessageBox.Show("Bitte ein Mitglied auswählen", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                 {
-                    Member m = (Member)dgMembers.SelectedItem;
-                    Task<HttpStatusCode> t = Task.Run(() => HTTPClient.DeleteMemberAsync(m));
+                    Operation m = (Operation)dgOperations.SelectedItem;
+                    Task<HttpStatusCode> t = null;//Task.Run(() => HTTPClient.DeleteMemberAsync(m));
                     t.Wait();
                     if (t.Result == HttpStatusCode.OK)
                     {
@@ -88,14 +87,26 @@ namespace ELIKAD_Verwaltungsclient.UserControls
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (dgMembers.SelectedItem == null)
-            {
+            //if (dgMembers.SelectedItem == null)
+            //{
+            //    MessageBox.Show("Sie müssen zuerst ein Mitglied auswählen!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
+            //else
+            //{
+            //    //EditMember em = new EditMember(this);
+            //    //em.Show();
+            //}
+        }
+
+        private void BtnAddMember_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (dgOperations.SelectedItem == null)
                 MessageBox.Show("Sie müssen zuerst ein Mitglied auswählen!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
             else
             {
-                //EditMember em = new EditMember(this);
-                //em.Show();
+                OperationMember addMemberWindow = new OperationMember((Operation)dgOperations.SelectedItem);
+                addMemberWindow.Show();
             }
         }
     }

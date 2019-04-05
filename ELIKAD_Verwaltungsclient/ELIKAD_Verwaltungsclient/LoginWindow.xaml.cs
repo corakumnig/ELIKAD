@@ -74,13 +74,12 @@ namespace ELIKAD_Verwaltungsclient
             try
             {
                 Task<HttpStatusCode> taskDepartment;
-                Task<HttpStatusCode> taskDepartmentStatistics;
+                
 
                 taskDepartment = Task.Run(() => HTTPClient.GetDepartmentAsync());
                 taskDepartment.Wait();
 
-                taskDepartmentStatistics = Task.Run(() => HTTPClient.GetDepartmentStatisticsAsync());
-                taskDepartmentStatistics.Wait();
+                
             }
             catch(Exception ex)
             {

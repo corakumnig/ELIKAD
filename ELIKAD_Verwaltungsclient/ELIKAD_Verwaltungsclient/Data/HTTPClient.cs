@@ -36,6 +36,17 @@ namespace ELIKAD_Verwaltungsclient.Data
             return members;
         }
 
+        public static async Task<List<Operation>> GetOperationsAsync()
+        {
+            List<Operation> operations = null;
+            HttpResponseMessage response = await client.GetAsync("departments/" + Department.Id + "/operations");
+            if (response.IsSuccessStatusCode)
+            {
+                operations = await response.Content.ReadAsAsync<List<Operation>>();
+            }
+            return operations;
+        }
+
         public static async Task<List<Function>> GetFunctionsAsync()
         {
             List<Function> functions = null;
@@ -58,10 +69,46 @@ namespace ELIKAD_Verwaltungsclient.Data
             return functions;
         }
 
+        public static async Task<List<Member>> GetMembersWhoWerentThere(Operation operation)
+        {
+            List<Member> members = null;
+            HttpResponseMessage response = await client.GetAsync("departments/" + Department.Id + "/operations/" + operation.Id + "/wasntthere");
+            if (response.IsSuccessStatusCode)
+            {
+                members = await response.Content.ReadAsAsync<List<Member>>();
+            }
+            return members;
+        }
+
+        public static async Task<List<Member>> GetMembersWhoWereThere(Operation operation)
+        {
+            List<Member> members = null;
+            HttpResponseMessage response = await client.GetAsync("departments/" + Department.Id + "/operations/" + operation.Id + "/wasthere");
+            if (response.IsSuccessStatusCode)
+            {
+                members = await response.Content.ReadAsAsync<List<Member>>();
+            }
+            return members;
+        }
+
         public static async Task<HttpStatusCode> CreateMemberAsync(Member member)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync(
                 "members", member);
+            return response.StatusCode;
+        }
+
+        public static async Task<HttpStatusCode> AddMemberToOperation(Member member, Operation operation)
+        {
+            HttpResponseMessage response = await client.PostAsJsonAsync(
+                "operations/" + operation.Id + "/members/" + member.Id, new StringContent(""));
+            return response.StatusCode;
+        }
+
+        public static async Task<HttpStatusCode> DeleteMemberFromOperation(Member member, Operation operation)
+        {
+            HttpResponseMessage response = await client.DeleteAsync(
+                "operations/" + operation.Id + "/members/" + member.Id);
             return response.StatusCode;
         }
 
@@ -137,8 +184,8 @@ namespace ELIKAD_Verwaltungsclient.Data
 
         public static void Init()
         {
-            client.BaseAddress = new Uri("https://elikadweb.herokuapp.com/api/");
-            //client.BaseAddress = new Uri("http://localhost:8080/api/");
+            //client.BaseAddress = new Uri("https://elikadweb.herokuapp.com/api/");
+            client.BaseAddress = new Uri("http://localhost:8080/api/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));

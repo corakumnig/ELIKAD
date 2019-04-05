@@ -123,7 +123,8 @@ create table eli_admin(
 
 create table eli_operation(
   id integer,
-  datetime date,
+  start_datetime date,
+  end_datetime date,
   caller varchar2(100),
   text varchar2(500),
   alarmlevel varchar(50),
@@ -134,7 +135,9 @@ create table eli_operation(
   constraint pk_eli_operation primary key(id),
   constraint fk_eli_operation_controlcenter foreign key(id_controlcenter) references eli_controlcenter(id),
   constraint fk_eli_operation_location foreign key(id_location) references eli_location(id),
-  constraint fk_eli_operation_operationtype foreign key(id_operationtype) references eli_operationtype(id)
+  constraint fk_eli_operation_operationtype foreign key(id_operationtype) references eli_operationtype(id),
+  
+  constraint ck_eli_operation check(start_datetime < end_datetime)
 );
 
 create table eli_member(
@@ -154,9 +157,9 @@ create table eli_member(
   
   constraint pk_eli_id primary key (id),
   constraint uq_eli_svNr unique (svNr),
-  constraint fk_eli_member_operator foreign key (id_operator) references eli_operator (id),
-  constraint fk_eli_member_admin foreign key (id_admin) references eli_admin (id),
-  constraint fk_eli_department foreign key (id_department) references eli_department(id)
+  constraint fk_eli_member_operator foreign key (id_operator) references eli_operator (id) ON DELETE CASCADE,
+  constraint fk_eli_member_admin foreign key (id_admin) references eli_admin (id) ON DELETE CASCADE,
+  constraint fk_eli_department foreign key (id_department) references eli_department(id) ON DELETE CASCADE
 );
 
 create table eli_function_member(
@@ -165,7 +168,7 @@ create table eli_function_member(
   
   constraint pk_eli_func_member primary key(id_function, id_member),
   constraint fk_eli_func_member_function foreign key (id_function) references eli_function(id),
-  constraint fk_eli_func_member_member foreign key(id_member) references eli_member(id)
+  constraint fk_eli_func_member_member foreign key(id_member) references eli_member(id) ON DELETE CASCADE
 );
 
 create table eli_operation_member(
@@ -174,7 +177,7 @@ create table eli_operation_member(
   
   constraint pk_eli_op_member primary key(id_operation, id_member),
   constraint fk_eli_op_member_operation foreign key (id_operation) references eli_operation(id),
-  constraint fk_eli_op_member_member foreign key(id_member) references eli_member(id)
+  constraint fk_eli_op_member_member foreign key(id_member) references eli_member(id) ON DELETE CASCADE
 );
 
 create table eli_operation_dept(
@@ -254,6 +257,7 @@ insert into eli_member values(eli_seq_member.nextval, '1234030999', 'Christof', 
 insert into eli_member values(eli_seq_member.nextval, '1234200300', 'Cora', 'Kumnig', '20.03.2000', '15.08.2016', '+435647345382', 'cora@hero.com', '12345678', 3, 3, 4, 'Female');
 insert into eli_member values(eli_seq_member.nextval, '1234141199', 'Kristian', 'Rajic', '14.11.1999', '02.11.2018', '+43523453482', 'kristian@hero.com', '12345678', 2, 2, 1, 'Male');
 insert into eli_member values(eli_seq_member.nextval, '1234120357', 'Hans', 'Zimmer', '12.03.1957', '15.01.1977', '+433467453482', 'hans@hero.com', '12345678', null, null,3, 'Male');
+insert into eli_member values(eli_seq_member.nextval, '1232120357', 'Coras', 'Freund', '12.03.1957', '15.01.1977', '+433467453482', 'coras.freund@hero.com', '12345678', null, null,4, 'Male');
 
 insert into eli_function_member values(3, 1);
 insert into eli_function_member values(4, 1);
@@ -270,8 +274,8 @@ insert into eli_operationtype values(eli_seq_operationtype.nextval, 'Verkehrsunf
 insert into eli_operationtype values(eli_seq_operationtype.nextval, 'Med. Hilfeleistung');
 insert into eli_operationtype values(eli_seq_operationtype.nextval, 'Taucheinsatz');
 
-insert into eli_operation values(eli_seq_operation.nextval, to_date('02.11.2018 21:39', 'DD.MM.YYYY HH24:mi'), 'Einstein Neutron', 'Kaminbrand  beim vulgo Oraclebauer', '1', 2, 8, 1);
-insert into eli_operation values(eli_seq_operation.nextval, to_date('01.10.2018 22:51', 'DD.MM.YYYY HH24:mi'), 'Zweistein Proton', 'Person beim Flatschacher See verschwunden', '2', 1, 7, 5);
+insert into eli_operation values(eli_seq_operation.nextval, to_date('02.02.2019 21:39', 'DD.MM.YYYY HH24:mi'), to_date('02.02.2019 22:39', 'DD.MM.YYYY HH24:mi'), 'Einstein Neutron', 'Kaminbrand  beim vulgo Oraclebauer', '1', 2, 8, 1);
+insert into eli_operation values(eli_seq_operation.nextval, to_date('01.03.2019 22:51', 'DD.MM.YYYY HH24:mi'),  to_date('02.03.2019 03:39', 'DD.MM.YYYY HH24:mi'), 'Zweistein Proton', 'Person beim Flatschacher See verschwunden', '2', 1, 7, 5);
 
 insert into eli_operation_dept values(1, 1);
 insert into eli_operation_dept values(2, 1);
@@ -282,3 +286,47 @@ insert into eli_operation_member values(1, 2);
 insert into eli_operation_member values(2, 2);
 
 commit;
+
+create or replace PROCEDURE ELI_STATISTICS 
+(
+  ID_DEPARTMENT IN INTEGER 
+, NUMBER__MEMBERS OUT VARCHAR2 
+, NUMBER_MEMBERS_IN_OPERATIONS OUT INTEGER 
+, NUMBER_OPERATIONS OUT INTEGER 
+) AS 
+BEGIN
+  select count(*) into NUMBER_OPERATIONS from eli_operation
+        inner join eli_operation_dept
+        on eli_operation_dept.id_operation = eli_operation.id
+        where id_department = ELI_STATISTICS.ID_DEPARTMENT and EXTRACT(year FROM eli_operation.end_datetime) =  EXTRACT(year FROM sysdate);
+        
+ select count(*) into NUMBER_MEMBERS_IN_OPERATIONS from eli_operation
+        inner join ELI_OPERATION_MEMBER
+        on eli_operation_member.ID_OPERATION = eli_operation.id
+        inner join eli_operation_dept
+        on eli_operation_dept.ID_OPERATION = eli_operation.id
+        inner join eli_member
+        on eli_member.id = eli_operation_member.id_member
+        where eli_member.ID_DEPARTMENT = ELI_STATISTICS.ID_DEPARTMENT and EXTRACT(year FROM eli_operation.end_datetime) =  EXTRACT(year FROM sysdate);
+        
+  select count(*) into NUMBER__MEMBERS from eli_member
+        inner join eli_department
+        on eli_member.ID_DEPARTMENT = eli_department.id
+        where eli_department.ID = ELI_STATISTICS.ID_DEPARTMENT;
+END ELI_STATISTICS;
+/
+create or replace TRIGGER ELI_FUNCTION_MEMBER 
+BEFORE INSERT OR UPDATE ON ELI_FUNCTION_MEMBER 
+FOR EACH ROW
+when (new.id_function = 1 or old.id_function = 1)
+declare
+numberOfChiefs number;
+BEGIN
+  select count(*) into numberOfChiefs from eli_member inner join eli_function_member
+  on eli_function_member.id_member = eli_member.id
+  where eli_member.id = :new.id_member and eli_function_member.id_function = 3;
+  
+  if numberOfChiefs <= 0 then
+    raise_application_error(-20000, 'Commanda must be a Einsatzleiter first!'); 
+  end if;
+END;

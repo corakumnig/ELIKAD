@@ -24,8 +24,8 @@ namespace ELIKAD_Verwaltungsclient.UserControls
     public partial class MembersPage : UserControl
     {
         MainWindow mainWindow;
-        Database db = Database.GetInstance();
         string[] colnames = {"Id", "Sv-Nr", "Vorname", "Nachname", "Geburtsdatum", "Eintrittsdatum", "E-mail", "Telefonnummer", "Geschlecht" };
+        IEnumerable<Member> allMembers;
 
         public MembersPage(MainWindow mainWindow)
         {
@@ -38,6 +38,7 @@ namespace ELIKAD_Verwaltungsclient.UserControls
                 Task<List<Member>> t = Task.Run(() => HTTPClient.GetMembersAsync());
                 t.Wait();
                 dgMembers.ItemsSource = t.Result;
+                allMembers = t.Result;
 
             }
             catch(Exception ex)
@@ -50,47 +51,55 @@ namespace ELIKAD_Verwaltungsclient.UserControls
         {
             IEnumerable<Member> filtered;
             txtSearch.Text = txtSearch.Text.Trim();
-            switch (cmbFilter.SelectedIndex)
-            { 
-                case 0:
-                    int number;
-                    int.TryParse(txtSearch.Text, out number);
-                    filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.Id.Equals(number));
-                    dgMembers.ItemsSource = filtered;
-                    break;
-                case 1:
-                    filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.SVNr.StartsWith(txtSearch.Text));
-                    dgMembers.ItemsSource = filtered;
-                    break;
-                case 2:
-                    filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.Firstname.StartsWith(txtSearch.Text));
-                    dgMembers.ItemsSource = filtered;
-                    break;
-                case 3:
-                    filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.Lastname.StartsWith(txtSearch.Text));
-                    dgMembers.ItemsSource = filtered;
-                    break;
-                case 4:
-                   filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.DateOfBirth.ToShortDateString().StartsWith(txtSearch.Text));
-                    dgMembers.ItemsSource = filtered;
-                    break;
-                case 5:
-                    filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.DateOfEntry.ToShortDateString().StartsWith(txtSearch.Text));
-                    dgMembers.ItemsSource = filtered;
-                    break;
-                case 6:
-                    filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.Email.StartsWith(txtSearch.Text));
-                    dgMembers.ItemsSource = filtered;
-                    break;
-                case 7:
-                    filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.Phonenumber.StartsWith(txtSearch.Text));
-                    dgMembers.ItemsSource = filtered;
-                    break;
-                case 8:
-                    filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.Gender.StartsWith(txtSearch.Text));
-                    dgMembers.ItemsSource = filtered;
-                    break;
-                
+
+            if (txtSearch.Text == "")
+            {
+                dgMembers.ItemsSource = allMembers;
+            }
+            else
+            {
+                switch (cmbFilter.SelectedIndex)
+                {
+                    case 0:
+                        int number;
+                        int.TryParse(txtSearch.Text, out number);
+                        filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.Id.Equals(number));
+                        dgMembers.ItemsSource = filtered;
+                        break;
+                    case 1:
+                        filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.SVNr.StartsWith(txtSearch.Text));
+                        dgMembers.ItemsSource = filtered;
+                        break;
+                    case 2:
+                        filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.Firstname.StartsWith(txtSearch.Text));
+                        dgMembers.ItemsSource = filtered;
+                        break;
+                    case 3:
+                        filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.Lastname.StartsWith(txtSearch.Text));
+                        dgMembers.ItemsSource = filtered;
+                        break;
+                    case 4:
+                        filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.DateOfBirth.ToShortDateString().StartsWith(txtSearch.Text));
+                        dgMembers.ItemsSource = filtered;
+                        break;
+                    case 5:
+                        filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.DateOfEntry.ToShortDateString().StartsWith(txtSearch.Text));
+                        dgMembers.ItemsSource = filtered;
+                        break;
+                    case 6:
+                        filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.Email.StartsWith(txtSearch.Text));
+                        dgMembers.ItemsSource = filtered;
+                        break;
+                    case 7:
+                        filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.Phonenumber.StartsWith(txtSearch.Text));
+                        dgMembers.ItemsSource = filtered;
+                        break;
+                    case 8:
+                        filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.Gender.StartsWith(txtSearch.Text));
+                        dgMembers.ItemsSource = filtered;
+                        break;
+
+                }
             }
         }
 
@@ -130,8 +139,13 @@ namespace ELIKAD_Verwaltungsclient.UserControls
 
         private void BtnAddFunction_Click(object sender, RoutedEventArgs e)
         {
-            FunctionsWindow fw = new FunctionsWindow(this);
-            fw.Show();
+            if (dgMembers.SelectedItem == null)
+                MessageBox.Show("Bitte ein Mitglied auswählen", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+            {
+                FunctionsWindow fw = new FunctionsWindow(this);
+                fw.Show();
+            }
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
