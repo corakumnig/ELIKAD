@@ -32,5 +32,19 @@
         </menu>
     </item>
 
+    <item android:title="Optinal">
+        <menu>
+            <item
+                android:id="@+id/nav_createReport"
+                android:icon="@android:drawable/ic_menu_edit"
+                android:title="Einsatzbericht erstellen"
+                />
+            <item
+                android:id="@+id/nav_showMembers"
+                android:icon="@android:drawable/ic_menu_myplaces"
+                android:title="Mitglieder"
+                 />
+        </menu>
+    </item>
 
 </menu>

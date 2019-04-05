@@ -28,6 +28,9 @@ public class FXMLDocumentController implements Initializable {
     private TextField txtNumber;
 
     @FXML
+    private TextField txtNTelNumber;
+    
+    @FXML
     private ListView<?> listSelected;
 
     @FXML
