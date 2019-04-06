@@ -14,10 +14,10 @@ functionsRouter.get("/", function(req, res){
         + " on eli_function.id = eli_function_member.id_function",
     param = [];
     var apiToken = req.get("Token");
+    var userGroup  = tokenHandler.VerifyToken(apiToken);
 
     try{
-        //if(apiToken == null || apiToken == undefined || !tokenHandler.MemberTokenExists(apiToken)){
-        if(false){
+        if(userGroup != "admin"){
             res.status(401).json({
                 message: "Not authenticated"
             });
@@ -57,23 +57,33 @@ functionsRouter.post("/", function(req, res){
     var idMember = req.params.idMember;
     var idFunction = req.params.idFunction;
     var param = [];
+    var apiToken = req.get("Token");
+    var userGroup = tokenHandler.VerifyToken(apiToken);
+
     try{
-        if(idMember != undefined && idFunction != undefined){
-            var query = "insert into eli_function_member values(:idFunction, :idMember)";
-            param.push(idFunction);
-            param.push(idMember);
-            oracleConnection.execute(query, param,
-                (result) => res.status(200).json({
-                    message: "function added"
-                }),
-                (err) => res.status(404).json({
-                    message: err.message,
-                    details: err
-                })
-            );
+        if(userGroup != "admin"){
+            res.status(401).json({
+                message: "Not authenticated"
+            });
         }
         else{
-            res.status(400).send("400: Parameter missing");
+            if(idMember != undefined && idFunction != undefined){
+                var query = "insert into eli_function_member values(:idFunction, :idMember)";
+                param.push(idFunction);
+                param.push(idMember);
+                oracleConnection.execute(query, param,
+                    (result) => res.status(200).json({
+                        message: "function added"
+                    }),
+                    (err) => res.status(404).json({
+                        message: err.message,
+                        details: err
+                    })
+                );
+            }
+            else{
+                res.status(400).send("400: Parameter missing");
+            }
         }
     }
     catch(ex){
@@ -85,23 +95,33 @@ functionsRouter.delete("/", function(req, res){
     var idMember = req.params.idMember;
     var idFunction = req.params.idFunction;
     var param = [];
+    var apiToken = req.get("Token");
+    var userGroup = tokenHandler.VerifyToken(apiToken);
+
     try{
-        if(idMember != undefined && idFunction != undefined){
-            var query = "delete from eli_function_member where id_function = :idFunction and id_member = :idMember";
-            param.push(idFunction);
-            param.push(idMember);
-            oracleConnection.execute(query, param,
-                (result) => res.status(200).json({
-                    message: "function deleted"
-                }),
-                (err) => res.status(404).json({
-                    message: err.message,
-                    details: err
-                })
-            );
+        if(userGroup != "admin"){
+            res.status(401).json({
+                message: "Not authenticated"
+            });
         }
         else{
-            res.status(400).send("400: Parameter missing");
+            if(idMember != undefined && idFunction != undefined){
+                var query = "delete from eli_function_member where id_function = :idFunction and id_member = :idMember";
+                param.push(idFunction);
+                param.push(idMember);
+                oracleConnection.execute(query, param,
+                    (result) => res.status(200).json({
+                        message: "function deleted"
+                    }),
+                    (err) => res.status(404).json({
+                        message: err.message,
+                        details: err
+                    })
+                );
+            }
+            else{
+                res.status(400).send("400: Parameter missing");
+            }
         }
     }
     catch(ex){

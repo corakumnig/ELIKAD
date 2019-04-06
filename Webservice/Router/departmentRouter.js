@@ -19,10 +19,11 @@ departmentRouter.get("/", function(req, res){
     + " inner join eli_region"
     + " on eli_region.id = eli_location.id_region"
     + " inner join eli_regiontype"
-    + " on eli_regiontype.id = eli_region.regiontype",
-    param = [];
+    + " on eli_regiontype.id = eli_region.regiontype";
+    var param = [];
+    var userGroup = tokenHandler.VerifyToken(apiToken);
 
-    if(apiToken == null || apiToken == undefined || (!tokenHandler.DepartmentTokenExists(apiToken) && !tokenHandler.AdminTokenExists(apiToken))){
+    if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'operator'){
         res.status(401).json({
             message: "Not authenticated"
         });
@@ -63,21 +64,31 @@ departmentRouter.get("/", function(req, res){
 });
 
 departmentRouter.post("/", function(req, res){
+    var apiToken = req.get("Token");
     var member = req.body;
-    let query = "insert into eli_member values(:SVNr, :Firstname, :Lastname, to_date(:DateOfBirth, 'dd/MM/yyyy'), to_date(:DateOfEntry, 'dd/MM/yyyy'), :Phonenumber, :Email, null, null, :IdDepartment, :Gender)",
-    param = [member.SVNr, member.Firstname, member.Lastname, member.DateOfBirth, 
+    let query = "insert into eli_member values(:SVNr, :Firstname, :Lastname, to_date(:DateOfBirth, 'dd/MM/yyyy'), to_date(:DateOfEntry, 'dd/MM/yyyy'), :Phonenumber, :Email, null, null, :IdDepartment, :Gender)";
+    var param = [member.SVNr, member.Firstname, member.Lastname, member.DateOfBirth, 
         member.DateOfEntry, member.Phonenumber, member.Email, member.IdDepartment, member.Gender];
+    var userGroup = tokenHandler.VerifyToken(apiToken);
+
     try{
-        oracleConnection.execute(query, param,
-            (result) => res.status(200).json({
-                message: 'Creation successful',
-                details: result
-            }),
-            (err) => res.status(403).json({
-                message: err.message,
-                details: err
-            })
-        );
+        if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'operator'){
+            res.status(401).json({
+                message: "Not authenticated"
+            });
+        }
+        else{
+            oracleConnection.execute(query, param,
+                (result) => res.status(200).json({
+                    message: 'Creation successful',
+                    details: result
+                }),
+                (err) => res.status(403).json({
+                    message: err.message,
+                    details: err
+                })
+            );
+        }
     }
     catch(ex){
         res.status(500).send("500: " + ex);
@@ -86,19 +97,28 @@ departmentRouter.post("/", function(req, res){
 
 departmentRouter.delete("/:SVNr", function(req, res){
     var SVNr = req.params.SVNr;
-    let query = "delete from eli_member where svnr = :SVNr",
-    param = [SVNr];
+    let query = "delete from eli_member where svnr = :SVNr";
+    var param = [SVNr];
+    var userGroup  = tokenHandler.VerifyToken(apiToken);
+
     try{
-        oracleConnection.execute(query, param,
-            (result) => res.status(200).json({
-                message: 'Delete successful',
-                details: result
-            }),
-            (err) => res.status(403).json({
-                message: err.message,
-                details: err
-            })
-        );
+        if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'operator'){
+            res.status(401).json({
+                message: "Not authenticated"
+            });
+        }
+        else{
+            oracleConnection.execute(query, param,
+                (result) => res.status(200).json({
+                    message: 'Delete successful',
+                    details: result
+                }),
+                (err) => res.status(403).json({
+                    message: err.message,
+                    details: err
+                })
+            );
+        }
     }
     catch(ex){
         res.status(500).send("500: " + ex);

@@ -25,7 +25,7 @@ namespace ELIKAD_Verwaltungsclient.UserControls
     {
         MainWindow mainWindow;
         string[] colnames = {"Id", "Sv-Nr", "Vorname", "Nachname", "Geburtsdatum", "Eintrittsdatum", "E-mail", "Telefonnummer", "Geschlecht" };
-        IEnumerable<Member> allMembers;
+        private List<Member> AllMembers;
 
         public MembersPage(MainWindow mainWindow)
         {
@@ -37,8 +37,9 @@ namespace ELIKAD_Verwaltungsclient.UserControls
                 cmbFilter.SelectedIndex = 0;
                 Task<List<Member>> t = Task.Run(() => HTTPClient.GetMembersAsync());
                 t.Wait();
-                dgMembers.ItemsSource = t.Result;
-                allMembers = t.Result;
+                AllMembers = t.Result;
+                dgMembers.ItemsSource = AllMembers;
+               
 
             }
             catch(Exception ex)
@@ -54,7 +55,7 @@ namespace ELIKAD_Verwaltungsclient.UserControls
 
             if (txtSearch.Text == "")
             {
-                dgMembers.ItemsSource = allMembers;
+                dgMembers.ItemsSource = AllMembers;
             }
             else
             {
@@ -122,7 +123,8 @@ namespace ELIKAD_Verwaltungsclient.UserControls
                     t.Wait();
                     if (t.Result == HttpStatusCode.OK)
                     {
-                        //dgMenbers.Items.Remove(dgMenbers.SelectedItem);
+                        AllMembers.Remove(m);
+                        dgMembers.Items.Refresh();
                     }
                 }
             }
@@ -159,6 +161,21 @@ namespace ELIKAD_Verwaltungsclient.UserControls
                 EditMember em = new EditMember(this);
                 em.Show();
             }
+        }
+
+        private void BtnAddExistingMember_Click(object sender, RoutedEventArgs e)
+        {
+            AddExistingMember am = new AddExistingMember(this);
+            am.Show();
+        }
+
+        public void RefreshMembers()
+        {
+            Task<List<Member>> t = Task.Run(() => HTTPClient.GetMembersAsync());
+            t.Wait();
+            AllMembers = t.Result;
+            dgMembers.ItemsSource = AllMembers;
+            dgMembers.Items.Refresh();
         }
     }
 }

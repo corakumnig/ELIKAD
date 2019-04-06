@@ -63,7 +63,7 @@ namespace ELIKAD_Verwaltungsclient
                 else
                     lblMessage.Content = "Falscher Username oder Passwort";
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 lblMessage.Content = "Keine Verbindung!";
             }

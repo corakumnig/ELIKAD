@@ -35,27 +35,30 @@ namespace ELIKAD_Verwaltungsclient.Windows
             txtEmail.Text = m.Email;
             dpDateOfBirth.SelectedDate = m.DateOfBirth;
             dpDateOfEntry.SelectedDate = m.DateOfEntry;
+            txtPin.Password = m.Pin.ToString();
             setGender(m.Gender);
         }
 
-        private void btnAddMember_Click(object sender, RoutedEventArgs e)
+        private void btnEditMember_Click(object sender, RoutedEventArgs e)
         {
+            Member m = ((Member)mw.dgMembers.SelectedItem);
             try
             {
-                Member m = new Member(0, txtSvNr.Text, txtFirstname.Text, txtLastname.Text,
+                m = new Member(m.Id, txtSvNr.Text, txtFirstname.Text, txtLastname.Text,
                     (DateTime)dpDateOfBirth.SelectedDate, (DateTime)dpDateOfEntry.SelectedDate,
-                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender(), HTTPClient.Department.Id);
-                Task<HttpStatusCode> t = Task.Run(() => HTTPClient.EditMemberAsync(m));
-                t.Wait();
-                if (t.Result == HttpStatusCode.OK)
-                {
-                    this.Close();
-                }
+                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender(), HTTPClient.Department.Id, int.Parse(txtPin.Password));
             }
-            finally
+            catch (FormatException)
+            {
+                MessageBox.Show("Pin muss eine Nummer sein!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            Task<HttpStatusCode> t = Task.Run(() => HTTPClient.EditMemberAsync(m));
+            t.Wait();
+            if (t.Result == HttpStatusCode.OK)
             {
                 this.Close();
             }
+           
         }
 
         private string getSelectedGender()
@@ -79,6 +82,11 @@ namespace ELIKAD_Verwaltungsclient.Windows
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            mw.RefreshMembers();
         }
     }
 }

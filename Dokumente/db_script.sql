@@ -157,6 +157,7 @@ create table eli_member(
   
   constraint pk_eli_id primary key (id),
   constraint uq_eli_svNr unique (svNr),
+  constraint uq_eli_phonenumber unique (phonenumber),
   constraint fk_eli_member_operator foreign key (id_operator) references eli_operator (id) ON DELETE CASCADE,
   constraint fk_eli_member_admin foreign key (id_admin) references eli_admin (id) ON DELETE CASCADE,
   constraint fk_eli_department foreign key (id_department) references eli_department(id) ON DELETE CASCADE
@@ -171,6 +172,22 @@ create table eli_function_member(
   constraint fk_eli_func_member_member foreign key(id_member) references eli_member(id) ON DELETE CASCADE
 );
 
+create or replace TRIGGER ELI_FUNCTION_MEMBER 
+BEFORE INSERT OR UPDATE ON ELI_FUNCTION_MEMBER 
+FOR EACH ROW
+when (new.id_function = 1 or old.id_function = 1)
+declare
+numberOfChiefs number;
+BEGIN
+  select count(*) into numberOfChiefs from eli_member inner join eli_function_member
+  on eli_function_member.id_member = eli_member.id
+  where eli_member.id = :new.id_member and eli_function_member.id_function = 3;
+  
+  if numberOfChiefs <= 0 then
+    raise_application_error(-20000, 'Commanda must be a Einsatzleiter first!'); 
+  end if;
+END;
+/
 create table eli_operation_member(
   id_operation integer,
   id_member integer,
@@ -255,9 +272,9 @@ insert into eli_admin values(eli_seq_admin.nextval,'kumnigc', 'Test123');
 
 insert into eli_member values(eli_seq_member.nextval, '1234030999', 'Christof', 'Kraschl', '03.09.1999', '01.07.2015', '+435647126482', 'christof@hero.com', '12345678', 1, 1,1, 'Male');
 insert into eli_member values(eli_seq_member.nextval, '1234200300', 'Cora', 'Kumnig', '20.03.2000', '15.08.2016', '+435647345382', 'cora@hero.com', '12345678', 3, 3, 4, 'Female');
-insert into eli_member values(eli_seq_member.nextval, '1234141199', 'Kristian', 'Rajic', '14.11.1999', '02.11.2018', '+43523453482', 'kristian@hero.com', '12345678', 2, 2, 1, 'Male');
-insert into eli_member values(eli_seq_member.nextval, '1234120357', 'Hans', 'Zimmer', '12.03.1957', '15.01.1977', '+433467453482', 'hans@hero.com', '12345678', null, null,3, 'Male');
-insert into eli_member values(eli_seq_member.nextval, '1232120357', 'Coras', 'Freund', '12.03.1957', '15.01.1977', '+433467453482', 'coras.freund@hero.com', '12345678', null, null,4, 'Male');
+insert into eli_member values(eli_seq_member.nextval, '1234141199', 'Kristian', 'Rajic', '14.11.1999', '02.11.2018', '+435283453482', 'kristian@hero.com', '12345678', 2, 2, 1, 'Male');
+insert into eli_member values(eli_seq_member.nextval, '1234120357', 'Hans', 'Zimmer', '12.03.1957', '15.01.1977', '+4334674534826', 'hans@hero.com', '12345678', null, null,3, 'Male');
+insert into eli_member values(eli_seq_member.nextval, '1232120357', 'Coras', 'Freund', '12.03.1957', '15.01.1977', '+43346745348', 'coras.freund@hero.com', '12345678', null, null,4, 'Male');
 
 insert into eli_function_member values(3, 1);
 insert into eli_function_member values(4, 1);
@@ -265,8 +282,8 @@ insert into eli_function_member values(1, 1);
 insert into eli_function_member values(6, 2);
 insert into eli_function_member values(3, 4);
 insert into eli_function_member values(2, 4);
+insert into eli_function_member values(3, 2);
 insert into eli_function_member values(1, 2);
-insert into eli_function_member values(1, 3);
 
 insert into eli_operationtype values(eli_seq_operationtype.nextval, 'Brandeinsatz');
 insert into eli_operationtype values(eli_seq_operationtype.nextval, 'Techn. Einsatz');
@@ -276,10 +293,13 @@ insert into eli_operationtype values(eli_seq_operationtype.nextval, 'Taucheinsat
 
 insert into eli_operation values(eli_seq_operation.nextval, to_date('02.02.2019 21:39', 'DD.MM.YYYY HH24:mi'), to_date('02.02.2019 22:39', 'DD.MM.YYYY HH24:mi'), 'Einstein Neutron', 'Kaminbrand  beim vulgo Oraclebauer', '1', 2, 8, 1);
 insert into eli_operation values(eli_seq_operation.nextval, to_date('01.03.2019 22:51', 'DD.MM.YYYY HH24:mi'),  to_date('02.03.2019 03:39', 'DD.MM.YYYY HH24:mi'), 'Zweistein Proton', 'Person beim Flatschacher See verschwunden', '2', 1, 7, 5);
+insert into eli_operation values(eli_seq_operation.nextval, to_date('04.03.2019 22:51', 'DD.MM.YYYY HH24:mi'),  null, 'Klausi Hausi', 'Baum auf Straße', '1', 1, 7, 5);
 
 insert into eli_operation_dept values(1, 1);
 insert into eli_operation_dept values(2, 1);
 insert into eli_operation_dept values(2, 2);
+insert into eli_operation_dept values(2, 3);
+insert into eli_operation_dept values(2, 4);
 
 insert into eli_operation_member values(1, 1);
 insert into eli_operation_member values(1, 2);
@@ -314,19 +334,3 @@ BEGIN
         on eli_member.ID_DEPARTMENT = eli_department.id
         where eli_department.ID = ELI_STATISTICS.ID_DEPARTMENT;
 END ELI_STATISTICS;
-/
-create or replace TRIGGER ELI_FUNCTION_MEMBER 
-BEFORE INSERT OR UPDATE ON ELI_FUNCTION_MEMBER 
-FOR EACH ROW
-when (new.id_function = 1 or old.id_function = 1)
-declare
-numberOfChiefs number;
-BEGIN
-  select count(*) into numberOfChiefs from eli_member inner join eli_function_member
-  on eli_function_member.id_member = eli_member.id
-  where eli_member.id = :new.id_member and eli_function_member.id_function = 3;
-  
-  if numberOfChiefs <= 0 then
-    raise_application_error(-20000, 'Commanda must be a Einsatzleiter first!'); 
-  end if;
-END;

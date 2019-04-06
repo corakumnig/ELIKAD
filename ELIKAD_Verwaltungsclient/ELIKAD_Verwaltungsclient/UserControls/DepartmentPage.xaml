@@ -41,19 +41,36 @@
             <ColumnDefinition MinWidth="1000" Width="auto"></ColumnDefinition>
             <ColumnDefinition MinWidth="200" Width="auto"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dgOperations" x:FieldModifier="public" CanUserAddRows="False" IsReadOnly="True" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" Grid.Column="0"  MinHeight="100" MinWidth="1000" Height="auto" Width="auto" Margin="15,10,10,10">
+        <DataGrid x:Name="dgOperations" SelectionChanged="DgMenbers_SelectionChanged" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Grid.Column="0"  MinHeight="100" MinWidth="1000" Height="auto" Width="auto" Margin="15,10,10,10" FontSize="16">
             <DataGrid.Columns>
                 <DataGridTextColumn MinWidth="40" Header="Id" Binding="{Binding Id}"/>
                 <DataGridTextColumn MinWidth="130" Header="Alarmzeit" Binding="{Binding StartDatetime, StringFormat=\{0:dd.MM.yyyy hh:mm\}}"/>
                 <DataGridTextColumn MinWidth="130" Header="Einrückzeit" Binding="{Binding EndDatetime, StringFormat=\{0:dd.MM.yyyy hh:mm\}}"/>
                 <DataGridTextColumn MinWidth="130" Header="Einsatzart" Binding="{Binding Type}"/>
-                <DataGridTextColumn MinWidth="170" Header="Text" Binding="{Binding Text}"/>
+                <DataGridTemplateColumn MinWidth="275" Header="Text">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Text}" TextWrapping="WrapWithOverflow" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn MinWidth="130" Header="Alarmstufe" Binding="{Binding Alarmlevel}"/>
-                <DataGridTextColumn MinWidth="150" Header="Leitstelle" Binding="{Binding ControlcenterName}"/>
+                <DataGridTextColumn MinWidth="150" Header="Leitstelle" Binding="{Binding ControlcenterName}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <ComboBox x:Name="cmbFilter" Margin="0,43,363,0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="34" Width="127"/>
-        <Button x:Name="btnReport" Content="Bericht" Grid.Column="1" HorizontalAlignment="Left" Margin="320,43,0,0" VerticalAlignment="Top" Width="127" RenderTransformOrigin="0.318,1.63" Height="34" Click="BtnEdit_Click"/>
-        <Button x:Name="btnAddMember" Content="Hinzufügen" Grid.Column="1" HorizontalAlignment="Left" Margin="161,43,0,0" VerticalAlignment="Top" Height="34" Width="127" Click="BtnAddMember_Click"/>
+        <ComboBox x:Name="cmbFilter" Margin="0,43,363,0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="34" Width="127" FontSize="16"/>
+        <Button x:Name="btnReport" Content="Bericht" Grid.Column="1" HorizontalAlignment="Left" Margin="320,43,0,0" VerticalAlignment="Top" Width="127" RenderTransformOrigin="0.318,1.63" Height="34" Click="BtnReport_Click" FontSize="16"/>
+        <Button x:Name="btnAddMember" Content="Mitglieder" Grid.Column="1" HorizontalAlignment="Left" Margin="161,43,0,0" VerticalAlignment="Top" Height="34" Width="127" Click="BtnAddMember_Click" FontSize="16"/>
+        <Label Content="Straße:" Grid.Column="1" HorizontalAlignment="Left" Margin="142,153,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Mitgliederanzahl:" Grid.Column="1" HorizontalAlignment="Left" Margin="42,300,0,-94" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Ort:" Grid.Column="1" HorizontalAlignment="Left" Margin="161,260,0,-54" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="PLZ:" Grid.Column="1" HorizontalAlignment="Left" Margin="161,223,0,-17" FontSize="20"/>
+        <Label Content="Hausnummer:" Grid.Column="1" HorizontalAlignment="Left" Margin="79,186,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label x:Name="lblStreet" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="231,153,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label x:Name="lblHousenum" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="231,186,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.497,-0.531" FontSize="20"/>
+        <Label x:Name="lblPostal" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="231,223,0,-17" VerticalAlignment="Top" FontSize="20"/>
+        <Label x:Name="lblCity" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="231,263,0,-57" VerticalAlignment="Top" FontSize="20"/>
+        <Label x:Name="lblMembersNum" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="231,300,0,-94" FontSize="20"/>
+
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ELIKAD_Verwaltungsclient.Data
 {
-    class Member
+    public class Member
     {
         public int Id { get; set; }
         public string Firstname { get; set; }
@@ -18,8 +19,9 @@ namespace ELIKAD_Verwaltungsclient.Data
         public string SVNr { get; set; }
         public string Gender { get; set; }
         public int IdDepartment { get; set; }
+        public int Pin { get; set; }
 
-        public Member(int Id, string SVNr, string Firstname, string Lastname, DateTime DateOfBirth, DateTime DateOfEntry, string Phonenumber, string Email, string Gender, int IdDepartment)
+        public Member(int Id, string SVNr, string Firstname, string Lastname, DateTime DateOfBirth, DateTime DateOfEntry, string Phonenumber, string Email, string Gender, int IdDepartment, int Pin)
         {
             this.Id = Id;
             this.Firstname = Firstname;
@@ -31,6 +33,7 @@ namespace ELIKAD_Verwaltungsclient.Data
             this.SVNr = SVNr;
             this.Gender = Gender;
             this.IdDepartment = IdDepartment;
+            this.Pin = Pin;
         }
 
         public override string ToString()

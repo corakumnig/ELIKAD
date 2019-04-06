@@ -72,7 +72,7 @@
             <Grid Name="gridUserControl" Grid.Row="1" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 
             </Grid>
-            <Label x:Name="lblAdminName" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" Height="34" Margin="107,21,0,0" Content="TextBox" VerticalAlignment="Top" Width="267"/>
+            <Label x:Name="lblAdminName" FontSize="22" FontWeight="Bold" HorizontalAlignment="Left" Height="34" Margin="107,21,0,0" Content="TextBox" VerticalAlignment="Top" Width="518"/>
         </Grid>
         <StackPanel Panel.ZIndex="2" Name="pnlLeftMenu" Orientation="Horizontal" VerticalAlignment="Top" Height="1080" HorizontalAlignment="Left" Margin="-150,0,0,0">
             <Border BorderThickness="0,0,0,0" Width="150" Background="Gray" >

@@ -37,12 +37,13 @@
         </Style>
     </UserControl.Resources>
     <Grid Grid.Row="1" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Label FontSize="28" Content="Einsätze:" HorizontalAlignment="Left" Margin="35,121,0,0" VerticalAlignment="Top" Height="48" Width="127"/>
-        <Label FontSize="28" Content="Mitglieder:" HorizontalAlignment="Left" Margin="35,193,0,0" VerticalAlignment="Top"/>
-        <Label FontSize="28" Content="Eing. Mannschaft:" HorizontalAlignment="Left" Margin="35,262,0,0" VerticalAlignment="Top"/>
+        <Label FontSize="28" Content="Einsätze:" HorizontalAlignment="Left" Margin="31,171,0,0" VerticalAlignment="Top" Height="48" Width="127"/>
+        <Label FontSize="28" Content="Mitglieder:" HorizontalAlignment="Left" Margin="31,264,0,-2" VerticalAlignment="Top"/>
+        <Label FontSize="28" Content="Eing. Mannschaft:" HorizontalAlignment="Left" Margin="31,347,0,-85" VerticalAlignment="Top"/>
         <Label x:Name="lblDepartmentName" FontSize="40" FontWeight="DemiBold" Content="FF Test" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="64" Width="565"/>
-        <Label x:Name="lblNumOperations" FontSize="30" HorizontalAlignment="Left" Margin="276,119,0,0"  Content="TextBox" VerticalAlignment="Top" Height="48" Width="127"/>
-        <Label x:Name="lblNumMembers" FontSize="30" HorizontalAlignment="Left" Margin="276,191,0,0"  Content="TextBox" VerticalAlignment="Top" Height="48" Width="127"/>
-        <Label x:Name="lblNumMembersOperation" FontSize="30" HorizontalAlignment="Left" Margin="276,261,0,0" Content="TextBox" VerticalAlignment="Top" Height="48" Width="127"/>
+        <Label x:Name="lblNumOperations" FontSize="30" HorizontalAlignment="Left" Margin="272,169,0,0"  Content="TextBox" VerticalAlignment="Top" Height="48" Width="127"/>
+        <Label x:Name="lblNumMembers" FontSize="30" HorizontalAlignment="Left" Margin="272,262,0,-1"  Content="TextBox" VerticalAlignment="Top" Height="48" Width="127"/>
+        <Label x:Name="lblNumMembersOperation" FontSize="30" HorizontalAlignment="Left" Margin="272,346,0,-85" Content="TextBox" VerticalAlignment="Top" Height="48" Width="127"/>
+        <Button x:Name="btnReady" Content="Einsatzbereit" HorizontalAlignment="Left" Margin="475,203,-140,0" VerticalAlignment="Top" Width="240" Height="64" FontSize="36" Click="BtnReady_Click"/>
     </Grid>
 </UserControl>

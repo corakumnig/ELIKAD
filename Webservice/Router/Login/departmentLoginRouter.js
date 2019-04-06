@@ -1,8 +1,6 @@
 const express    = require('express');  
 const loginRouter = express.Router({mergeParams: true}); 
 const oracleConnection = require("../../Data/dbAccess");
-const classParser = require("../../Data/classParser");
-const classes = require("../../Data/classes");
 const tokenHandler = require("../../Data/tokenHandler");
 
 loginRouter.post("/", function(req, res){
@@ -19,15 +17,15 @@ loginRouter.post("/", function(req, res){
                     });   
                 }
                 else{
-                    var id = result.rows[0][0];
-                    var name = result.rows[0][1];
-                    var token = tokenHandler.CreateToken(id);
-                    tokenHandler.AddDepartmentToken(token);
+                    var dept = {
+                        id: result.rows[0][0],
+                        name: result.rows[0][1],
+                        group: "department"
+                    };
+                    var token = tokenHandler.RegisterToken(dept);
                     res.setHeader('Token', token);
-                    res.status(200).json({
-                        id: id,
-                        name: name
-                    });     
+                    delete dept.group;
+                    res.status(200).json(dept);     
                 }    
         },
             (err) => res.status(500).json({

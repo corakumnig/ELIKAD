@@ -67,8 +67,10 @@ C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwa
 C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\Windows\FunctionsWindow.baml
 C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\LoginWindow.baml
 C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\Windows\MainWindow2.baml
-C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\UserControls\MemberPage.g.cs
-C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\UserControls\MemberPage.baml
 C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\ELIKAD_Verwaltungsclient.csprojAssemblyReference.cache
 C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\Windows\OperationMember.g.cs
 C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\Windows\OperationMember.baml
+C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\Windows\AddExistingMember.g.cs
+C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\Windows\AddExistingMember.baml
+C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\UserControls\MembersPage.g.cs
+C:\Users\chris\Documents\5AHIFS\BSD\ELIKAD\ELIKAD_Verwaltungsclient\ELIKAD_Verwaltungsclient\obj\Debug\UserControls\MembersPage.baml

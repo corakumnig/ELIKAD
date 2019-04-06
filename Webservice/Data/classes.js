@@ -4,8 +4,8 @@ class Member {
         this.svNr = svNr;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.dateOfBirth = dateOfBirth;
-        this.dateOfEntry = dateOfEntry;
+        this.dateOfBirth = dateOfBirth.toLocaleDateString();
+        this.dateOfEntry = dateOfEntry.toLocaleDateString();
         this.phonenumber = phonenumber;
         this.email = email;
         this.gender = gender;
@@ -44,14 +44,16 @@ class Function {
 }
 
 class Operation {
-    constructor (id, text, alarmlevel, datetime, caller, operationTpye, controlcenterName){
+    constructor (id, text, alarmlevel, startDatetime, endDatetime, caller, type, controlcenterName, idLocation){
         this.id = id;
         this.text = text;
         this.alarmlevel = alarmlevel;
-        this.datetime = datetime;
+        this.startDatetime = startDatetime;
+        this.endDatetime = endDatetime;
         this.caller = caller;
-        this.operationTpye = operationTpye;
+        this.type = type;
         this.controlcenterName = controlcenterName;
+        this.idLocation = idLocation;
     }
 }
 

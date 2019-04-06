@@ -1,18 +1,18 @@
 const express    = require('express');  
-const loginRouter = express.Router({mergeParams: true}); 
+const operatorLoginRouter = express.Router({mergeParams: true}); 
 const oracleConnection = require("../../Data/dbAccess");
 const tokenHandler = require("../../Data/tokenHandler");
 
-loginRouter.post("/", function(req, res){
+operatorLoginRouter.post("/", function(req, res){
     var credentials = req.body;
-    let query = "select eli_member.id as id, firstname, lastname, id_department from eli_admin inner join eli_member"
-        + " on eli_admin.ID = eli_member.id_admin"
+    let query = "select eli_member.id as id, firstname, lastname, id_department from eli_operator inner join eli_member"
+        + " on eli_operator.ID = eli_member.id_operator"
         + " where username = :Username and password = :Password";
-    let queryById = "select eli_member.id as id, firstname, lastname, id_department from eli_admin inner join eli_member"
-        + " on eli_admin.ID = eli_member.id_admin"
+    let queryById = "select eli_member.id as id, firstname, lastname, id_department from eli_operator inner join eli_member"
+        + " on eli_operator.ID = eli_member.id_operator"
         + " where eli_member.id = :Id";
     var apiToken = req.get("Token");
-    param = [credentials.Username, credentials.Password];
+    param = [credentials.username, credentials.password];
 
     if(apiToken != '' && apiToken != null){
         param = [tokenHandler.VerifyTokenId(apiToken)];
@@ -32,7 +32,7 @@ loginRouter.post("/", function(req, res){
                         firstname: result.rows[0][1],
                         lastname: result.rows[0][2],
                         idDepartment: result.rows[0][3],
-                        group: "admin"
+                        group: "operator"
                     }
 
                     var token = tokenHandler.RegisterToken(user);
@@ -52,15 +52,4 @@ loginRouter.post("/", function(req, res){
     }
 });
 
-loginRouter.delete("/", function(req, res){
-    try{
-        var apiToken = req.get("Token");
-        tokenHandler.DeleteAdminToken(apiToken);
-        res.status(200).send();
-    }
-    catch(ex){
-        res.status(500).send("500: " + ex);
-    }
-});
-
-module.exports = loginRouter;
+module.exports = operatorLoginRouter;

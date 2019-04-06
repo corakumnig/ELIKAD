@@ -34,25 +34,22 @@ namespace ELIKAD_Verwaltungsclient.Windows
 
         private void btnAddMember_Click(object sender, RoutedEventArgs e)
         {
-            if (!isDateValid(dpDateOfBirth.SelectedDate))
+            Member m = null;
+            try
             {
-
-            }
-            if (!isDateValid(dpDateOfEntry.SelectedDate))
-            {
-
-            }
-            else
-            {
-                Member m = new Member(0, txtSvNr.Text, txtFirstname.Text, txtLastname.Text,
+                m = new Member(0, txtSvNr.Text, txtFirstname.Text, txtLastname.Text,
                     (DateTime)dpDateOfBirth.SelectedDate, (DateTime)dpDateOfEntry.SelectedDate,
-                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender(), HTTPClient.Department.Id);
-                Task<HttpStatusCode> t = Task.Run(() => HTTPClient.CreateMemberAsync(m));
-                t.Wait();
-                if(t.Result == HttpStatusCode.OK)
-                {
-                    this.Close();
-                }
+                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender(), HTTPClient.Department.Id, int.Parse(txtPin.Password));
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Pin muss eine Nummer sein!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            Task<HttpStatusCode> t = Task.Run(() => HTTPClient.CreateMemberAsync(m));
+            t.Wait();
+            if(t.Result == HttpStatusCode.OK)
+            {
+                this.Close();
             }
         }
 
@@ -74,6 +71,11 @@ namespace ELIKAD_Verwaltungsclient.Windows
         private bool isDateValid(DateTime? date)
         {
             return date != null && date < DateTime.Now;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            membersPage.RefreshMembers();
         }
     }
 }

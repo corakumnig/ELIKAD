@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ELIKAD_Verwaltungsclient.Windows"
         mc:Ignorable="d"
-        Title="Funktionen" Height="470.168" Width="294.538">
+        Title="Funktionen" Height="474.168" Width="294.538">
     <Grid>
         <Button x:Name="btnCancel" Content="Abbruch" HorizontalAlignment="Left" Margin="23,404,0,0" VerticalAlignment="Top" Width="100" Height="25" Click="BtnCancel_Click"/>
         <Button x:Name="btnDeligate" Content="Zuordnen" HorizontalAlignment="Left" Margin="164,404,0,0" VerticalAlignment="Top" Width="100" Height="25" Click="BtnDeligate_Click"/>

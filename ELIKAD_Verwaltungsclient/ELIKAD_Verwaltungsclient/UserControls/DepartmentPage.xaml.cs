@@ -43,59 +43,20 @@ namespace ELIKAD_Verwaltungsclient.UserControls
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        private void btnAddNewMember_Click(object sender, RoutedEventArgs e)
-        {
-           // AddMember addMemberWindow = new AddMember(this);
-            //addMemberWindow.Show();
-        }
-
-        private void BtnDeleteMember_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (dgOperations.SelectedItem == null)
-                    MessageBox.Show("Bitte ein Mitglied auswählen", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                else
-                {
-                    Operation m = (Operation)dgOperations.SelectedItem;
-                    Task<HttpStatusCode> t = null;//Task.Run(() => HTTPClient.DeleteMemberAsync(m));
-                    t.Wait();
-                    if (t.Result == HttpStatusCode.OK)
-                    {
-                        //dgMenbers.Items.Remove(dgMenbers.SelectedItem);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        }   
 
         private void DgMenbers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-        }
-
-        private void BtnAddFunction_Click(object sender, RoutedEventArgs e)
-        {
-            //FunctionsWindow fw = new FunctionsWindow(this);
-            //fw.Show();
-        }
-
-        private void BtnEdit_Click(object sender, RoutedEventArgs e)
-        {
-            //if (dgMembers.SelectedItem == null)
-            //{
-            //    MessageBox.Show("Sie müssen zuerst ein Mitglied auswählen!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
-            //else
-            //{
-            //    //EditMember em = new EditMember(this);
-            //    //em.Show();
-            //}
+            Operation op = (Operation)dgOperations.SelectedItem;
+            Task<Location> t = Task.Run(() => HTTPClient.GetLocationById(op.IdLocation));
+            Task<List<Member>> ta = Task.Run(() => HTTPClient.GetMembersWhoWereThere(op));
+            t.Wait();
+            lblStreet.Content = t.Result.Street;
+            lblHousenum.Content = t.Result.Housenumber;
+            lblPostal.Content = t.Result.Postalcode;
+            lblCity.Content = t.Result.Village;
+            ta.Wait();
+            lblMembersNum.Content = ta.Result.Count;
         }
 
         private void BtnAddMember_Click(object sender, RoutedEventArgs e)
@@ -108,6 +69,11 @@ namespace ELIKAD_Verwaltungsclient.UserControls
                 OperationMember addMemberWindow = new OperationMember((Operation)dgOperations.SelectedItem);
                 addMemberWindow.Show();
             }
+        }
+
+        private void BtnReport_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

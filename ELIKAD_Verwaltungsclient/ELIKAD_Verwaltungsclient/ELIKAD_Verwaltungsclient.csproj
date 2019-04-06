@@ -87,6 +87,7 @@
     <Compile Include="Data\HTTPClient.cs" />
     <Compile Include="Data\Location.cs" />
     <Compile Include="Data\LoginCredentials.cs" />
+    <Compile Include="Data\LowercaseContractResolver.cs" />
     <Compile Include="Data\Member.cs" />
     <Compile Include="Data\Operation.cs" />
     <Compile Include="UserControls\DepartmentPage.xaml.cs">
@@ -95,8 +96,11 @@
     <Compile Include="UserControls\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\MemberPage.xaml.cs">
-      <DependentUpon>MemberPage.xaml</DependentUpon>
+    <Compile Include="UserControls\MembersPage.xaml.cs">
+      <DependentUpon>MembersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddExistingMember.xaml.cs">
+      <DependentUpon>AddExistingMember.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\AddMember.xaml.cs">
       <DependentUpon>AddMember.xaml</DependentUpon>
@@ -128,9 +132,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\MemberPage.xaml">
+    <Page Include="UserControls\MembersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Windows\AddExistingMember.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\AddMember.xaml">
       <Generator>MSBuild:Compile</Generator>

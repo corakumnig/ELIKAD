@@ -20,10 +20,12 @@ namespace ELIKAD_Verwaltungsclient.Data
         public static Member Member {get; set;}
         public static Department Department { get; set; }
         public static DepartmentStatistics DepartmentStats { get; set; }
+        public static Operation ActiveOperation { get; set; }
 
         private const string initVector = "sd9vüweäifo3äf";
         private const string passPhrase = "fasafsdfasdfdfasdf6sd5g465234d";
         private const int keysize = 256;
+        private static JsonSerializerSettings settings = new JsonSerializerSettings();
 
         public static async Task<List<Member>> GetMembersAsync()
         {
@@ -80,6 +82,16 @@ namespace ELIKAD_Verwaltungsclient.Data
             return members;
         }
 
+        public static async Task<HttpStatusCode> LoadActiveOperation()
+        {
+            HttpResponseMessage response = await client.GetAsync("operations/" + Department.Id + "/active");
+            if (response.IsSuccessStatusCode)
+            {
+                ActiveOperation = (await response.Content.ReadAsAsync<List<Operation>>())[0];
+            }
+            return response.StatusCode;
+        }
+
         public static async Task<List<Member>> GetMembersWhoWereThere(Operation operation)
         {
             List<Member> members = null;
@@ -91,10 +103,21 @@ namespace ELIKAD_Verwaltungsclient.Data
             return members;
         }
 
+        public static async Task<List<Member>> GetMembersWithoutDepartment()
+        {
+            List<Member> members = null;
+            HttpResponseMessage response = await client.GetAsync("members/withoutdepartment");
+            if (response.IsSuccessStatusCode)
+            {
+                members = await response.Content.ReadAsAsync<List<Member>>();
+            }
+            return members;
+        }
+
         public static async Task<HttpStatusCode> CreateMemberAsync(Member member)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync(
-                "members", member);
+                "members", JsonConvert.DeserializeObject(LowercaseContractResolver.SerializeObject(member)));
             return response.StatusCode;
         }
 
@@ -112,10 +135,17 @@ namespace ELIKAD_Verwaltungsclient.Data
             return response.StatusCode;
         }
 
+        public static async Task<HttpStatusCode> EndOperation()
+        {
+            HttpResponseMessage response = await client.PutAsJsonAsync(
+                "operations/" + ActiveOperation.Id, new StringContent(""));
+            return response.StatusCode;
+        }
+
         public static async Task<HttpStatusCode> EditMemberAsync(Member member)
         {
             HttpResponseMessage response = await client.PutAsJsonAsync(
-                "members", member);
+                "members/" + member.Id, JsonConvert.DeserializeObject(LowercaseContractResolver.SerializeObject(member)));
             return response.StatusCode;
         }
 
@@ -176,6 +206,17 @@ namespace ELIKAD_Verwaltungsclient.Data
             return response.StatusCode;
         }
 
+        public static async Task<Location> GetLocationById(int id)
+        {
+            HttpResponseMessage response = await client.GetAsync("locations/" + id);
+            Location loc = null;
+            if (response.IsSuccessStatusCode)
+            {
+                loc = (await response.Content.ReadAsAsync<List<Location>>())[0];
+            }
+            return loc;
+        }
+
         public static async Task<HttpStatusCode> LogoutAsync()
         {
             HttpResponseMessage response = await client.DeleteAsync("login/admin");
@@ -189,6 +230,7 @@ namespace ELIKAD_Verwaltungsclient.Data
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
+            settings.ContractResolver = new LowercaseContractResolver();
             if (Properties.Settings.Default.BearerToken != null && !Properties.Settings.Default.BearerToken.Equals(""))
             {
                 Token = decryptString(Properties.Settings.Default.BearerToken);
@@ -202,8 +244,10 @@ namespace ELIKAD_Verwaltungsclient.Data
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
             PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
             byte[] keyBytes = password.GetBytes(keysize / 8);
-            RijndaelManaged symmetricKey = new RijndaelManaged();
-            symmetricKey.Mode = CipherMode.CBC;
+            RijndaelManaged symmetricKey = new RijndaelManaged
+            {
+                Mode = CipherMode.CBC
+            };
             ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
             MemoryStream memoryStream = new MemoryStream();
             CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
@@ -220,8 +264,10 @@ namespace ELIKAD_Verwaltungsclient.Data
             byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
             PasswordDeriveBytes password = new PasswordDeriveBytes(passPhrase, null);
             byte[] keyBytes = password.GetBytes(keysize / 8);
-            RijndaelManaged symmetricKey = new RijndaelManaged();
-            symmetricKey.Mode = CipherMode.CBC;
+            RijndaelManaged symmetricKey = new RijndaelManaged
+            {
+                Mode = CipherMode.CBC
+            };
             ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
             MemoryStream memoryStream = new MemoryStream(cipherTextBytes);
             CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
