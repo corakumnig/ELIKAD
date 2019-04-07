@@ -39,7 +39,7 @@ namespace ELIKAD_Verwaltungsclient.Windows
             {
                 m = new Member(0, txtSvNr.Text, txtFirstname.Text, txtLastname.Text,
                     (DateTime)dpDateOfBirth.SelectedDate, (DateTime)dpDateOfEntry.SelectedDate,
-                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender(), HTTPClient.Department.Id, int.Parse(txtPin.Password));
+                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender(), HTTPClient.Department.Id, txtPin.Password);
             }
             catch (FormatException)
             {

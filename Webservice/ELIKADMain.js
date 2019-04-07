@@ -67,6 +67,7 @@ operationsRouter.use("/members", memberRouter);
 operationsRouter.use("/members/:idMember", memberRouter);
 departmentRouter.use("/statistic", departmentStatisticsRouter);
 defaultrouter.use("/reports", operationReportRouter);
+defaultrouter.use("/reports/:idOperation", operationReportRouter);
 defaultrouter.use("/locations", locationRouter);
 defaultrouter.use("/locations/:idLocation", locationRouter);
 

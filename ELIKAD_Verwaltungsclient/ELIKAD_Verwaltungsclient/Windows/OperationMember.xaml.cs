@@ -75,7 +75,7 @@ namespace ELIKAD_Verwaltungsclient.Windows
                         dgMembersWasThere.ItemsSource = filtered;
                         break;
                     case 1:
-                        filtered = ((IEnumerable<Member>)dgMembersWasThere.ItemsSource).Where(member => member.SVNr.StartsWith(txtSearchWasThere.Text));
+                        filtered = ((IEnumerable<Member>)dgMembersWasThere.ItemsSource).Where(member => member.SvNr.StartsWith(txtSearchWasThere.Text));
                         dgMembersWasThere.ItemsSource = filtered;
                         break;
                     case 2:
@@ -150,7 +150,7 @@ namespace ELIKAD_Verwaltungsclient.Windows
                         dgMembersWasntThere.ItemsSource = filtered;
                         break;
                     case 1:
-                        filtered = ((IEnumerable<Member>)dgMembersWasntThere.ItemsSource).Where(member => member.SVNr.StartsWith(txtSearchWasntThere.Text));
+                        filtered = ((IEnumerable<Member>)dgMembersWasntThere.ItemsSource).Where(member => member.SvNr.StartsWith(txtSearchWasntThere.Text));
                         dgMembersWasntThere.ItemsSource = filtered;
                         break;
                     case 2:

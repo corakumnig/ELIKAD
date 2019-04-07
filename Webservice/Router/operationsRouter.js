@@ -13,6 +13,7 @@ operationsRouter.get("/", function (req, res){
     var idDepartment = req.params.idDepartment;
     var idMember = req.params.idMember;
     var idOperation = req.params.idOperation;
+    var year = req.query.year;
     let query = "select eli_operation.id as id, text, alarmlevel, start_datetime as startDatetime, end_datetime as endDatetime, caller, eli_operationtype.name as type, "
         + " eli_controlcenter.name as controlcenterName, eli_operation.id_location as idLocation from eli_operation"
         + " inner join eli_operationtype"
@@ -58,6 +59,13 @@ operationsRouter.get("/", function (req, res){
                 param.push(idOperation);
                 query += " where eli_operation.id = :idOperation";
             }
+            if(year != undefined){
+                param.push(year);
+                if(query.includes("where"))
+                    query += " and extract(year from eli_operation.end_datetime) = :year";
+                else
+                    query += " where extract(year from eli_operation.end_datetime) = :year";
+            }
             oracleConnection.execute(query, param,
                 (result) => res.status(200).json(classParser(result.rows, classes.Operation)),
                 (err) => res.status(404).json({
@@ -90,7 +98,7 @@ operationsRouter.get("/wasntthere", function(req, res){
     var userGroup = tokenHandler.VerifyToken(apiToken);
 
     try{
-        if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'member'){
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
             res.status(401).json({
                 message: "Not authenticated"
             });
@@ -128,7 +136,7 @@ operationsRouter.get("/wasthere", function(req, res){
     var userGroup = tokenHandler.VerifyToken(apiToken);
 
     try{
-        if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'member'){
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
             res.status(401).json({
                 message: "Not authenticated"
             });
@@ -148,24 +156,56 @@ operationsRouter.get("/wasthere", function(req, res){
     }
 });
 
+operationsRouter.get("/departments/:idDepartment/years", function(req, res){
+    var idDepartment = req.params.idDepartment;
+    let query = "select EXTRACT(year FROM eli_operation.end_datetime) as years from eli_operation"
+    + " inner join eli_operation_dept"
+    + " on eli_operation.id = eli_operation_dept.id_operation"
+    + " where eli_operation_dept.ID_DEPARTMENT = :idDepartment"
+    + " group by EXTRACT(year FROM eli_operation.end_datetime) order by years desc";
+    var param = [idDepartment];
+    var apiToken = req.get("Token");
+    var userGroup = tokenHandler.VerifyToken(apiToken);
+
+    try{
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
+            res.status(401).json({
+                message: "Not authenticated"
+            });
+        }
+        else{
+            oracleConnection.execute(query, param,
+                (result) => res.status(200).json(classParser(result.rows, Number)),
+                (err) => res.status(403).json({
+                    message: err.message,
+                    details: err
+                })
+            );
+        }
+    }
+    catch(ex){
+        res.status(500).send("500: " + ex);
+    }
+});
+
 operationsRouter.get("/wasthere", function(req, res){
     var idDepartment = req.params.idDepartment;
     var idOperation = req.params.idOperation;
     let query = "select * from eli_member"
         + " where id in("
-        + "  select eli_member.id from eli_operation_member"
-        + "  inner join eli_member"
-        + "  on eli_member.id = eli_operation_member.id_member"
-        + "  inner join ELI_DEPARTMENT"
-        + "  on ELI_DEPARTMENT.id = eli_member.ID_DEPARTMENT"
-        + "  where eli_member.id_department = :idDepartment and id_operation = :idOperation"
+        + " select eli_member.id from eli_operation_member"
+        + " inner join eli_member"
+        + " on eli_member.id = eli_operation_member.id_member"
+        + " inner join ELI_DEPARTMENT"
+        + " on ELI_DEPARTMENT.id = eli_member.ID_DEPARTMENT"
+        + " where eli_member.id_department = :idDepartment and id_operation = :idOperation"
         + ") and id_department = :idDepartment";;
     var param = [idDepartment, idOperation];
     var apiToken = req.get("Token");
     var userGroup = tokenHandler.VerifyToken(apiToken);
 
     try{
-        if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'member'){
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
             res.status(401).json({
                 message: "Not authenticated"
             });
@@ -208,27 +248,39 @@ operationsRouter.get("/wasthere", function(req, res){
 
 operationsRouter.post("/", function(req, res){
     var operation = req.body;
-    let query = "insert into eli_operation values(eli_seq_operation.nextVal, to_date(:StartDatetime 'dd/MM/yyyy'), null, :caller, :text, alarmlevel, :idControlcenter, :id_Location, :idOperationtype)";
-    var param = [member.SVNr, member.Firstname, member.Lastname, member.DateOfBirth, 
-        member.DateOfEntry, member.Phonenumber, member.Email, member.IdDepartment, member.Gender];
+    let query = "insert into eli_operation values(:opsid, to_date(:datetime, 'dd.MM.yyyy HH24:MI'), null, :caller, :description, :alarmlevel, :idControlcenter, :idLocation, null)";
+    var querySeq = "select eli_seq_operation.nextval from dual";
+    var param = [];
     var apiToken = req.get("Token");
     var userGroup = tokenHandler.VerifyToken(apiToken);
+    var opsid;
 
     try{
-        if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'member' && userGroup != 'operator'){
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
             res.status(401).json({
                 message: "Not authenticated"
             });
         }
         else{
-            oracleConnection.execute(query, param,
-                (result) => res.status(200).json({
-                    message: 'Creation successful',
-                    details: result
-                }),
-                (err) => res.status(403).json({
-                    message: err.message,
-                    details: err
+            oracleConnection.execute(querySeq, param,
+                (result1) => {
+                    opsid = result1.rows[0][0];
+                    param = [opsid, operation.datetime, operation.caller, operation.description, operation.alarmlevel, 
+                        operation.idControlcenter, operation.idLocation];
+                    oracleConnection.execute(query, param,
+                        (result) => {
+                            res.setHeader('idOperation', opsid);
+                            res.status(200).send();
+                    },
+                    (err) => res.status(403).json({
+                        message: err.message,
+                        details: err
+                    })
+                )
+            },
+            (err) => res.status(403).json({
+                message: err.message,
+                details: err
                 })
             );
         }
@@ -254,7 +306,7 @@ operationsRouter.get("/:idDepartment/active", function(req, res){
     var userGroup = tokenHandler.VerifyToken(apiToken);
 
     try{
-        if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'member'){
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
             res.status(401).json({
                 message: "Not authenticated"
             });
@@ -274,6 +326,45 @@ operationsRouter.get("/:idDepartment/active", function(req, res){
     }
 });
 
+operationsRouter.post("/departments/:idDepartment", function(req, res){
+    var idDepartment = req.params.idDepartment;
+    var idOperation = req.params.idOperation;
+    let query = "insert into eli_operation_dept values(:idOperation, :idDepartment)";
+    var param = [idOperation, idDepartment];
+    var apiToken = req.get("Token");
+    var userGroup = tokenHandler.VerifyToken(apiToken);
+
+    try{
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
+            res.status(401).json({
+                message: "Not authenticated"
+            });
+        }
+        else{
+            if(idOperation == undefined){
+                res.status(400).json({
+                    message: "Parameter missing"
+                });
+            }
+            else{
+                oracleConnection.execute(query, param,
+                    (result) => res.status(200).json({
+                        message: 'Insert succeeded',
+                        details: result
+                    }),
+                    (err) => res.status(403).json({
+                        message: err.message,
+                        details: err
+                    })
+                );
+            }
+        }
+    }
+    catch(ex){
+        res.status(500).send("500: " + ex);
+    }
+});
+
 
 operationsRouter.post("/members/:idMember", function(req, res){
     var idMember = req.params.idMember;
@@ -284,7 +375,7 @@ operationsRouter.post("/members/:idMember", function(req, res){
     var userGroup = tokenHandler.VerifyToken(apiToken);
 
     try{
-        if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'member' && userGroup != 'operator'){
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
             res.status(401).json({
                 message: "Not authenticated"
             });
@@ -322,7 +413,7 @@ operationsRouter.put("", function(req, res){
     var userGroup = tokenHandler.VerifyToken(apiToken);
 
     try{
-        if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'member' && userGroup != 'operator'){
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
             res.status(401).json({
                 message: "Not authenticated"
             });
@@ -361,7 +452,7 @@ operationsRouter.delete("/members/:idMember", function(req, res){
     var userGroup = tokenHandler.VerifyToken(apiToken);
 
     try{
-        if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'member' && userGroup != 'operator'){
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
             res.status(401).json({
                 message: "Not authenticated"
             });

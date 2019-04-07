@@ -142,14 +142,14 @@ create table eli_operation(
 
 create table eli_member(
   id integer,
-  svNr varchar2(10),
+  svNr varchar2(20),
   firstname varchar2(50),
   lastname varchar2(50),
   dateOfBirth date,
   dateOfEntry date,
   phonenumber varchar2(20),
   email varchar(50),
-  pin varchar(8),
+  pin varchar(20),
   id_operator int,
   id_admin int,
   id_department int,
@@ -157,7 +157,6 @@ create table eli_member(
   
   constraint pk_eli_id primary key (id),
   constraint uq_eli_svNr unique (svNr),
-  constraint uq_eli_phonenumber unique (phonenumber),
   constraint fk_eli_member_operator foreign key (id_operator) references eli_operator (id) ON DELETE CASCADE,
   constraint fk_eli_member_admin foreign key (id_admin) references eli_admin (id) ON DELETE CASCADE,
   constraint fk_eli_department foreign key (id_department) references eli_department(id) ON DELETE CASCADE
@@ -242,9 +241,9 @@ insert into eli_location values(eli_seq_location.nextval, '57', 'Gnesau', 9563, 
 insert into eli_location values(eli_seq_location.nextval, '80', 'Lieserhofer Straﬂe', 9851, 'Lieserbr¸cke', 6);
 insert into eli_location values(eli_seq_location.nextval, '100', 'am Wasser', 9872, 'Millstatt', 9);
 insert into eli_location values(eli_seq_location.nextval, '20', 'Rosenegger Straﬂe', 9020, 'Klagenfurt', 3);
-insert into eli_location values(eli_seq_location.nextval, '40a', 'Bahnhofstraﬂe', 9560, 'Feldkichen in K‰rnten', 4);
-insert into eli_location values(eli_seq_location.nextval, null, 'St. Stefan', 9560, 'Feldkichen in K‰rnten', 8);
-insert into eli_location values(eli_seq_location.nextval, '34b', 'Kirchgasse', 9560, 'Feldkichen in K‰rnten', 8);
+insert into eli_location values(eli_seq_location.nextval, '40', 'Bahnhofstraﬂe', 9560, 'Feldkichen in K‰rnten', 4);
+insert into eli_location values(eli_seq_location.nextval, '41', 'St. Stefan', 9560, 'Feldkichen in K‰rnten', 8);
+insert into eli_location values(eli_seq_location.nextval, '34', 'Kirchgasse', 9560, 'Feldkichen in K‰rnten', 8);
 
 
 insert into eli_department values(eli_seq_department.nextval, 'FF Himmelberg', '1234', null, 1, 1);
@@ -294,12 +293,14 @@ insert into eli_operationtype values(eli_seq_operationtype.nextval, 'Taucheinsat
 insert into eli_operation values(eli_seq_operation.nextval, to_date('02.02.2019 21:39', 'DD.MM.YYYY HH24:mi'), to_date('02.02.2019 22:39', 'DD.MM.YYYY HH24:mi'), 'Einstein Neutron', 'Kaminbrand  beim vulgo Oraclebauer', '1', 2, 8, 1);
 insert into eli_operation values(eli_seq_operation.nextval, to_date('01.03.2019 22:51', 'DD.MM.YYYY HH24:mi'),  to_date('02.03.2019 03:39', 'DD.MM.YYYY HH24:mi'), 'Zweistein Proton', 'Person beim Flatschacher See verschwunden', '2', 1, 7, 5);
 insert into eli_operation values(eli_seq_operation.nextval, to_date('04.03.2019 22:51', 'DD.MM.YYYY HH24:mi'),  null, 'Klausi Hausi', 'Baum auf Straﬂe', '1', 1, 7, 5);
+insert into eli_operation values(eli_seq_operation.nextval, to_date('04.03.2018 22:51', 'DD.MM.YYYY HH24:mi'),  to_date('05.03.2018 03:39', 'DD.MM.YYYY HH24:mi'), 'Franz Hausi', 'Auto in Haus', '3', 1, 7, 5);
 
 insert into eli_operation_dept values(1, 1);
 insert into eli_operation_dept values(2, 1);
 insert into eli_operation_dept values(2, 2);
 insert into eli_operation_dept values(2, 3);
 insert into eli_operation_dept values(2, 4);
+insert into eli_operation_dept values(4, 1);
 
 insert into eli_operation_member values(1, 1);
 insert into eli_operation_member values(1, 2);

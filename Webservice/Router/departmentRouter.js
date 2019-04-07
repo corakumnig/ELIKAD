@@ -23,7 +23,7 @@ departmentRouter.get("/", function(req, res){
     var param = [];
     var userGroup = tokenHandler.VerifyToken(apiToken);
 
-    if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'operator'){
+    if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
         res.status(401).json({
             message: "Not authenticated"
         });
@@ -72,7 +72,7 @@ departmentRouter.post("/", function(req, res){
     var userGroup = tokenHandler.VerifyToken(apiToken);
 
     try{
-        if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'operator'){
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
             res.status(401).json({
                 message: "Not authenticated"
             });
@@ -102,7 +102,7 @@ departmentRouter.delete("/:SVNr", function(req, res){
     var userGroup  = tokenHandler.VerifyToken(apiToken);
 
     try{
-        if(userGroup != 'department' && userGroup != 'admin' && userGroup != 'operator'){
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
             res.status(401).json({
                 message: "Not authenticated"
             });

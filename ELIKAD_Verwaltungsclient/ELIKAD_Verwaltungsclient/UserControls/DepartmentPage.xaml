@@ -58,7 +58,7 @@
                 <DataGridTextColumn MinWidth="150" Header="Leitstelle" Binding="{Binding ControlcenterName}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <ComboBox x:Name="cmbFilter" Margin="0,43,363,0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="34" Width="127" FontSize="16"/>
+        <ComboBox x:Name="cmbFilter" SelectionChanged="CmbFilter_SelectionChanged" Margin="0,43,363,0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="34" Width="127" FontSize="16"/>
         <Button x:Name="btnReport" Content="Bericht" Grid.Column="1" HorizontalAlignment="Left" Margin="320,43,0,0" VerticalAlignment="Top" Width="127" RenderTransformOrigin="0.318,1.63" Height="34" Click="BtnReport_Click" FontSize="16"/>
         <Button x:Name="btnAddMember" Content="Mitglieder" Grid.Column="1" HorizontalAlignment="Left" Margin="161,43,0,0" VerticalAlignment="Top" Height="34" Width="127" Click="BtnAddMember_Click" FontSize="16"/>
         <Label Content="Straße:" Grid.Column="1" HorizontalAlignment="Left" Margin="142,153,0,0" VerticalAlignment="Top" FontSize="20"/>

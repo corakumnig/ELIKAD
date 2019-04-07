@@ -90,6 +90,7 @@
     <Compile Include="Data\LowercaseContractResolver.cs" />
     <Compile Include="Data\Member.cs" />
     <Compile Include="Data\Operation.cs" />
+    <Compile Include="Data\Report.cs" />
     <Compile Include="UserControls\DepartmentPage.xaml.cs">
       <DependentUpon>DepartmentPage.xaml</DependentUpon>
     </Compile>
@@ -123,6 +124,9 @@
     </Compile>
     <Compile Include="Windows\OperationMember.xaml.cs">
       <DependentUpon>OperationMember.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ReportWindow.xaml.cs">
+      <DependentUpon>ReportWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="UserControls\DepartmentPage.xaml">
       <SubType>Designer</SubType>
@@ -161,6 +165,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\OperationMember.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ReportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -215,6 +223,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Feuerwehr-logo.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

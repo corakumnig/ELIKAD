@@ -45,5 +45,6 @@
         <Label x:Name="lblNumMembers" FontSize="30" HorizontalAlignment="Left" Margin="272,262,0,-1"  Content="TextBox" VerticalAlignment="Top" Height="48" Width="127"/>
         <Label x:Name="lblNumMembersOperation" FontSize="30" HorizontalAlignment="Left" Margin="272,346,0,-85" Content="TextBox" VerticalAlignment="Top" Height="48" Width="127"/>
         <Button x:Name="btnReady" Content="Einsatzbereit" HorizontalAlignment="Left" Margin="475,203,-140,0" VerticalAlignment="Top" Width="240" Height="64" FontSize="36" Click="BtnReady_Click"/>
+        <Image Margin="551,191,-200,0" Height="300" Width="400" Source="/ELIKAD_Verwaltungsclient;component/logo.jpg" Stretch="Fill"/>
     </Grid>
 </UserControl>

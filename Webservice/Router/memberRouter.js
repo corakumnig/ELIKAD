@@ -91,8 +91,8 @@ memberRouter.get("/withoutdepartment", function(req, res){
 
 memberRouter.post("/", function(req, res){
     var member = req.body;
-    let query = "insert into eli_member values(eli_seq_member.nextVal, :sVNr, :firstname, :lastname, to_date(:dateOfBirth, 'dd/MM/yyyy'), to_date(:dateOfEntry, 'dd/MM/yyyy'), :phonenumber, :email, :pin, null, null, :idDepartment, :gender)";
-    var param = [member.sVNr, member.firstname, member.lastname, member.dateOfBirth, 
+    let query = "insert into eli_member values(eli_seq_member.nextVal, :svNr, :firstname, :lastname, to_date(:dateOfBirth, 'dd/MM/yyyy'), to_date(:dateOfEntry, 'dd/MM/yyyy'), :phonenumber, :email, :pin, null, null, :idDepartment, :gender)";
+    var param = [member.svNr, member.firstname, member.lastname, member.dateOfBirth, 
         member.dateOfEntry, member.phonenumber, member.email, member.pin, member.idDepartment, member.gender];
     var apiToken = req.get("Token");
     var userGroup = tokenHandler.VerifyToken(apiToken);

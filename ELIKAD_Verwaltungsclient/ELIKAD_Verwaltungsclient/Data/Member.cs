@@ -16,12 +16,12 @@ namespace ELIKAD_Verwaltungsclient.Data
         public DateTime DateOfEntry { get; set; }
         public string Phonenumber { get; set; }
         public string Email { get; set; }
-        public string SVNr { get; set; }
+        public string SvNr { get; set; }
         public string Gender { get; set; }
-        public int IdDepartment { get; set; }
-        public int Pin { get; set; }
+        public int? IdDepartment { get; set; }
+        public string Pin { get; set; }
 
-        public Member(int Id, string SVNr, string Firstname, string Lastname, DateTime DateOfBirth, DateTime DateOfEntry, string Phonenumber, string Email, string Gender, int IdDepartment, int Pin)
+        public Member(int Id, string SvNr, string Firstname, string Lastname, DateTime DateOfBirth, DateTime DateOfEntry, string Phonenumber, string Email, string Gender, int? IdDepartment, string Pin)
         {
             this.Id = Id;
             this.Firstname = Firstname;
@@ -30,7 +30,7 @@ namespace ELIKAD_Verwaltungsclient.Data
             this.DateOfEntry = DateOfEntry;
             this.Phonenumber = Phonenumber;
             this.Email = Email;
-            this.SVNr = SVNr;
+            this.SvNr = SvNr;
             this.Gender = Gender;
             this.IdDepartment = IdDepartment;
             this.Pin = Pin;

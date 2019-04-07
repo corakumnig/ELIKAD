@@ -7,7 +7,7 @@ const tokenHandler = require("../Data/tokenHandler");
 
 locationRouter.get("/", function (req, res){
     var idLocation = req.params.idLocation;
-    let query = "select * from eli_location whereS";
+    let query = "select * from eli_location";
     var param = [];
     var apiToken = req.get("Token");
     var userGroup = tokenHandler.VerifyToken(apiToken);
@@ -30,6 +30,71 @@ locationRouter.get("/", function (req, res){
                     details: err
                 })
             );
+        }
+    }
+    catch(ex){
+        res.status(500).send("500: " + ex);
+    }
+});
+
+locationRouter.post("/", function (req, res){
+    var location = req.body;
+    let query = "insert into eli_location values(:locid, :housenumber, :street, :postalcode, :city, null)";
+    var querySeq = "select eli_seq_location.nextval from dual";
+    var param = [];
+    var param1 = [];
+    var apiToken = req.get("Token");
+    var userGroup = tokenHandler.VerifyToken(apiToken);
+    var locid;
+
+    try{
+        if(userGroup != 'department' && userGroup != 'member' && userGroup != 'admin' && userGroup != 'operator'){
+            res.status(401).json({
+                message: "Not authenticated"
+            });
+        }
+        else{
+            oracleConnection.execute(querySeq, param1,
+                (result1) =>{ 
+                    locid = result1.rows[0][0];
+                    param = [locid, location.housenumber, location.street, location.postalcode, location.city];
+                    oracleConnection.execute(query, param,
+                        (result) => {
+                            res.setHeader('idLocation', locid);
+                            res.status(200).json()
+                    },
+                        (err) => res.status(404).json({
+                            message: err.message,
+                            details: err
+                        })
+                    )
+                },
+                (err) => res.status(404).json({
+                    message: err.message,
+                    details: err
+                })
+            );
+            /* oracleConnection.execute(querySeq, param, 
+                function(result1){
+                    locid = result1.rows[0][0];
+                    param.push(locid);
+                    oracleConnection.execute(query, param,
+                        (result) => res.status(200).json({
+                            message: 'Creation successful',
+                            details: result
+                        }),
+                        (err) => res.status(404).json({
+                            message: err.message,
+                            details: err
+                        })
+                    )
+                }
+            ), 
+            (err) => res.status(404).json({
+                message: err.message,
+                details: err
+            }); */
+            
         }
     }
     catch(ex){
@@ -60,7 +125,7 @@ locationRouter.post("/members/:idMember", function(req, res){
             else{
                 oracleConnection.execute(query, param,
                     (result) => res.status(200).json({
-                        message: 'Added successfully',
+                        id: 'Added successfully',
                         details: result
                     }),
                     (err) => res.status(403).json({

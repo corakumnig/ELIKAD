@@ -21,6 +21,7 @@ namespace ELIKAD_Verwaltungsclient.Data
         public static Department Department { get; set; }
         public static DepartmentStatistics DepartmentStats { get; set; }
         public static Operation ActiveOperation { get; set; }
+        public static int ActualYear { get; set; } = DateTime.Now.Year;
 
         private const string initVector = "sd9vüweäifo3äf";
         private const string passPhrase = "fasafsdfasdfdfasdf6sd5g465234d";
@@ -41,7 +42,7 @@ namespace ELIKAD_Verwaltungsclient.Data
         public static async Task<List<Operation>> GetOperationsAsync()
         {
             List<Operation> operations = null;
-            HttpResponseMessage response = await client.GetAsync("departments/" + Department.Id + "/operations");
+            HttpResponseMessage response = await client.GetAsync("departments/" + Department.Id + "/operations?year=" + ActualYear);
             if (response.IsSuccessStatusCode)
             {
                 operations = await response.Content.ReadAsAsync<List<Operation>>();
@@ -85,9 +86,14 @@ namespace ELIKAD_Verwaltungsclient.Data
         public static async Task<HttpStatusCode> LoadActiveOperation()
         {
             HttpResponseMessage response = await client.GetAsync("operations/" + Department.Id + "/active");
+            List<Operation> collOps = null;
             if (response.IsSuccessStatusCode)
             {
-                ActiveOperation = (await response.Content.ReadAsAsync<List<Operation>>())[0];
+                collOps = (await response.Content.ReadAsAsync<List<Operation>>());
+                if (collOps.Count == 0)
+                    ActiveOperation = null;
+                else
+                    ActiveOperation = collOps[0];
             }
             return response.StatusCode;
         }
@@ -103,6 +109,17 @@ namespace ELIKAD_Verwaltungsclient.Data
             return members;
         }
 
+        public static async Task<List<int>> GetYearsOfOps()
+        {
+            List<int> years = null;
+            HttpResponseMessage response = await client.GetAsync("operations/departments/" + Department.Id + "/years");
+            if (response.IsSuccessStatusCode)
+            {
+                years = await response.Content.ReadAsAsync<List<int>>();
+            }
+            return years;
+        }
+
         public static async Task<List<Member>> GetMembersWithoutDepartment()
         {
             List<Member> members = null;
@@ -114,10 +131,31 @@ namespace ELIKAD_Verwaltungsclient.Data
             return members;
         }
 
+        public static async Task<Report> GetReport(Operation ops)
+        {
+            Report report = null;
+            List<Report> collReports;
+            HttpResponseMessage response = await client.GetAsync("reports/" + ops.Id);
+            if (response.IsSuccessStatusCode)
+            {
+                collReports = await response.Content.ReadAsAsync<List<Report>>();
+                if (collReports.Count != 0)
+                    report = collReports[0];
+            }
+            return report;
+        }
+
         public static async Task<HttpStatusCode> CreateMemberAsync(Member member)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync(
                 "members", JsonConvert.DeserializeObject(LowercaseContractResolver.SerializeObject(member)));
+            return response.StatusCode;
+        }
+
+        public static async Task<HttpStatusCode> PostReport(Report report)
+        {
+            HttpResponseMessage response = await client.PostAsJsonAsync(
+                "reports", JsonConvert.DeserializeObject(LowercaseContractResolver.SerializeObject(report)));
             return response.StatusCode;
         }
 
@@ -156,15 +194,18 @@ namespace ELIKAD_Verwaltungsclient.Data
             return response.StatusCode;
         }
         
-        public static async Task<HttpStatusCode> LoginAsync(LoginCredentials lc)
+        public static async Task<HttpStatusCode> LoginAsync(LoginCredentials lc, bool stay)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync("login/admin", lc);
             if (Token == null || Token.Equals(""))
             {
                 Token = response.Headers.GetValues("Token").FirstOrDefault();
                 client.DefaultRequestHeaders.Add("Token", Token);
-                Properties.Settings.Default.BearerToken = encryptString(Token);
-                Properties.Settings.Default.Save();
+                if (stay)
+                {
+                    Properties.Settings.Default.BearerToken = encryptString(Token);
+                    Properties.Settings.Default.Save();
+                }
             }
             Member = await response.Content.ReadAsAsync<Member>();
             return response.StatusCode;

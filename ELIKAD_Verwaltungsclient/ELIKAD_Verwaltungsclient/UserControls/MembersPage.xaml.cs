@@ -68,7 +68,7 @@ namespace ELIKAD_Verwaltungsclient.UserControls
                         dgMembers.ItemsSource = filtered;
                         break;
                     case 1:
-                        filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.SVNr.StartsWith(txtSearch.Text));
+                        filtered = ((IEnumerable<Member>)dgMembers.ItemsSource).Where(member => member.SvNr.StartsWith(txtSearch.Text));
                         dgMembers.ItemsSource = filtered;
                         break;
                     case 2:

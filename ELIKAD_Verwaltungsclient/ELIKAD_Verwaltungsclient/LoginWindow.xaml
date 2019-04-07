@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ELIKAD_Verwaltungsclient"
         mc:Ignorable="d"
-        Title="Login" Height="205.868" Width="355.322"
+        Title="Login" Height="221.276" Width="330.322"
         ResizeMode="NoResize">
     <Grid>
-        <Label Content="Username:" HorizontalAlignment="Left" Margin="46,27,0,0" VerticalAlignment="Top" Height="31" Width="87"/>
-        <Label Content="Password:" HorizontalAlignment="Left" Margin="46,65,0,0" VerticalAlignment="Top" Height="25" Width="87"/>
-        <TextBox x:Name="txtUsername" HorizontalAlignment="Left" Height="33" Margin="141,27,0,0" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="15" Text="kraschlc" VerticalAlignment="Top" Width="172"/>
-        <PasswordBox x:Name="txtPassword" Password="Test123" VerticalContentAlignment="Center" FontSize="15"  HorizontalAlignment="Left" Height="33" Margin="141,65,0,0" VerticalAlignment="Top" Width="172"/>
-        <Button x:Name="btnLogin" Content="Login" HorizontalAlignment="Left" Margin="212,134,0,0" VerticalAlignment="Top" Width="101" Height="27" Click="btnLogin_Click"/>
-        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="46,134,0,0" VerticalAlignment="Top" Width="101" Height="27" Click="btnCancel_Click"/>
-        <Label x:Name="lblMessage" FontSize="12" FontStyle="Normal" Content="Bitte loggen Sie sich ein!" HorizontalAlignment="Left" Margin="46,103,0,0" VerticalAlignment="Top" Height="26" Width="267"/>
+        <Label Content="Username:" HorizontalAlignment="Left" Margin="35,13,0,0" VerticalAlignment="Top" Height="31" Width="87"/>
+        <Label Content="Password:" HorizontalAlignment="Left" Margin="35,51,0,0" VerticalAlignment="Top" Height="25" Width="87"/>
+        <TextBox x:Name="txtUsername" HorizontalAlignment="Left" Height="33" Margin="130,13,0,0" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="15" Text="kraschlc" VerticalAlignment="Top" Width="172"/>
+        <PasswordBox x:Name="txtPassword" Password="Test123" VerticalContentAlignment="Center" FontSize="15"  HorizontalAlignment="Left" Height="33" Margin="130,51,0,0" VerticalAlignment="Top" Width="172"/>
+        <Button x:Name="btnLogin" Content="Login" HorizontalAlignment="Left" Margin="201,117,0,0" VerticalAlignment="Top" Width="101" Height="27" Click="btnLogin_Click"/>
+        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="35,117,0,0" VerticalAlignment="Top" Width="101" Height="27" Click="btnCancel_Click"/>
+        <Label x:Name="lblMessage" FontStyle="Normal" Content="Bitte loggen Sie sich ein!" HorizontalAlignment="Left" Margin="35,149,0,0" VerticalAlignment="Top" Height="26" Width="267"/>
+        <CheckBox x:Name="cbStay" IsChecked="True" Content="Eingeloggt bleiben?" HorizontalAlignment="Left" Margin="41,94,0,0" VerticalAlignment="Top" FontSize="14"/>
     </Grid>
 </Window>

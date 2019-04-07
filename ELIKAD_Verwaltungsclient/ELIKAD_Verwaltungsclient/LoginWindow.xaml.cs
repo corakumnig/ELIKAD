@@ -48,9 +48,10 @@ namespace ELIKAD_Verwaltungsclient
         {
             try
             {
+                bool stay = (cbStay.IsChecked == true);
                 string username = txtUsername.Text;
                 string password = txtPassword.Password;
-                Task<HttpStatusCode> task = Task.Run(() => HTTPClient.LoginAsync(new LoginCredentials(username, password)));
+                Task<HttpStatusCode> task = Task.Run(() => HTTPClient.LoginAsync(new LoginCredentials(username, password), stay));
                 task.Wait();
                 HttpStatusCode statusCode = task.Result;
 

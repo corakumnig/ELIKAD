@@ -44,7 +44,7 @@
         <DataGrid x:Name="dgMembers" x:FieldModifier="public" IsReadOnly="True" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" Grid.Column="0"  MinHeight="100" MinWidth="1000" Height="auto" Width="auto" Margin="15,10,10,10" SelectionChanged="DgMenbers_SelectionChanged" FontSize="18">
             <DataGrid.Columns>
                 <DataGridTextColumn MinWidth="50" Header="Id" Binding="{Binding Id}"/>
-                <DataGridTextColumn MinWidth="120" Header="SV-Nr" Binding="{Binding SVNr}"/>
+                <DataGridTextColumn MinWidth="120" Header="SV-Nr" Binding="{Binding SvNr}"/>
                 <DataGridTextColumn MinWidth="200" Header="Vorname" Binding="{Binding Firstname}"/>
                 <DataGridTextColumn MinWidth="200" Header="Nachname" Binding="{Binding Lastname}"/>
                 <DataGridTextColumn MinWidth="180" Header="Geburtsdatum" Binding="{Binding DateOfBirth, StringFormat=\{0:dd.MM.yyyy\}}"/>
@@ -60,6 +60,6 @@
         <Button x:Name="btnDeleteMember" Content="Löschen" Grid.Column="1" HorizontalAlignment="Left" Margin="107,171,0,-85" VerticalAlignment="Top" Width="221" Click="BtnDeleteMember_Click" Height="46" FontSize="18"/>
         <Button x:Name="btnEdit" Content="Ändern" Grid.Column="1" HorizontalAlignment="Left" Margin="106,240,0,-154" VerticalAlignment="Top" Width="221" RenderTransformOrigin="0.318,1.63" Height="46" Click="BtnEdit_Click" FontSize="18"/>
         <Button x:Name="btnAddFunction" Content="Funktionen" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="106,307,0,-221" Width="221" Height="46" Click="BtnAddFunction_Click" FontSize="18"/>
-        <Button x:Name="btnAddExistingMember" Content="Mitglied übernehmen" Grid.Column="1" HorizontalAlignment="Left" Margin="106,373,0,-285" Width="221" Click="BtnAddExistingMember_Click" Height="46" FontSize="18"/>
+        <Button x:Name="btnAddExistingMember" Content="Mitglied übernehmen" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="106,373,0,-285" Width="221" Click="BtnAddExistingMember_Click" Height="46" FontSize="18"/>
     </Grid>
 </UserControl>

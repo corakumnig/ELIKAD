@@ -13,7 +13,7 @@
         <DataGrid x:Name="dgMembers" x:FieldModifier="public" IsReadOnly="True" ItemsSource="{Binding}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AutoGenerateColumns="False" Grid.Column="0"  MinHeight="100" MinWidth="400" Width="auto" Margin="10,57,10,53">
             <DataGrid.Columns>
                 <DataGridTextColumn MinWidth="40" Header="Id" Binding="{Binding Id}"/>
-                <DataGridTextColumn MinWidth="90" Header="SV-Nr" Binding="{Binding SVNr}"/>
+                <DataGridTextColumn MinWidth="90" Header="SV-Nr" Binding="{Binding SvNr}"/>
                 <DataGridTextColumn MinWidth="150" Header="Vorname" Binding="{Binding Firstname}"/>
                 <DataGridTextColumn MinWidth="150" Header="Nachname" Binding="{Binding Lastname}"/>
                 <DataGridTextColumn MinWidth="130" Header="Geburtsdatum" Binding="{Binding DateOfBirth, StringFormat=\{0:dd.MM.yyyy\}}"/>

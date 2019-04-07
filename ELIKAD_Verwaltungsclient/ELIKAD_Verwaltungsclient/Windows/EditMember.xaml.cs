@@ -30,12 +30,12 @@ namespace ELIKAD_Verwaltungsclient.Windows
             Member m = ((Member)mw.dgMembers.SelectedItem);
             txtFirstname.Text = m.Firstname;
             txtLastname.Text = m.Lastname;
-            txtSvNr.Text = m.SVNr;
+            txtSvNr.Text = m.SvNr;
             txtPhonenumber.Text = m.Phonenumber;
             txtEmail.Text = m.Email;
             dpDateOfBirth.SelectedDate = m.DateOfBirth;
             dpDateOfEntry.SelectedDate = m.DateOfEntry;
-            txtPin.Password = m.Pin.ToString();
+            txtPin.Password = (m.Pin == null) ? "" : m.Pin.ToString();
             setGender(m.Gender);
         }
 
@@ -46,7 +46,7 @@ namespace ELIKAD_Verwaltungsclient.Windows
             {
                 m = new Member(m.Id, txtSvNr.Text, txtFirstname.Text, txtLastname.Text,
                     (DateTime)dpDateOfBirth.SelectedDate, (DateTime)dpDateOfEntry.SelectedDate,
-                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender(), HTTPClient.Department.Id, int.Parse(txtPin.Password));
+                    txtPhonenumber.Text, txtEmail.Text, getSelectedGender(), HTTPClient.Department.Id, txtPin.Password);
             }
             catch (FormatException)
             {

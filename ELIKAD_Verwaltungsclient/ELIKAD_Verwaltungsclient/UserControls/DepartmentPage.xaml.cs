@@ -24,7 +24,7 @@ namespace ELIKAD_Verwaltungsclient.UserControls
     public partial class DepartmentPage : UserControl
     {
         MainWindow mainWindow;
-        string[] colnames = { "Id", "Sv-Nr", "Vorname", "Nachname", "Geburtsdatum", "Eintrittsdatum", "E-mail", "Telefonnummer", "Geschlecht" };
+        int[] colnames;
 
         public DepartmentPage(MainWindow mainWindow)
         {
@@ -32,8 +32,11 @@ namespace ELIKAD_Verwaltungsclient.UserControls
             try
             {
                 this.mainWindow = mainWindow;
-                cmbFilter.ItemsSource = colnames;
+                Task<List<int>> tyears = Task.Run(() => HTTPClient.GetYearsOfOps());
+                tyears.Wait();
+                cmbFilter.ItemsSource = tyears.Result;
                 cmbFilter.SelectedIndex = 0;
+                HTTPClient.ActualYear = (int)cmbFilter.SelectedItem;
                 Task<List<Operation>> t = Task.Run(() => HTTPClient.GetOperationsAsync());
                 t.Wait();
                 dgOperations.ItemsSource = t.Result;
@@ -73,7 +76,21 @@ namespace ELIKAD_Verwaltungsclient.UserControls
 
         private void BtnReport_Click(object sender, RoutedEventArgs e)
         {
+            if (dgOperations.SelectedItem == null)
+                MessageBox.Show("Sie müssen zuerst ein Mitglied auswählen!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            else
+            {
+                ReportWindow addMemberWindow = new ReportWindow((Operation)dgOperations.SelectedItem);
+                addMemberWindow.Show();
+            }
+        }
 
+        private void CmbFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            HTTPClient.ActualYear = (int)cmbFilter.SelectedItem;
+            Task<List<Operation>> t = Task.Run(() => HTTPClient.GetOperationsAsync());
+            t.Wait();
+            dgOperations.ItemsSource = t.Result;
         }
     }
 }

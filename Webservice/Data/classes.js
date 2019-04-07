@@ -4,8 +4,8 @@ class Member {
         this.svNr = svNr;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.dateOfBirth = dateOfBirth.toLocaleDateString();
-        this.dateOfEntry = dateOfEntry.toLocaleDateString();
+        this.dateOfBirth = (dateOfBirth == null) ? null: dateOfBirth.toLocaleDateString();
+        this.dateOfEntry = (dateOfEntry == null) ? null: dateOfEntry.toLocaleDateString();
         this.phonenumber = phonenumber;
         this.email = email;
         this.gender = gender;
