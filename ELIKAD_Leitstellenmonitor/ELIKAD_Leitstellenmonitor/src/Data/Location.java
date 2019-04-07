@@ -13,15 +13,15 @@ public class Location {
     private int id;
     private String housenumber;
     private String street;
-    private String postcode;
+    private String postalcode;
     private String village;
     
-    public Location(int id, String housenumber, String street, String postcode, String village)
+    public Location(int id, String housenumber, String street, String postalcode, String village)
     {
         this.setId(id);
         this.setHousenumber(housenumber);
         this.setStreet(street);
-        this.setPostcode(postcode);
+        this.setPostalcode(postalcode);
         this.setVillage(village);
     }
 
@@ -49,12 +49,12 @@ public class Location {
         this.street = steet;
     }
 
-    public String getPostcode() {
-        return postcode;
+    public String getPostalcode() {
+        return postalcode;
     }
 
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
+    public void setPostalcode(String postalcode) {
+        this.postalcode = postalcode;
     }
 
     public String getVillage() {

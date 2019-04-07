@@ -16,6 +16,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
@@ -41,6 +45,12 @@ public class LoginController implements Initializable {
         try{
             client.Login(new LoginObject(txtUsername.getText(), txtPassword.getText()));
             lblMessage.setText("Logged in");
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(new FXMLLoader(getClass().getResource("/elikad_leitstellenmonitor/FXMLDocument.fxml")).load()));  
+            stage.show();
+            
+            ((Stage)btnLogin.getScene().getWindow()).close();
         }
         catch(Exception ex)
         {

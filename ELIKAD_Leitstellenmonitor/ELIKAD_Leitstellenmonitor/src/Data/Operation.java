@@ -5,6 +5,7 @@
  */
 package Data;
 
+import com.lynden.gmapsfx.javascript.object.LatLong;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,7 +23,7 @@ public class Operation {
     private Location location;
     private int operationTypeId;
     private ArrayList<Department> collDepartements;
-
+    
     public Operation(int id, Date datetime, String caller, String description, int alarmlevel, String alarmReason, Location location, int operationTypeId)
     {
         this.setId(id);
@@ -106,6 +107,8 @@ public class Operation {
     public void setOperationTypeId(int operationTypeId) {
         this.operationTypeId = operationTypeId;
     }
-    
-    
+    public void addDepartment(Department dep)
+    {
+        this.collDepartements.add(dep);
+    }
 }
