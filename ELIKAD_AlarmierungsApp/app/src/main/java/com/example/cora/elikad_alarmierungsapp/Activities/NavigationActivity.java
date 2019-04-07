@@ -37,6 +37,11 @@ import com.example.cora.elikad_alarmierungsapp.Fragments.AllMembersFragment;
 import com.example.cora.elikad_alarmierungsapp.Fragments.CreateReportFragment;
 import com.example.cora.elikad_alarmierungsapp.R;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import org.w3c.dom.Text;
@@ -45,6 +50,8 @@ import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class NavigationActivity extends AppCompatActivity
@@ -57,6 +64,7 @@ public class NavigationActivity extends AppCompatActivity
     Class fragmentClass = null;
     private int caseNr = 0;
     AsyncWebserviceTask task = null;
+    Menu nav_menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +82,22 @@ public class NavigationActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_allAlarms);
+
+        nav_menu = navigationView.getMenu();
+
+        System.out.println("TEST: " + preferences.getBoolean("MemberIsCommanda", false));
+
+        if(preferences.getBoolean("MemberIsCommanda", false) == true){
+            //nav_menu.findItem(R.id.nav_createReport).setVisible(true);
+            nav_menu.findItem(R.id.nav_showMembers).setVisible(true);
+        }else{
+            //nav_menu.findItem(R.id.nav_createReport).setVisible(false);
+            nav_menu.findItem(R.id.nav_showMembers).setVisible(false);
+        }
 
         View hView = navigationView.getHeaderView(0);
         TextView memberName = (TextView) hView.findViewById(R.id.nav_header_name);
@@ -128,20 +149,6 @@ public class NavigationActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         caseNr = 0;
-        //MenuItem createReport = (MenuItem)findViewById(R.id.nav_createReport);
-        //MenuItem showMembers = (MenuItem)findViewById(R.id.nav_showMembers);
-        //createReport.setVisible(true);
-        //showMembers.setVisible(true);
-        /*createReport.setVisible(false);
-        showMembers.setVisible(false);
-
-
-        if(preferences.getString("MemberFunction", null).equals("Einsatzleiter")){
-            createReport.setVisible(true);
-        }else if(preferences.getString("MemberFunction", null).equals("Kommandant")){
-            createReport.setVisible(true);
-            showMembers.setVisible(true);
-        }*/
 
         try {
             switch (id) {
@@ -152,10 +159,6 @@ public class NavigationActivity extends AppCompatActivity
                     setTitle(item.getTitle());
                     fragmentClass = AllAlarmsFragment.class;
                     break;
-                case R.id.nav_setSound:
-                    caseNr = 2;
-                    //ToDO
-                    break;
                 case R.id.nav_changeTel:
                     caseNr = 3;
                     changePhoneDialog();
@@ -164,12 +167,12 @@ public class NavigationActivity extends AppCompatActivity
                     caseNr = 4;
                     logoutDialog();
                     break;
-                case R.id.nav_createReport:
+                /*case R.id.nav_createReport:
                     caseNr = 5;
                     fragmentClass = CreateReportFragment.class;
                     fragment = (Fragment) fragmentClass.newInstance();
                     displaySelectedFragment(fragment);
-                    break;
+                    break;*/
                 case R.id.nav_showMembers:
                     caseNr = 6;
                     task = new AsyncWebserviceTask("POST", "departments/" + preferences.getInt("MemberIdDepartment", 0) + "/members", NavigationActivity.this, getApplicationContext());
@@ -190,7 +193,7 @@ public class NavigationActivity extends AppCompatActivity
         return true;
     }
 
-    private void displaySelectedFragment(Fragment fragment) {
+    public void displaySelectedFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.commit();
@@ -231,24 +234,27 @@ public class NavigationActivity extends AppCompatActivity
                     case 3:
                         Toast.makeText(this, "Successfully changed", Toast.LENGTH_SHORT).show();
                         break;
-                    case 4:
-                        startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
-                        AsyncWebserviceTask.setAccessToken(null);
-                        break;
-                    case 5:
-                        break;
-                    case 6:
-                        Type lType = new TypeToken<ArrayList<Member>>() {
-                        }.getType();
-                        List<Member> m = gson.fromJson(content, lType);
 
-                        System.out.println("Test size: " + m.size());
-                        System.out.println("Test member: " + m.toString());
-                        AllMembersFragment.setMembers(m);
+                    /*case 5:
+                        break;*/
+                    case 6:
                         try {
-                            fragment = (Fragment) fragmentClass.newInstance();
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
+                            Type lType = new TypeToken<ArrayList<Member>>() {
+                            }.getType();
+                            System.out.println("Error NavAct content: " + content);
+                            List<Member> m = gson.fromJson(content, new TypeToken<ArrayList<Member>>() {
+                            }.getType());
+
+                            System.out.println("Test size: " + m.size());
+                            System.out.println("Test memberlist: " + m.toString());
+                            AllMembersFragment.setMembers(m);
+                            try {
+                                fragment = (Fragment) fragmentClass.newInstance();
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }catch (Exception ex){
+                            Toast.makeText(this, "Do Reload", Toast.LENGTH_SHORT).show();
                         }
                         displaySelectedFragment(fragment);
                         break;
@@ -299,15 +305,8 @@ public class NavigationActivity extends AppCompatActivity
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //AsyncWebserviceTask task = null;
-                        try {
-                            task = new AsyncWebserviceTask("DELETE", "login/member", NavigationActivity.this, getApplicationContext());
-                            System.out.println("Test 6: " + task.getUrl());
-                            System.out.println("Test 8: " + task.getHttpMethod());
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
-                        task.execute();
+                        startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
+                        AsyncWebserviceTask.setAccessToken(null);
                     }
                 });
 
@@ -321,6 +320,7 @@ public class NavigationActivity extends AppCompatActivity
 
         View dialogView = inflater.inflate(R.layout.dialog_changephone, null);
         builderSingle.setView(dialogView);
+        builderSingle.setTitle("New Memeber");
 
         final EditText txt_newPhone = (EditText) dialogView.findViewById(R.id.txt_newPhone);
 
@@ -347,13 +347,16 @@ public class NavigationActivity extends AppCompatActivity
                         String lName = preferences.getString("MemberLastName", null);
                         String email = preferences.getString("MemberEmail", null);
                         String phone = preferences.getString("MemberPhonenumber", null);
-                        String function = preferences.getString("MemberFunction", null);
                         int idDepartment = preferences.getInt("MemberIdDepartment", 0);
                         String birthDate = preferences.getString("MemberBirthDate", null);
                         String entryDate = preferences.getString("MemberEntryDate", null);
+                        String pin = preferences.getString("MemberPin", null);
+                        String svnr = preferences.getString("MemberSvnr", null);
+                        String gender = preferences.getString("MemberGender", null);
 
 
-                        Member member  = new Member(id, fName, lName, email, phone, function, idDepartment, birthDate, entryDate);
+
+                        Member member  = new Member(id, fName, lName, email, phone, idDepartment, birthDate, entryDate, pin, svnr, gender);
                         System.out.println("Test 12: " + member.toString());
 
                         try {

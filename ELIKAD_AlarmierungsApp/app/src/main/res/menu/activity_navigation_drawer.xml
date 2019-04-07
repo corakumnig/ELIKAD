@@ -10,14 +10,14 @@
             android:title="Alle Alarme" />
     </group>
 
-    <item android:title="Settings">
+    <!--<item android:title="Settings">
         <menu>
             <item
                 android:id="@+id/nav_setSound"
                 android:icon="@android:drawable/ic_btn_speak_now"
                 android:title="Töne ändern" />
         </menu>
-    </item>
+    </item>-->
 
     <item android:title="Account">
         <menu>
@@ -32,13 +32,13 @@
         </menu>
     </item>
 
-    <item android:title="Optinal">
+    <item android:title="Commander Functions">
         <menu>
-            <item
+            <!--<item
                 android:id="@+id/nav_createReport"
                 android:icon="@android:drawable/ic_menu_edit"
                 android:title="Einsatzbericht erstellen"
-                />
+                />-->
             <item
                 android:id="@+id/nav_showMembers"
                 android:icon="@android:drawable/ic_menu_myplaces"

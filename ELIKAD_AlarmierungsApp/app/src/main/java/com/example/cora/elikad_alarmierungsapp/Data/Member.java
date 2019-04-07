@@ -1,28 +1,44 @@
 package com.example.cora.elikad_alarmierungsapp.Data;
 
-import java.time.LocalDate;
-
 public class Member {
     private int id;
     private String firstname;
     private String lastname;
     private String email;
     private String phonenumber;
-    private String group;
     private int idDepartment;
     private String dateOfBirth;
     private String dateOfEntry;
+    private boolean isCommanda;
+    private String svNr;
+    private String pin;
+    private String gender;
 
-    public Member(int id, String firstname, String lastname, String email, String phonenumber, String group, int idDepartment, String dateOfBirth, String dateOfEntry) {
+    public Member(int id, String firstname, String lastname, String email, String phonenumber, int idDepartment, String dateOfBirth, String dateOfEntry, String svNr, String pin, String gender) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phonenumber = phonenumber;
-        this.group = group;
         this.idDepartment = idDepartment;
         this.dateOfBirth = dateOfBirth;
         this.dateOfEntry = dateOfEntry;
+        this.svNr = svNr;
+        this.pin = pin;
+        this.gender = gender;
+    }
+
+    public Member (String firstname, String lastname, String email, String phonenumber, int idDepartment, String dateOfBirth, String dateOfEntry, String svNr, String pin, String gender) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.idDepartment = idDepartment;
+        this.dateOfBirth = dateOfBirth;
+        this.dateOfEntry = dateOfEntry;
+        this.svNr = svNr;
+        this.pin = pin;
+        this.gender = gender;
     }
 
     public int getId() {
@@ -73,14 +89,6 @@ public class Member {
         this.idDepartment = idDepartment;
     }
 
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String function) {
-        this.group = group;
-    }
-
     public String getDateOfBirth() {
         return dateOfBirth;
     }
@@ -97,6 +105,38 @@ public class Member {
         this.dateOfEntry = dateOfEntry;
     }
 
+    public boolean getIsCommanda() {
+        return isCommanda;
+    }
+
+    public void setIsCommanda(boolean commanda) {
+        isCommanda = commanda;
+    }
+
+    public String getSvNr() {
+        return svNr;
+    }
+
+    public void setSvNr(String svNr) {
+        this.svNr = svNr;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
@@ -105,10 +145,13 @@ public class Member {
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 ", phonenumber='" + phonenumber + '\'' +
-                ", group='" + group + '\'' +
                 ", idDepartment=" + idDepartment +
-                ", dateOfBirth=" + dateOfBirth +
-                ", dateOfEntry=" + dateOfEntry +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", dateOfEntry='" + dateOfEntry + '\'' +
+                ", isCommanda=" + isCommanda +
+                ", svNr='" + svNr + '\'' +
+                ", pin='" + pin + '\'' +
+                ", gender='" + gender + '\'' +
                 '}';
     }
 }

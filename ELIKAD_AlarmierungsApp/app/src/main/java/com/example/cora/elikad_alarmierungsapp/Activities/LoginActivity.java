@@ -95,17 +95,20 @@ public class LoginActivity extends AppCompatActivity implements AsyncTaskHandler
 
                 Member member = gson.fromJson(content, Member.class);
 
+                System.out.println("TEST Login Member: " + member);
+
                 preferences.edit().putInt("MemberId", member.getId()).commit();
                 preferences.edit().putString("MemberFirstName", member.getFirstname()).commit();
                 preferences.edit().putString("MemberLastName", member.getLastname()).commit();
                 preferences.edit().putString("MemberEmail", member.getEmail()).commit();
                 preferences.edit().putString("MemberPhonenumber", member.getPhonenumber()).commit();
-                preferences.edit().putString("MemberGroup", member.getGroup()).commit();
                 preferences.edit().putInt("MemberIdDepartment", member.getIdDepartment()).commit();
-                //preferences.edit().putString("MemberBirthDate", member.getDateOfBirth()).commit();
-                //preferences.edit().putString("MemberEntryDate", member.getDateOfEntry()).commit();
+                preferences.edit().putBoolean("MemberIsCommanda", member.getIsCommanda()).commit();
+                preferences.edit().putString("MemberSvnr", member.getSvNr()).commit();
+                preferences.edit().putString("MemberPin", member.getPin()).commit();
+                preferences.edit().putString("MemberGender", member.getGender()).commit();
 
-
+                //preferences.edit().putBoolean("MemberIsCommanda", true).commit();
 
                 System.out.println("Test Member: " + member.toString());
 

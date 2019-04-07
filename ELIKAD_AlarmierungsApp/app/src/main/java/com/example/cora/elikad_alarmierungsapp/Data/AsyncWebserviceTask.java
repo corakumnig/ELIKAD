@@ -35,6 +35,7 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
 
     public AsyncWebserviceTask(String method, String route, AsyncTaskHandler handler, Context context) throws MalformedURLException {
         this.httpMethod = method;
+        System.out.println("ASYNC context" + context);
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String ip = preferences.getString("ip","elikadweb.herokuapp.com");
         //String ip = preferences.getString("ip","192.168.193.88:8080");
@@ -95,6 +96,7 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
     //region LISTENER
     @Override
     protected void onPreExecute() {
+        System.out.println("Error Handler: " + handler);
         handler.onPreExecute();
     }
 
@@ -110,6 +112,7 @@ public class AsyncWebserviceTask extends AsyncTask<String, Void, TaskResult> {
 
     @Override
     protected void onPostExecute(TaskResult result) {
+        System.out.println("OnPostExecute " + result.getContent());
         handler.onSuccess(result.getStatusCode(), result.getContent());
     }
 

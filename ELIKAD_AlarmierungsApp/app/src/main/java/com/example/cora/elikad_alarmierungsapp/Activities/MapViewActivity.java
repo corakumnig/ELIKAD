@@ -34,9 +34,9 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
         }
 
-        mapView = findViewById(R.id.mapView);
-        mapView.onCreate(mapViewBundle);
-        mapView.getMapAsync(this);
+        //mapView = findViewById(R.id.mapView);
+        //mapView.onCreate(mapViewBundle);
+        //mapView.getMapAsync(this);
     }
 
     @Override
