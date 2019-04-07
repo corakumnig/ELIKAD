@@ -12,6 +12,7 @@ package Data;
 public class Department {
     private int id;
     private String name;
+    private Location location;
     
     public Department(int id, String name)
     {
@@ -33,6 +34,37 @@ public class Department {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+    
+    @Override
+    public String toString() {
+        return name + " in " + location.getPostalcode() + " " + location.getVillage();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Department other = (Department) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
     }
     
     
