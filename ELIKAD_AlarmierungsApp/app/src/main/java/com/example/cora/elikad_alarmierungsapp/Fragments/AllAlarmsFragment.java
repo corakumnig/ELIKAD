@@ -1,6 +1,7 @@
 package com.example.cora.elikad_alarmierungsapp.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -42,6 +43,10 @@ public class AllAlarmsFragment extends Fragment implements AsyncTaskHandler{
     private SharedPreferences preferences;
     private Gson gson;
     private Report r = null;
+    private Context mContext;
+    private Activity mActivity;
+    Bundle bundle = new Bundle();
+
 
     public AllAlarmsFragment() {}
 
@@ -64,7 +69,7 @@ public class AllAlarmsFragment extends Fragment implements AsyncTaskHandler{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_all_alarms, container, false);
         getActivity().setTitle("All Alarms");
-        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         gson = new Gson();
 
         lv = (ListView) view.findViewById(R.id.rv_list);
@@ -79,13 +84,6 @@ public class AllAlarmsFragment extends Fragment implements AsyncTaskHandler{
 
                 Context context = view.getContext();
 
-                try {
-                    task = new AsyncWebserviceTask("GET", "reports/" + preferences.getInt("currentOpId", 0), AllAlarmsFragment.this, getContext());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                task.execute();
-
                 preferences.edit().putInt("currentOpId", o.getId());
 
                 System.out.println("Test Opid" + o.getId());
@@ -93,7 +91,6 @@ public class AllAlarmsFragment extends Fragment implements AsyncTaskHandler{
 
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyy - mm:hh");
 
-                Bundle bundle = new Bundle();
                 bundle.putInt("id", o.getId());
                 bundle.putString("center", o.getControlcenterName());
                 bundle.putString("controllcenter", "Sirenenalarm für " + o.getControlcenterName());
@@ -108,12 +105,22 @@ public class AllAlarmsFragment extends Fragment implements AsyncTaskHandler{
 
 
                 try {
-                    AlarmDetailsFragment adf = AlarmDetailsFragment.newInstance();
-                    adf.setCurrReport(r);
+                    System.out.println("Test REport URL pref: " + preferences.getInt("currentOpId", 0));
+                    task = new AsyncWebserviceTask("GET", "reports/" + o.getId(), AllAlarmsFragment.this, mContext);
+                    System.out.println("Test REport URL: " + task.getUrl());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                task.execute();
+
+
+                try {
+                    /*AlarmDetailsFragment adf = AlarmDetailsFragment.newInstance();
+                    System.out.println("TEst R in AllAlarms: " + r);
                     //Fragment fragment = (Fragment) (AlarmDetailsFragment.class).newInstance();
                     adf.setArguments(bundle);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, adf).commit();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, adf).commit();*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -147,6 +154,17 @@ public class AllAlarmsFragment extends Fragment implements AsyncTaskHandler{
             case 200:
                 Type lType = new TypeToken<ArrayList<Report>>() {}.getType();
                 List<Report> r = gson.fromJson(content, lType);
+
+                AlarmDetailsFragment adf = AlarmDetailsFragment.newInstance();
+                System.out.println("TEst R in AllAlarms: " + r);
+                //Fragment fragment = (Fragment) (AlarmDetailsFragment.class).newInstance();
+                adf.setArguments(bundle);
+                if(r.size() == 0)
+                    adf.setCurrentR(null);
+                else
+                    adf.setCurrentR(r.get(0));
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, adf).commit();
                 //r = gson.fromJson(content, Report.class);
                 System.out.println("Test report" + r);
                 break;
@@ -170,5 +188,18 @@ public class AllAlarmsFragment extends Fragment implements AsyncTaskHandler{
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
     }
 }

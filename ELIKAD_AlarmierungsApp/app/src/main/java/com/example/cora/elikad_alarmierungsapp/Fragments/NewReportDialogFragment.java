@@ -34,6 +34,10 @@ public class NewReportDialogFragment extends DialogFragment implements AsyncTask
     private Context mContext;
     private Activity mActivity;
 
+    public void setR (Report r){
+        this.r = r;
+    }
+
     public static NewReportDialogFragment newInstance(){
         NewReportDialogFragment newReportDialog = new NewReportDialogFragment();
         return newReportDialog;
@@ -55,12 +59,12 @@ public class NewReportDialogFragment extends DialogFragment implements AsyncTask
 
         if(r != null){
             ((TextView)dialogView.findViewById(R.id.op_einsatz)).setText(args.getString("controllcenter", null) + " operation: " + r.getOperationId());
-            ((TextView)dialogView.findViewById(R.id.op_einsatzdauer)).setText(r.getOperationTime());
-            ((TextView)dialogView.findViewById(R.id.op_reason)).setText(r.getOperationReason());
-            ((TextView)dialogView.findViewById(R.id.op_object)).setText(r.getOperationObject());
-            ((TextView)dialogView.findViewById(R.id.op_verl)).setText(r.getOperationInjured());
-            ((TextView)dialogView.findViewById(R.id.op_get)).setText(r.getOperationKilled());
-            ((TextView)dialogView.findViewById(R.id.op_sonst)).setText(r.getOperationOther());
+            ((EditText)dialogView.findViewById(R.id.op_einsatzdauer)).setText(r.getOperationTime());
+            ((EditText)dialogView.findViewById(R.id.op_reason)).setText(r.getOperationReason());
+            ((EditText)dialogView.findViewById(R.id.op_object)).setText(r.getOperationObject());
+            ((EditText)dialogView.findViewById(R.id.op_verl)).setText(Integer.toString(r.getOperationInjured()));
+            ((EditText)dialogView.findViewById(R.id.op_get)).setText(Integer.toString(r.getOperationKilled()));
+            ((EditText)dialogView.findViewById(R.id.op_sonst)).setText(r.getOperationOther());
 
         }else if (args != null){
             ((TextView)dialogView.findViewById(R.id.op_einsatz)).setText(args.getString("controllcenter", null) + " operation: " + args.getInt("opId", 0));

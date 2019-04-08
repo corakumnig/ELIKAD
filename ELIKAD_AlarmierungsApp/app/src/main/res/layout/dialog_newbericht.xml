@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:width="100dp"
                 android:ems="10"
-                android:inputType="number" />
+                android:inputType="text" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -140,8 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="50dp"
                 android:width="100dp"
-                android:ems="10"
-                android:inputType="number" />
+                android:ems="10" />
         </TableRow>
     </TableLayout>
 
